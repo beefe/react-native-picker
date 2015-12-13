@@ -6,5 +6,7 @@ Since we use PickerIOS for iOS platform and [react-native-picker-android](https:
 
 Needs react-native >= 0.14.2
 
+![ui](./doc/ui.gif)
+
 ###Documentation
 
