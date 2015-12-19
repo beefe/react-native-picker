@@ -17,6 +17,9 @@ Needs react-native >= 0.14.2
 - <b>selectedValue</b> any
 - <b>onPickerDone</b> function
 
+####Methods
+- <b>toggle</b> show or hide picker, default to be hiden
+
 ###Usage
 
 ####Step 1 - install
@@ -38,4 +41,66 @@ Needs react-native >= 0.14.2
 		selectedValue={}//default to be selected value
 		onPickerDone={}//when confirm your choice
 	/>
+```
+
+###Notice
+
+####support two modes:
+
+<b>1. parallel: such as time picker, wheels have no connection with each other</b>
+
+<b>2. cascade: such as date picker, address picker .etc, when front wheel changed, the behind wheels will all be reset</b>
+
+####parallel:
+
+- single wheel:
+
+```javascript
+	pickerData = [1,2,3,4];
+	selectedValue = 3;
+```
+
+- two or more wheel:
+
+```javascript
+	pickerData = [
+		[1,2,3,4],
+		[5,6,7,8],
+		...
+	];
+	selectedValue = [1, 5];
+```
+
+####cascade:
+
+- two wheel
+
+```javascript
+	pickerData = {
+		{
+			a: [1,2,3,4],
+			b: [5,6,7,8],
+			...
+		}
+	};
+	selectedValue = ['a', 2];
+```
+
+- three wheel
+
+```javascript
+	pickerData = {
+		a: {
+			a1: [1,2,3,4],
+			a2: [5,6,7,8],
+			a3: [9,10,11,12]
+		},
+		b: {
+			b1: [1,2,3,4],
+			b2: [5,6,7,8],
+			b3: [9,10,12,12]
+		}
+		...
+	};
+	selectedValue = ['a', 'a1', 1];
 ```
