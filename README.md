@@ -11,6 +11,9 @@ Needs react-native >= 0.14.2
 ###Documentation
 
 ####Props
+- <b>pickerBtnText</b> string, tool bar's btn text
+- <b>pickerBtnStyle</b> textStylePropType, tool bar's btn style
+- <b>pickerToolBarStyle</b> viewStylePropType, tool bar's style
 - <b>pickerHeight</b> number
 - <b>showDuration</b> number
 - <b>pickerData</b> array
@@ -47,9 +50,9 @@ Needs react-native >= 0.14.2
 
 ####support two modes:
 
-<b>1. parallel: such as time picker, wheels have no connection with each other</b>
+<b>1. parallel:</b> such as time picker, wheels have no connection with each other
 
-<b>2. cascade: such as date picker, address picker .etc, when front wheel changed, the behind wheels will all be reset</b>
+<b>2. cascade:</b> such as date picker, address picker .etc, when front wheel changed, the behind wheels will all be reset
 
 ####parallel:
 
