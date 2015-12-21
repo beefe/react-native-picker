@@ -14,7 +14,7 @@ import React, {
 import PickerAndroid from 'react-native-picker-android';
 
 let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
-let PickerItem = Picker.item;
+let PickerItem = Picker.Item;
 let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
 
