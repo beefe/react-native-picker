@@ -155,7 +155,7 @@ export default class PickerAny extends React.Component {
 		let me = this;
 		return pickerData.map((item, index) => {
 			return (
-				<View style={styles.pickerWheel}>
+				<View style={styles.pickerWheel} key={index}>
 					<Picker
 						selectedValue={me.state.selectedValue[index]}
 						onValueChange={value => {
@@ -168,7 +168,7 @@ export default class PickerAny extends React.Component {
 							<PickerItem
 								key={index}
 								value={value}
-								label={value}
+								label={value.toString()}
 							/>)
 						)}
 					</Picker>
@@ -253,7 +253,7 @@ export default class PickerAny extends React.Component {
 						<PickerItem
 							key={index}
 							value={index}
-							label={value}
+							label={value.toString()}
 						/>)
 					)}
 				</Picker>
@@ -293,7 +293,7 @@ export default class PickerAny extends React.Component {
 							<PickerItem
 								key={index}
 								value={value}
-								label={value}
+								label={value.toString()}
 							/>)
 						)}
 					</Picker>
@@ -322,7 +322,7 @@ export default class PickerAny extends React.Component {
 							<PickerItem
 								key={index}
 								value={index}
-								label={value}
+								label={value.toString()}
 							/>)
 						)}
 					</Picker>
