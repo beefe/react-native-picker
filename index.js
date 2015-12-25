@@ -176,7 +176,6 @@ export default class PickerAny extends React.Component {
 
 	_pickerFinish(){
 		this._toggle();
-		debugger;
 		this.state.onPickerDone(this.pickedValue);
 	}
 
