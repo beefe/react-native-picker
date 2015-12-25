@@ -73,6 +73,8 @@ export default class PickerAny extends React.Component {
 		let thirdWheelData;
 		let thirdPickedDataIndex;
 		let cascadeData = {};
+		let slideAnim = (this.state && this.state.slideAnim ? this.state.slideAnim : new Animated.Value(-props.pickerHeight));
+		
 		if(pickerStyle === 'parallel'){
 			//compatible single wheel sence
 			if(selectedValue.constructor !== Array){
@@ -106,7 +108,7 @@ export default class PickerAny extends React.Component {
 			firstWheelData,
 			//first wheel selected value
 			firstPickedData,
-			slideAnim: new Animated.Value(-props.pickerHeight),
+			slideAnim,
 			//list of second wheel data and pickedDataIndex
 			secondWheelData: cascadeData.secondWheelData,
 			secondPickedDataIndex: cascadeData.secondPickedDataIndex,
