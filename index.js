@@ -41,10 +41,30 @@ export default class PickerAny extends React.Component {
 
 	constructor(props, context){
 		super(props, context);
+	}
+
+	componentWillMount(){
+		this.state = this._getStateFromProps(this.props);
+	}
+
+	componentWillReceiveProps(newProps){
+		let newState = this._getStateFromProps(newProps);
+		this.setState(newState);
+	}
+
+	_getStateFromProps(props){
 		//the pickedValue must looks like [wheelone's, wheeltwo's, ...]
-		//this.state.selectedValue may be the result of the first pickerWheel 
-		let pickedValue = this.props.selectedValue;
-		let pickerData = this.props.pickerData;
+		//this.state.selectedValue may be the result of the first pickerWheel
+		let pickerBtnText = props.pickerBtnText;
+		let pickerBtnStyle = props.pickerBtnStyle;
+		let pickerToolBarStyle = props.pickerToolBarStyle;
+		let pickerItemStyle = props.pickerItemStyle;
+		let pickerHeight = props.pickerHeight;
+		let showDuration = props.showDuration;
+		let pickerData = props.pickerData;
+		let selectedValue = props.selectedValue;
+		let onPickerDone = props.onPickerDone;
+
 		let pickerStyle = pickerData.constructor === Array ? 'parallel' : 'cascade';
 		let firstWheelData;
 		let firstPickedData;
@@ -55,8 +75,8 @@ export default class PickerAny extends React.Component {
 		let cascadeData = {};
 		if(pickerStyle === 'parallel'){
 			//compatible single wheel sence
-			if(pickedValue.constructor !== Array){
-				pickedValue = [pickedValue];
+			if(selectedValue.constructor !== Array){
+				selectedValue = [selectedValue];
 			}
 			if(pickerData[0].constructor !== Array){
 				pickerData = [pickerData];
@@ -65,18 +85,28 @@ export default class PickerAny extends React.Component {
 		else if(pickerStyle === 'cascade'){
 			//only support three stage
 			firstWheelData = Object.keys(pickerData);
-			firstPickedData = this.props.selectedValue[0];
-			secondPickedData = this.props.selectedValue[1];
-			cascadeData = this._getCascadeData(pickerData, pickedValue, firstPickedData, secondPickedData, true);
+			firstPickedData = props.selectedValue[0];
+			secondPickedData = props.selectedValue[1];
+			cascadeData = this._getCascadeData(pickerData, selectedValue, firstPickedData, secondPickedData, true);
 		}
-		this.state = {
-			slideAnim: new Animated.Value(-this.props.pickerHeight),
+		//保存了已经选择到的数据
+		this.pickedValue = selectedValue;
+		this.pickerStyle = pickerStyle;
+		return {
+			pickerBtnText,
+			pickerBtnStyle,
+			pickerToolBarStyle,
+			pickerItemStyle,
+			pickerHeight,
+			showDuration,
 			pickerData,
-			selectedValue: pickedValue,
+			selectedValue,
+			onPickerDone,
 			//list of first wheel data
 			firstWheelData,
 			//first wheel selected value
 			firstPickedData,
+			slideAnim: new Animated.Value(-props.pickerHeight),
 			//list of second wheel data and pickedDataIndex
 			secondWheelData: cascadeData.secondWheelData,
 			secondPickedDataIndex: cascadeData.secondPickedDataIndex,
@@ -84,8 +114,6 @@ export default class PickerAny extends React.Component {
 			thirdWheelData: cascadeData.thirdWheelData,
 			thirdPickedDataIndex: cascadeData.thirdPickedDataIndex
 		};
-		this.pickedValue = pickedValue;
-		this.pickerStyle = pickerStyle;
 	}
 
 	_slideUp(){
@@ -94,7 +122,7 @@ export default class PickerAny extends React.Component {
 			this.state.slideAnim,
 			{
 				toValue: 0,
-				duration: this.props.showDuration,
+				duration: this.state.showDuration,
 			}
 		).start((evt) => {
 			if(evt.finished) {
@@ -109,8 +137,8 @@ export default class PickerAny extends React.Component {
 		Animated.timing(
 			this.state.slideAnim,
 			{
-				toValue: -this.props.pickerHeight,
-				duration: this.props.showDuration,
+				toValue: -this.state.pickerHeight,
+				duration: this.state.showDuration,
 			}
 		).start((evt) => {
 			if(evt.finished) {
@@ -148,7 +176,8 @@ export default class PickerAny extends React.Component {
 
 	_pickerFinish(){
 		this._toggle();
-		this.props.onPickerDone(this.pickedValue);
+		debugger;
+		this.state.onPickerDone(this.pickedValue);
 	}
 
 	_renderParallelWheel(pickerData){
@@ -385,14 +414,14 @@ export default class PickerAny extends React.Component {
 		let pickerBtn = null;
 		return (
 			<Animated.View style={[styles.picker, {
-				height: this.props.pickerHeight,
+				height: this.state.pickerHeight,
 				bottom: this.state.slideAnim
 			}]}>
-				<View style={[styles.pickerToolbar, this.props.pickerToolBarStyle]}>
+				<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle]}>
 					{pickerBtn}
 					<View style={styles.pickerFinishBtn}>
-						<Text style={[styles.pickerFinishBtnText, this.props.pickerBtnStyle]}
-							onPress={this._pickerFinish.bind(this)}>{this.props.pickerBtnText}</Text>
+						<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
+							onPress={this._pickerFinish.bind(this)}>{this.state.pickerBtnText}</Text>
 					</View>
 				</View>
 				<View style={styles.pickerWrap}>
