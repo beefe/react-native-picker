@@ -92,6 +92,9 @@ export default class PickerAny extends React.Component {
 		//保存了已经选择到的数据
 		this.pickedValue = selectedValue;
 		this.pickerStyle = pickerStyle;
+		let slideAnim = (this.state && this.state.slideAnim ? this.state.slideAnim : null);
+        	if (!slideAnim)
+            		slideAnim = new Animated.Value(-props.pickerHeight);
 		return {
 			pickerBtnText,
 			pickerBtnStyle,
@@ -106,7 +109,7 @@ export default class PickerAny extends React.Component {
 			firstWheelData,
 			//first wheel selected value
 			firstPickedData,
-			slideAnim: new Animated.Value(-props.pickerHeight),
+			slideAnim: slideAnim,
 			//list of second wheel data and pickedDataIndex
 			secondWheelData: cascadeData.secondWheelData,
 			secondPickedDataIndex: cascadeData.secondPickedDataIndex,
