@@ -68,6 +68,7 @@ export default class PickerAny extends React.Component {
 		let pickerStyle = pickerData.constructor === Array ? 'parallel' : 'cascade';
 		let firstWheelData;
 		let firstPickedData;
+		let secondPickedData;
 		let secondWheelData;
 		let secondPickedDataIndex;
 		let thirdWheelData;
@@ -298,7 +299,7 @@ export default class PickerAny extends React.Component {
 						selectedValue={me.state.firstPickedData}
 						onValueChange={value => {
 							let secondWheelData = Object.keys(pickerData[value]);
-							cascadeData = me._getCascadeData(pickerData, me.pickedValue, value, secondWheelData[0]);
+							let cascadeData = me._getCascadeData(pickerData, me.pickedValue, value, secondWheelData[0]);
 							//when onPicked, this.pickedValue will pass to the parent
 							//when firstWheel changed, second and third will also change
 							if(cascadeData.thirdWheelData){
