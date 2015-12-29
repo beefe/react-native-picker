@@ -32,7 +32,8 @@ export default class PickerAny extends React.Component {
 		showDuration: PropTypes.number,
 		pickerData: PropTypes.any.isRequired,
 		selectedValue: PropTypes.any.isRequired,
-		onPickerDone: PropTypes.func
+		onPickerDone: PropTypes.func,
+		onPickerCancel: PropTypes.func
 	}
 
 	static defaultProps = {
@@ -40,7 +41,8 @@ export default class PickerAny extends React.Component {
 		pickerCancelBtnText: '取消',
 		pickerHeight: 250,
 		showDuration: 300,
-		onPickerDone: ()=>{}
+		onPickerDone: ()=>{},
+		onPickerCancel: ()=>{}
 	}
 
 	constructor(props, context){
@@ -71,6 +73,7 @@ export default class PickerAny extends React.Component {
 		let pickerData = props.pickerData;
 		let selectedValue = props.selectedValue;
 		let onPickerDone = props.onPickerDone;
+		let onPickerCancel = props.onPickerCancel;
 
 		let pickerStyle = pickerData.constructor === Array ? 'parallel' : 'cascade';
 		let firstWheelData;
@@ -115,6 +118,7 @@ export default class PickerAny extends React.Component {
 			pickerData,
 			selectedValue,
 			onPickerDone,
+			onPickerCancel,
 			//list of first wheel data
 			firstWheelData,
 			//first wheel selected value
@@ -185,6 +189,11 @@ export default class PickerAny extends React.Component {
 	_nextPressHandle(callback){
 		//通知子组件往下滚
 		this.pickerWheel.moveDown();
+	}
+
+	_pickerCancel() {
+		this._toggle();
+		this.state.onPickerCancel();
 	}
 
 	_pickerFinish(){
@@ -432,7 +441,7 @@ export default class PickerAny extends React.Component {
 				<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle]}>
 					<View style={styles.pickerCancelBtn}>
 						<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
-							onPress={()=>{this.toggle()}}>{this.state.pickerCancelBtnText}</Text>
+							onPress={this._pickerCancel.bind(this)}>{this.state.pickerCancelBtnText}</Text>
 					</View>
 					<Text style={[styles.pickerTitle, this.state.pickerTitleStyle]} numberOfLines={1}>
 						{this.state.pickerTitle}
