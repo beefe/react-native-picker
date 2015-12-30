@@ -22,21 +22,27 @@ export default class PickerAny extends React.Component {
 
 	static propTypes = {
 		pickerBtnText: PropTypes.string,
+		pickerCancelBtnText: PropTypes.string,
 		pickerBtnStyle: PropTypes.any,
+		pickerTitle: PropTypes.string,
+		pickerTitleStyle: PropTypes.any,
 		pickerToolBarStyle: PropTypes.any,
 		pickerItemStyle: PropTypes.any,
 		pickerHeight: PropTypes.number,
 		showDuration: PropTypes.number,
 		pickerData: PropTypes.any.isRequired,
 		selectedValue: PropTypes.any.isRequired,
-		onPickerDone: PropTypes.func
+		onPickerDone: PropTypes.func,
+		onPickerCancel: PropTypes.func
 	}
 
 	static defaultProps = {
 		pickerBtnText: '完成',
+		pickerCancelBtnText: '取消',
 		pickerHeight: 250,
 		showDuration: 300,
-		onPickerDone: ()=>{}
+		onPickerDone: ()=>{},
+		onPickerCancel: ()=>{}
 	}
 
 	constructor(props, context){
@@ -56,7 +62,10 @@ export default class PickerAny extends React.Component {
 		//the pickedValue must looks like [wheelone's, wheeltwo's, ...]
 		//this.state.selectedValue may be the result of the first pickerWheel
 		let pickerBtnText = props.pickerBtnText;
+		let pickerCancelBtnText = props.pickerCancelBtnText;
 		let pickerBtnStyle = props.pickerBtnStyle;
+		let pickerTitle = props.pickerTitle;
+		let pickerTitleStyle = props.pickerTitleStyle;
 		let pickerToolBarStyle = props.pickerToolBarStyle;
 		let pickerItemStyle = props.pickerItemStyle;
 		let pickerHeight = props.pickerHeight;
@@ -64,10 +73,12 @@ export default class PickerAny extends React.Component {
 		let pickerData = props.pickerData;
 		let selectedValue = props.selectedValue;
 		let onPickerDone = props.onPickerDone;
+		let onPickerCancel = props.onPickerCancel;
 
 		let pickerStyle = pickerData.constructor === Array ? 'parallel' : 'cascade';
 		let firstWheelData;
 		let firstPickedData;
+		let secondPickedData;
 		let secondWheelData;
 		let secondPickedDataIndex;
 		let thirdWheelData;
@@ -96,7 +107,10 @@ export default class PickerAny extends React.Component {
 		this.pickerStyle = pickerStyle;
 		return {
 			pickerBtnText,
+			pickerCancelBtnText,
 			pickerBtnStyle,
+			pickerTitle,
+			pickerTitleStyle,
 			pickerToolBarStyle,
 			pickerItemStyle,
 			pickerHeight,
@@ -104,6 +118,7 @@ export default class PickerAny extends React.Component {
 			pickerData,
 			selectedValue,
 			onPickerDone,
+			onPickerCancel,
 			//list of first wheel data
 			firstWheelData,
 			//first wheel selected value
@@ -174,6 +189,11 @@ export default class PickerAny extends React.Component {
 	_nextPressHandle(callback){
 		//通知子组件往下滚
 		this.pickerWheel.moveDown();
+	}
+
+	_pickerCancel() {
+		this._toggle();
+		this.state.onPickerCancel();
 	}
 
 	_pickerFinish(){
@@ -298,7 +318,7 @@ export default class PickerAny extends React.Component {
 						selectedValue={me.state.firstPickedData}
 						onValueChange={value => {
 							let secondWheelData = Object.keys(pickerData[value]);
-							cascadeData = me._getCascadeData(pickerData, me.pickedValue, value, secondWheelData[0]);
+							let cascadeData = me._getCascadeData(pickerData, me.pickedValue, value, secondWheelData[0]);
 							//when onPicked, this.pickedValue will pass to the parent
 							//when firstWheel changed, second and third will also change
 							if(cascadeData.thirdWheelData){
@@ -412,14 +432,20 @@ export default class PickerAny extends React.Component {
 				<Text style={styles.pickerMoveBtn} onPress={this._nextPressHandle.bind(this)}>下一个</Text>
 			</View>
 		);*/
-		let pickerBtn = null;
+		// let pickerBtn = null;
 		return (
 			<Animated.View style={[styles.picker, {
 				height: this.state.pickerHeight,
 				bottom: this.state.slideAnim
 			}]}>
 				<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle]}>
-					{pickerBtn}
+					<View style={styles.pickerCancelBtn}>
+						<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
+							onPress={this._pickerCancel.bind(this)}>{this.state.pickerCancelBtnText}</Text>
+					</View>
+					<Text style={[styles.pickerTitle, this.state.pickerTitleStyle]} numberOfLines={1}>
+						{this.state.pickerTitle}
+					</Text>
 					<View style={styles.pickerFinishBtn}>
 						<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
 							onPress={this._pickerFinish.bind(this)}>{this.state.pickerBtnText}</Text>
@@ -468,6 +494,18 @@ let styles = StyleSheet.create({
 		color: '#149be0',
 		fontSize: 16,
 		marginLeft: 20
+	},
+	pickerCancelBtn: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+		marginLeft: 20
+	},
+	pickerTitle: {
+		flex: 5,
+		color: 'black',
+		textAlign: 'center'
 	},
 	pickerFinishBtn: {
 		flex: 1,
