@@ -102,7 +102,7 @@ export default class PickerAny extends React.Component {
 			secondPickedData = props.selectedValue[1];
 			cascadeData = this._getCascadeData(pickerData, selectedValue, firstPickedData, secondPickedData, true);
 		}
-		//保存了已经选择到的数据
+		//save picked data
 		this.pickedValue = selectedValue;
 		this.pickerStyle = pickerStyle;
 		return {
@@ -482,7 +482,8 @@ let styles = StyleSheet.create({
 		flexDirection: 'row',
 		borderTopWidth: 1,
 		borderBottomWidth: 1,
-		borderColor: '#c3c3c3'
+		borderColor: '#c3c3c3',
+		alignItems: 'center'
 	},
 	pickerBtnView: {
 		flex: 1,
@@ -503,7 +504,7 @@ let styles = StyleSheet.create({
 		marginLeft: 20
 	},
 	pickerTitle: {
-		flex: 5,
+		flex: 4,
 		color: 'black',
 		textAlign: 'center'
 	},

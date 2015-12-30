@@ -8,17 +8,23 @@ Needs react-native >= 0.14.2
 
 ![ui](./doc/ui.gif)
 
+![ui2](./doc/ui2.jpg)
+
 ###Documentation
 
 ####Props
-- <b>pickerBtnText</b> string, tool bar's btn text
+- <b>pickerBtnText</b> string, tool bar's confirm btn text
+- <b>pickerCancelBtnText</b> string, tool bar's cancel ben text
 - <b>pickerBtnStyle</b> textStylePropType, tool bar's btn style
 - <b>pickerToolBarStyle</b> viewStylePropType, tool bar's style
-- <b>pickerHeight</b> number
-- <b>showDuration</b> number
+- <b>pickerHeight</b> number, height of picker
+- <b>showDuration</b> number, animation of picker
+- <b>pickerTitle</b> string, title of picker
+- <b>pickerTitleStyle</b> textStylePropType, style of title
 - <b>pickerData</b> array
 - <b>selectedValue</b> any
 - <b>onPickerDone</b> function
+- <b>onPickerCancel</b> function
 
 ####Methods
 - <b>toggle</b> show or hide picker, default to be hiden
@@ -37,7 +43,6 @@ Needs react-native >= 0.14.2
 	import Picker from 'react-native-picker'
 	
 	<Picker
-		ref={picker => {this.picker = picker;}}
 		pickerHeight={300}
 		showDuration={300}
 		pickerData={}//picker`s value List
