@@ -58,6 +58,10 @@ export default class PickerAny extends React.Component {
 		this.setState(newState);
 	}
 
+	shouldComponentUpdate(props, state, context){
+		return JSON.stringify([props, state, context]) !== JSON.stringify([this.props, this.state, this.context]);
+	}
+
 	_getStateFromProps(props){
 		//the pickedValue must looks like [wheelone's, wheeltwo's, ...]
 		//this.state.selectedValue may be the result of the first pickerWheel
