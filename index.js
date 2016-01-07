@@ -58,9 +58,18 @@ export default class PickerAny extends React.Component {
 		this.setState(newState);
 	}
 
-	shouldComponentUpdate(props, state, context){
-		return JSON.stringify([props, state, context]) !== JSON.stringify([this.props, this.state, this.context]);
-	}
+	//todo
+	/*shouldComponentUpdate(props, state, context){
+		let newProps = Object.assign({}, props);
+		let newState = Object.assign({}, state);
+		let oldProps = Object.assign({}, this.props);
+		let oldState = Object.assign({}, this.state);
+		let arr = [newProps, newState, oldProps, oldState];
+		for(let i in arr){
+			delete arr[i].slideAnim;
+		}
+		return JSON.stringify([newProps, newState, context]) !== JSON.stringify([oldProps, oldState, this.context]);
+	}*/
 
 	_getStateFromProps(props){
 		//the pickedValue must looks like [wheelone's, wheeltwo's, ...]
