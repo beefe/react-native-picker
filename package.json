@@ -1,6 +1,6 @@
 {
   "name": "react-native-picker",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "react-native-picker",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "email": "wenliang.web@gmail.com"
   },
   "dependencies": {
-    "react-native-picker-android": "~0.3.6"
+    "react-native-picker-android": "~0.3.8"
   },
   "engines": {
     "node": ">=4"
