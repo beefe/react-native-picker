@@ -34,7 +34,7 @@ export default class PickerAny extends React.Component {
 		selectedValue: PropTypes.any.isRequired,
 		onPickerDone: PropTypes.func,
 		onPickerCancel: PropTypes.func
-	}
+	};
 
 	static defaultProps = {
 		pickerBtnText: '完成',
@@ -43,7 +43,7 @@ export default class PickerAny extends React.Component {
 		showDuration: 300,
 		onPickerDone: ()=>{},
 		onPickerCancel: ()=>{}
-	}
+	};
 
 	constructor(props, context){
 		super(props, context);
