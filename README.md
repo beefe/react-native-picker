@@ -6,6 +6,12 @@ It was most likely an example of how to build a cross-platform Picker Component 
 
 Needs react-native >= 0.14.2
 
+####Demo
+
+- <b>[Date-picker](./demo/date-picker.js)</b>
+- <b>[Area-picker](./demo/area-picker.js)</b>
+
+
 ![ui](./doc/ui.gif)
 
 ![ui2](./doc/ui2.jpg)
