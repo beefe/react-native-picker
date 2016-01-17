@@ -1,6 +1,12 @@
 'use strict';
+ 
+import React, {
+	View,
+	Text,
+	TouchableOpacity,
+	Dimensions
+} from 'react-native';
 
-import React from 'react-native';
 import Picker from 'react-native-picker';
 
 function createDateData(){
@@ -33,22 +39,27 @@ function createDateData(){
 
 export default class DatePicker extends React.Component {
 
-	toggle(){
+	_onPressHandle(){
 		this.picker.toggle();
 	}
 
 	render(){
 		return (
-			<Picker
-				ref={picker => this.picker = picker}
-				pickerHeight={300}
-				showDuration={300}
-				pickerData={this.props.pickerData || createDateData()}
-				selectedValue={this.props.selectedValue}
-				onPickerDone={(pickedValue) => {
-					this.props.onPickerDone && this.props.onPickerDone(pickedValue);
-				}}
-			/>
+			<View style={{height: Dimensions.get('window').height}}>
+				<TouchableOpacity style={{marginTop: 20}} onPress={this._onPressHandle.bind(this)}>
+					<Text>点我</Text>
+				</TouchableOpacity>
+				<Picker
+					ref={picker => this.picker = picker}
+					pickerHeight={320}
+					showDuration={300}
+					pickerData={createDateData()}
+					selectedValue={['2015年', '12月', '12日']}
+					onPickerDone={(pickedValue) => {
+						console.log(pickedValue);
+					}}
+				/>
+			</View>
 		);
 	}
 };
