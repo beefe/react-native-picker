@@ -1,5 +1,8 @@
 # react-native-picker
 
+![version](https://img.shields.io/npm/v/react-native-picker.svg?style=flat-square)
+![dep](https://david-dm.org/beefe/react-native-picker.svg?style=flat-square)
+
 A Picker written in pure javascript for cross-platform support.
 
 It was most likely an example of how to build a cross-platform Picker Component use [react-native-picker-android](https://github.com/beefe/react-native-picker-android).
