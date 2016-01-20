@@ -110,7 +110,7 @@ export default class PickerAny extends React.Component {
 			cascadeData = this._getCascadeData(pickerData, selectedValue, firstPickedData, secondPickedData, true);
 		}
 		//save picked data
-		this.pickedValue = selectedValue;
+		this.pickedValue = JSON.parse(JSON.stringify(selectedValue));
 		this.pickerStyle = pickerStyle;
 		return {
 			pickerBtnText,
@@ -217,8 +217,12 @@ export default class PickerAny extends React.Component {
 						selectedValue={me.state.selectedValue[index]}
 						onValueChange={value => {
 							me.pickedValue.splice(index, 1, value);
+							//do not set state to another object!! why?
+							// me.setState({
+							// 	selectedValue: me.pickedValue
+							// });
 							me.setState({
-								selectedValue: me.pickedValue
+								selectedValue: JSON.parse(JSON.stringify(me.pickedValue))
 							});
 						}} >
 						{item.map((value, index) => (
@@ -303,7 +307,8 @@ export default class PickerAny extends React.Component {
 						//on ios platform 'this' refers to Picker?
 						me.pickedValue.splice(2, 1, me.state.thirdWheelData[index]);
 						me.setState({
-							thirdPickedDataIndex: index
+							thirdPickedDataIndex: index,
+							selectedValue: 'wheel3'+index
 						});
 					}} >
 					{me.state.thirdWheelData.map((value, index) => (
@@ -336,7 +341,7 @@ export default class PickerAny extends React.Component {
 							}
 							
 							me.setState({
-								selectedValue: value,
+								selectedValue: 'wheel1'+value,
 								firstPickedData: value,
 								secondWheelData: cascadeData.secondWheelData,
 								secondPickedDataIndex: 0,
@@ -371,7 +376,8 @@ export default class PickerAny extends React.Component {
 							me.setState({
 								secondPickedDataIndex: index,
 								thirdWheelData,
-								thirdPickedDataIndex: 0
+								thirdPickedDataIndex: 0,
+								selectedValue: 'wheel2'+index
 							});
 							me.refs.thirdWheel && me.refs.thirdWheel.moveTo && me.refs.thirdWheel.moveTo(0);
 						}} >
