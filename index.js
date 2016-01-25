@@ -33,7 +33,8 @@ export default class PickerAny extends React.Component {
 		pickerData: PropTypes.any.isRequired,
 		selectedValue: PropTypes.any.isRequired,
 		onPickerDone: PropTypes.func,
-		onPickerCancel: PropTypes.func
+		onPickerCancel: PropTypes.func,
+		onValueChange: PropTypes.func
 	};
 
 	static defaultProps = {
@@ -42,7 +43,8 @@ export default class PickerAny extends React.Component {
 		pickerHeight: 250,
 		showDuration: 300,
 		onPickerDone: ()=>{},
-		onPickerCancel: ()=>{}
+		onPickerCancel: ()=>{},
+		onValueChange: ()=>{}
 	};
 
 	constructor(props, context){
@@ -81,6 +83,7 @@ export default class PickerAny extends React.Component {
 		let selectedValue = props.selectedValue;
 		let onPickerDone = props.onPickerDone;
 		let onPickerCancel = props.onPickerCancel;
+		let onValueChange = props.onValueChange;
 
 		let pickerStyle = pickerData.constructor === Array ? 'parallel' : 'cascade';
 		let firstWheelData;
@@ -126,6 +129,7 @@ export default class PickerAny extends React.Component {
 			selectedValue,
 			onPickerDone,
 			onPickerCancel,
+			onValueChange,
 			//list of first wheel data
 			firstWheelData,
 			//first wheel selected value
@@ -224,6 +228,7 @@ export default class PickerAny extends React.Component {
 							me.setState({
 								selectedValue: JSON.parse(JSON.stringify(me.pickedValue))
 							});
+							me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), index);
 						}} >
 						{item.map((value, index) => (
 							<PickerItem
@@ -310,6 +315,7 @@ export default class PickerAny extends React.Component {
 							thirdPickedDataIndex: index,
 							selectedValue: 'wheel3'+index
 						});
+						me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), 2);
 					}} >
 					{me.state.thirdWheelData.map((value, index) => (
 						<PickerItem
@@ -348,6 +354,7 @@ export default class PickerAny extends React.Component {
 								thirdWheelData: cascadeData.thirdWheelData,
 								thirdPickedDataIndex: 0
 							});
+							me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), 0);
 							me.refs.secondWheel && me.refs.secondWheel.moveTo && me.refs.secondWheel.moveTo(0);
 							me.refs.thirdWheel && me.refs.thirdWheel.moveTo && me.refs.thirdWheel.moveTo(0);
 						}} >
@@ -379,6 +386,7 @@ export default class PickerAny extends React.Component {
 								thirdPickedDataIndex: 0,
 								selectedValue: 'wheel2'+index
 							});
+							me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), 1);
 							me.refs.thirdWheel && me.refs.thirdWheel.moveTo && me.refs.thirdWheel.moveTo(0);
 						}} >
 						{me.state.secondWheelData.map((value, index) => (

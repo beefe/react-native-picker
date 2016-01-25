@@ -34,6 +34,7 @@ Needs react-native >= 0.14.2
 - <b>selectedValue</b> any
 - <b>onPickerDone</b> function
 - <b>onPickerCancel</b> function
+- <b>onValueChange</b> function
 
 ####Methods
 - <b>toggle</b> show or hide picker, default to be hiden
