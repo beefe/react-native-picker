@@ -70,6 +70,7 @@ export default class PickerAny extends React.Component {
 	_getStateFromProps(props){
 		//the pickedValue must looks like [wheelone's, wheeltwo's, ...]
 		//this.state.selectedValue may be the result of the first pickerWheel
+		let style = props.style;
 		let pickerBtnText = props.pickerBtnText;
 		let pickerCancelBtnText = props.pickerCancelBtnText;
 		let pickerBtnStyle = props.pickerBtnStyle;
@@ -116,6 +117,7 @@ export default class PickerAny extends React.Component {
 		this.pickedValue = JSON.parse(JSON.stringify(selectedValue));
 		this.pickerStyle = pickerStyle;
 		return {
+			style,
 			pickerBtnText,
 			pickerCancelBtnText,
 			pickerBtnStyle,
@@ -458,7 +460,7 @@ export default class PickerAny extends React.Component {
 			<Animated.View style={[styles.picker, {
 				height: this.state.pickerHeight,
 				bottom: this.state.slideAnim
-			}]}>
+			}, this.state.style]}>
 				<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle]}>
 					<View style={styles.pickerCancelBtn}>
 						<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}

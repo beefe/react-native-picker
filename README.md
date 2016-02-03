@@ -22,6 +22,7 @@ Needs react-native >= 0.14.2
 ###Documentation
 
 ####Props
+- <b>style</b> style of picker
 - <b>pickerBtnText</b> string, tool bar's confirm btn text
 - <b>pickerCancelBtnText</b> string, tool bar's cancel ben text
 - <b>pickerBtnStyle</b> textStylePropType, tool bar's btn style
