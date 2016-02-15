@@ -39,6 +39,9 @@ Needs react-native >= 0.14.2
 
 ####Methods
 - <b>toggle</b> show or hide picker, default to be hiden
+- <b>show</b> show picker
+- <b>hide</b> hide picker
+- <b>isPickerShow</b> get status of picker, return a boolean
 
 ###Usage
 

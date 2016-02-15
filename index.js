@@ -147,7 +147,7 @@ export default class PickerAny extends React.Component {
 	}
 
 	_slideUp(){
-		this.isMoving = true;
+		this._isMoving = true;
 		Animated.timing(
 			this.state.slideAnim,
 			{
@@ -156,14 +156,14 @@ export default class PickerAny extends React.Component {
 			}
 		).start((evt) => {
 			if(evt.finished) {
-				this.isMoving = false;
-				this.isPickerShow = true;
+				this._isMoving = false;
+				this._isPickerShow = true;
 			}
 		});
 	}
 
 	_slideDown(){
-		this.isMoving = true;
+		this._isMoving = true;
 		Animated.timing(
 			this.state.slideAnim,
 			{
@@ -172,17 +172,17 @@ export default class PickerAny extends React.Component {
 			}
 		).start((evt) => {
 			if(evt.finished) {
-				this.isMoving = false;
-				this.isPickerShow = false;
+				this._isMoving = false;
+				this._isPickerShow = false;
 			}
 		});
 	}
 
 	_toggle(){
-		if(this.isMoving) {
+		if(this._isMoving) {
 			return;
 		}
-		if(this.isPickerShow) {
+		if(this._isPickerShow) {
 			this._slideDown();
 		}
 		else{
@@ -192,6 +192,19 @@ export default class PickerAny extends React.Component {
 	//向父组件提供方法
 	toggle(){
 		this._toggle();
+	}
+	show(){
+		if(!this._isPickerShow){
+			this._slideUp();
+		}
+	}
+	hide(){
+		if(this._isPickerShow){
+			this._slideDown();
+		}
+	}
+	isPickerShow(){
+		return this._isPickerShow;
 	}
 
 	_prePressHandle(callback){
@@ -215,22 +228,21 @@ export default class PickerAny extends React.Component {
 	}
 
 	_renderParallelWheel(pickerData){
-		let me = this;
 		return pickerData.map((item, index) => {
 			return (
 				<View style={styles.pickerWheel} key={index}>
 					<Picker
-						selectedValue={me.state.selectedValue[index]}
+						selectedValue={this.state.selectedValue[index]}
 						onValueChange={value => {
-							me.pickedValue.splice(index, 1, value);
+							this.pickedValue.splice(index, 1, value);
 							//do not set state to another object!! why?
-							// me.setState({
-							// 	selectedValue: me.pickedValue
+							// this.setState({
+							// 	selectedValue: this.pickedValue
 							// });
-							me.setState({
-								selectedValue: JSON.parse(JSON.stringify(me.pickedValue))
+							this.setState({
+								selectedValue: JSON.parse(JSON.stringify(this.pickedValue))
 							});
-							me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), index);
+							this.state.onValueChange(JSON.parse(JSON.stringify(this.pickedValue)), index);
 						}} >
 						{item.map((value, index) => (
 							<PickerItem
@@ -304,22 +316,20 @@ export default class PickerAny extends React.Component {
 	}
 
 	_renderCascadeWheel(pickerData){
-		let me = this;
-		let thirdWheel = me.state.thirdWheelData && (
+		let thirdWheel = this.state.thirdWheelData && (
 			<View style={styles.pickerWheel}>
 				<Picker
 					ref={'thirdWheel'}
-					selectedValue={me.state.thirdPickedDataIndex}
+					selectedValue={this.state.thirdPickedDataIndex}
 					onValueChange={(index) => {
-						//on ios platform 'this' refers to Picker?
-						me.pickedValue.splice(2, 1, me.state.thirdWheelData[index]);
-						me.setState({
+						this.pickedValue.splice(2, 1, this.state.thirdWheelData[index]);
+						this.setState({
 							thirdPickedDataIndex: index,
 							selectedValue: 'wheel3'+index
 						});
-						me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), 2);
+						this.state.onValueChange(JSON.parse(JSON.stringify(this.pickedValue)), 2);
 					}} >
-					{me.state.thirdWheelData.map((value, index) => (
+					{this.state.thirdWheelData.map((value, index) => (
 						<PickerItem
 							key={index}
 							value={index}
@@ -335,20 +345,20 @@ export default class PickerAny extends React.Component {
 				<View style={styles.pickerWheel}>
 					<Picker
 						ref={'firstWheel'}
-						selectedValue={me.state.firstPickedData}
+						selectedValue={this.state.firstPickedData}
 						onValueChange={value => {
 							let secondWheelData = Object.keys(pickerData[value]);
-							let cascadeData = me._getCascadeData(pickerData, me.pickedValue, value, secondWheelData[0]);
+							let cascadeData = this._getCascadeData(pickerData, this.pickedValue, value, secondWheelData[0]);
 							//when onPicked, this.pickedValue will pass to the parent
 							//when firstWheel changed, second and third will also change
 							if(cascadeData.thirdWheelData){
-								me.pickedValue.splice(0, 3, value, cascadeData.secondWheelData[0], cascadeData.thirdWheelData[0]);
+								this.pickedValue.splice(0, 3, value, cascadeData.secondWheelData[0], cascadeData.thirdWheelData[0]);
 							}
 							else{
-								me.pickedValue.splice(0, 2, value, cascadeData.secondWheelData[0]);
+								this.pickedValue.splice(0, 2, value, cascadeData.secondWheelData[0]);
 							}
 							
-							me.setState({
+							this.setState({
 								selectedValue: 'wheel1'+value,
 								firstPickedData: value,
 								secondWheelData: cascadeData.secondWheelData,
@@ -356,11 +366,11 @@ export default class PickerAny extends React.Component {
 								thirdWheelData: cascadeData.thirdWheelData,
 								thirdPickedDataIndex: 0
 							});
-							me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), 0);
-							me.refs.secondWheel && me.refs.secondWheel.moveTo && me.refs.secondWheel.moveTo(0);
-							me.refs.thirdWheel && me.refs.thirdWheel.moveTo && me.refs.thirdWheel.moveTo(0);
+							this.state.onValueChange(JSON.parse(JSON.stringify(this.pickedValue)), 0);
+							this.refs.secondWheel && this.refs.secondWheel.moveTo && this.refs.secondWheel.moveTo(0);
+							this.refs.thirdWheel && this.refs.thirdWheel.moveTo && this.refs.thirdWheel.moveTo(0);
 						}} >
-						{me.state.firstWheelData.map((value, index) => (
+						{this.state.firstWheelData.map((value, index) => (
 							<PickerItem
 								key={index}
 								value={value}
@@ -372,26 +382,26 @@ export default class PickerAny extends React.Component {
 				<View style={styles.pickerWheel}>
 					<Picker
 						ref={'secondWheel'}
-						selectedValue={me.state.secondPickedDataIndex}
+						selectedValue={this.state.secondPickedDataIndex}
 						onValueChange={(index) => {
-							let thirdWheelData = pickerData[me.state.firstPickedData][me.state.secondWheelData[index]];
+							let thirdWheelData = pickerData[this.state.firstPickedData][this.state.secondWheelData[index]];
 							if(thirdWheelData){
-								me.pickedValue.splice(1, 2, me.state.secondWheelData[index], thirdWheelData[0]);	
+								this.pickedValue.splice(1, 2, this.state.secondWheelData[index], thirdWheelData[0]);	
 							}
 							else{
-								me.pickedValue.splice(1, 1, me.state.secondWheelData[index]);
+								this.pickedValue.splice(1, 1, this.state.secondWheelData[index]);
 							}
 							
-							me.setState({
+							this.setState({
 								secondPickedDataIndex: index,
 								thirdWheelData,
 								thirdPickedDataIndex: 0,
 								selectedValue: 'wheel2'+index
 							});
-							me.state.onValueChange(JSON.parse(JSON.stringify(me.pickedValue)), 1);
-							me.refs.thirdWheel && me.refs.thirdWheel.moveTo && me.refs.thirdWheel.moveTo(0);
+							this.state.onValueChange(JSON.parse(JSON.stringify(this.pickedValue)), 1);
+							this.refs.thirdWheel && this.refs.thirdWheel.moveTo && this.refs.thirdWheel.moveTo(0);
 						}} >
-						{me.state.secondWheelData.map((value, index) => (
+						{this.state.secondWheelData.map((value, index) => (
 							<PickerItem
 								key={index}
 								value={index}
@@ -449,13 +459,6 @@ export default class PickerAny extends React.Component {
 	}
 	
 	render(){
-		/*let pickerBtn = Platform.OS === 'ios' ? null : (
-			<View style={styles.pickerBtnView}>
-				<Text style={styles.pickerMoveBtn} onPress={this._prePressHandle.bind(this)}>上一个</Text>
-				<Text style={styles.pickerMoveBtn} onPress={this._nextPressHandle.bind(this)}>下一个</Text>
-			</View>
-		);*/
-		// let pickerBtn = null;
 		return (
 			<Animated.View style={[styles.picker, {
 				height: this.state.pickerHeight,
