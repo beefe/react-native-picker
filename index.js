@@ -28,6 +28,7 @@ export default class PickerAny extends React.Component {
 		pickerTitleStyle: PropTypes.any,
 		pickerToolBarStyle: PropTypes.any,
 		pickerItemStyle: PropTypes.any,
+		pickerWidth: PropTypes.number,
 		pickerHeight: PropTypes.number,
 		showDuration: PropTypes.number,
 		pickerData: PropTypes.any.isRequired,
@@ -44,7 +45,8 @@ export default class PickerAny extends React.Component {
 		showDuration: 300,
 		onPickerDone: ()=>{},
 		onPickerCancel: ()=>{},
-		onValueChange: ()=>{}
+		onValueChange: ()=>{},
+		pickerWidth: width > height ? height:width
 	};
 
 	constructor(props, context){
@@ -61,6 +63,9 @@ export default class PickerAny extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps, nextState, context){
+		if(nextState.pickerWidth !== this.state.pickerWidth) {
+			return true;
+		}
 		if(JSON.stringify(nextState.selectedValue) === JSON.stringify(this.state.selectedValue)){
 			return false;
 		}
@@ -78,6 +83,7 @@ export default class PickerAny extends React.Component {
 		let pickerTitleStyle = props.pickerTitleStyle;
 		let pickerToolBarStyle = props.pickerToolBarStyle;
 		let pickerItemStyle = props.pickerItemStyle;
+		let pickerWidth = props.pickerWidth;
 		let pickerHeight = props.pickerHeight;
 		let showDuration = props.showDuration;
 		let pickerData = props.pickerData;
@@ -125,6 +131,7 @@ export default class PickerAny extends React.Component {
 			pickerTitleStyle,
 			pickerToolBarStyle,
 			pickerItemStyle,
+			pickerWidth,
 			pickerHeight,
 			showDuration,
 			pickerData,
@@ -341,7 +348,7 @@ export default class PickerAny extends React.Component {
 		);
 
 		return (
-			<View style={styles.pickerWrap}>
+			<View style={[styles.pickerWrap, { width: this.state.pickerWidth }]}>
 				<View style={styles.pickerWheel}>
 					<Picker
 						ref={'firstWheel'}
@@ -461,10 +468,11 @@ export default class PickerAny extends React.Component {
 	render(){
 		return (
 			<Animated.View style={[styles.picker, {
+				width: this.state.pickerWidth,
 				height: this.state.pickerHeight,
 				bottom: this.state.slideAnim
 			}, this.state.style]}>
-				<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle]}>
+				<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle, { width: this.state.pickerWidth }]}>
 					<View style={styles.pickerCancelBtn}>
 						<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
 							onPress={this._pickerCancel.bind(this)}>{this.state.pickerCancelBtnText}</Text>
@@ -487,7 +495,6 @@ export default class PickerAny extends React.Component {
 
 let styles = StyleSheet.create({
 	picker: {
-		width: width,
 		position: 'absolute',
 		bottom: 0,
 		left: 0,
@@ -495,7 +502,6 @@ let styles = StyleSheet.create({
 		overflow: 'hidden'
 	},
 	pickerWrap: {
-		width: width,
 		flexDirection: 'row'
 	},
 	pickerWheel: {
@@ -503,7 +509,6 @@ let styles = StyleSheet.create({
 	},
 	pickerToolbar: {
 		height: 30,
-		width: width,
 		backgroundColor: '#e6e6e6',
 		flexDirection: 'row',
 		borderTopWidth: 1,
