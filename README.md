@@ -27,6 +27,7 @@ Needs react-native >= 0.14.2
 - <b>pickerCancelBtnText</b> string, tool bar's cancel ben text
 - <b>pickerBtnStyle</b> textStylePropType, tool bar's btn style
 - <b>pickerToolBarStyle</b> viewStylePropType, tool bar's style
+- <b>pickerWidth</b> number, width of picker
 - <b>pickerHeight</b> number, height of picker
 - <b>showDuration</b> number, animation of picker
 - <b>pickerTitle</b> string, title of picker
