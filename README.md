@@ -22,14 +22,13 @@ Needs react-native >= 0.14.2
 ###Documentation
 
 ####Props
-- <b>style</b> style of picker
+- <b>style</b> style of picker, you can set width and height of picker in this prop
 - <b>pickerBtnText</b> string, tool bar's confirm btn text
 - <b>pickerCancelBtnText</b> string, tool bar's cancel ben text
 - <b>pickerBtnStyle</b> textStylePropType, tool bar's btn style
 - <b>pickerToolBarStyle</b> viewStylePropType, tool bar's style
-- <b>pickerWidth</b> number, width of picker
-- <b>pickerHeight</b> number, height of picker
 - <b>showDuration</b> number, animation of picker
+- <b>showMask</b> boolean, default to be false, cancel the picker by tapping in the rest of the screen support when setted to be true
 - <b>pickerTitle</b> string, title of picker
 - <b>pickerTitleStyle</b> textStylePropType, style of title
 - <b>pickerData</b> array
@@ -58,8 +57,11 @@ Needs react-native >= 0.14.2
 	import Picker from 'react-native-picker'
 	
 	<Picker
-		pickerHeight={300}
+		style={{
+			height: 300
+		}},
 		showDuration={300}
+		showMask={true}
 		pickerData={}//picker`s value List
 		selectedValue={}//default to be selected value
 		onPickerDone={}//when confirm your choice
