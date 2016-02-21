@@ -1,9 +1,9 @@
 'use strict';
 
 import React, {
-	StyleSheet, 
-	PropTypes, 
-	View, 
+	StyleSheet,
+	PropTypes,
+	View,
 	Text,
 	Animated,
 	Platform,
@@ -17,6 +17,9 @@ let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
 let PickerItem = Picker.Item;
 let width = Dimensions.get('window').width;
 let height = Dimensions.get('window').height;
+
+const longSide = width > height ? width : height;
+const shortSide = width > height ? height : width;
 
 export default class PickerAny extends React.Component {
 
@@ -102,7 +105,7 @@ export default class PickerAny extends React.Component {
 		let thirdPickedDataIndex;
 		let cascadeData = {};
 		let slideAnim = (this.state && this.state.slideAnim ? this.state.slideAnim : new Animated.Value(-props.pickerHeight));
-		
+
 		if(pickerStyle === 'parallel'){
 			//compatible single wheel sence
 			if(selectedValue.constructor !== Array){
@@ -364,7 +367,7 @@ export default class PickerAny extends React.Component {
 							else{
 								this.pickedValue.splice(0, 2, value, cascadeData.secondWheelData[0]);
 							}
-							
+
 							this.setState({
 								selectedValue: 'wheel1'+value,
 								firstPickedData: value,
@@ -393,12 +396,12 @@ export default class PickerAny extends React.Component {
 						onValueChange={(index) => {
 							let thirdWheelData = pickerData[this.state.firstPickedData][this.state.secondWheelData[index]];
 							if(thirdWheelData){
-								this.pickedValue.splice(1, 2, this.state.secondWheelData[index], thirdWheelData[0]);	
+								this.pickedValue.splice(1, 2, this.state.secondWheelData[index], thirdWheelData[0]);
 							}
 							else{
 								this.pickedValue.splice(1, 1, this.state.secondWheelData[index]);
 							}
-							
+
 							this.setState({
 								secondPickedDataIndex: index,
 								thirdWheelData,
@@ -464,11 +467,11 @@ export default class PickerAny extends React.Component {
 		}
 		return wheel;
 	}
-	
+
 	render(){
 		return (
 			<Animated.View style={[styles.picker, {
-				width: this.state.pickerWidth,
+				width: longSide,
 				height: this.state.pickerHeight,
 				bottom: this.state.slideAnim
 			}, this.state.style]}>
@@ -485,7 +488,7 @@ export default class PickerAny extends React.Component {
 							onPress={this._pickerFinish.bind(this)}>{this.state.pickerBtnText}</Text>
 					</View>
 				</View>
-				<View style={styles.pickerWrap}>
+				<View style={[styles.pickerWrap, { width: this.state.pickerWidth }]}>
 					{this._renderWheel(this.state.pickerData)}
 				</View>
 			</Animated.View>
