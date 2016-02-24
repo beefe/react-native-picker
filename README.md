@@ -23,6 +23,7 @@ Needs react-native >= 0.14.2
 
 ####Props
 - <b>style</b> style of picker, you can set width and height of picker in this prop
+- <b>pickerElevation</b> elevation of picker (for issue https://github.com/beefe/react-native-picker/issues/27)
 - <b>pickerBtnText</b> string, tool bar's confirm btn text
 - <b>pickerCancelBtnText</b> string, tool bar's cancel ben text
 - <b>pickerBtnStyle</b> textStylePropType, tool bar's btn style

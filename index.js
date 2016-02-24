@@ -25,6 +25,7 @@ export default class PickerAny extends React.Component {
 
 	static propTypes = {
 		style: PropTypes.any,
+		pickerElevation: PropTypes.number,
 		pickerBtnText: PropTypes.string,
 		pickerCancelBtnText: PropTypes.string,
 		pickerBtnStyle: PropTypes.any,
@@ -76,6 +77,7 @@ export default class PickerAny extends React.Component {
 		//this.state.selectedValue may be the result of the first pickerWheel
 		let {
 			style,
+			pickerElevation,
 			pickerBtnText,
 			pickerCancelBtnText,
 			pickerBtnStyle,
@@ -124,6 +126,7 @@ export default class PickerAny extends React.Component {
 		this.pickerStyle = pickerStyle;
 		return {
 			style,
+			pickerElevation,
 			pickerBtnText,
 			pickerCancelBtnText,
 			pickerBtnStyle,
@@ -442,6 +445,7 @@ export default class PickerAny extends React.Component {
 
 		return (
 			<Animated.View style={[styles.picker, {
+				elevation: this.state.pickerElevation,
 				width: longSide,
 				height: this.state.showMask ? height : this.state.style.height,
 				bottom: this.state.slideAnim
