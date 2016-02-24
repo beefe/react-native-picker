@@ -481,7 +481,8 @@ let styles = StyleSheet.create({
 	pickerBox: {
 		position: 'absolute',
 		bottom: 0,
-		left: 0
+		left: 0,
+		backgroundColor: '#bdc0c7'
 	},
 	mask: {
 		position: 'absolute',
