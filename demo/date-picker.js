@@ -51,7 +51,7 @@ export default class DatePicker extends React.Component {
 				</TouchableOpacity>
 				<Picker
 					ref={picker => this.picker = picker}
-					pickerHeight={320}
+					style={{height: 320}}
 					showDuration={300}
 					pickerData={createDateData()}
 					selectedValue={['2015年', '12月', '12日']}

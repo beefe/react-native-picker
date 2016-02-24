@@ -61,7 +61,7 @@ export default class AreaPicker extends React.Component {
 				</TouchableOpacity>
 				<Picker
 					ref={picker => this.picker = picker}
-					pickerHeight={320}
+					style={{height: 320}}
 					showDuration={300}
 					pickerData={this.state.pickerData}
 					selectedValue={this.state.selectedValue}
