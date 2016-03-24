@@ -480,7 +480,6 @@ let styles = StyleSheet.create({
 		bottom: 0,
 		left: 0,
 		backgroundColor: 'transparent',
-		overflow: 'hidden'
 	},
 	pickerBox: {
 		position: 'absolute',
