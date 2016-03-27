@@ -1,6 +1,7 @@
 'use strict';
 
 import React, {
+	Component,
 	StyleSheet,
 	PropTypes,
 	View,
@@ -15,24 +16,22 @@ import PickerAndroid from 'react-native-picker-android';
 
 let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
 let PickerItem = Picker.Item;
-let width = Dimensions.get('window').width;
-let height = Dimensions.get('window').height;
+let {width, height} = Dimensions.get('window');
 
 const longSide = width > height ? width : height;
 const shortSide = width > height ? height : width;
 
-export default class PickerAny extends React.Component {
+export default class PickerAny extends Component {
 
 	static propTypes = {
-		style: PropTypes.any,
+		style: View.propTypes.style,
 		pickerElevation: PropTypes.number,
 		pickerBtnText: PropTypes.string,
 		pickerCancelBtnText: PropTypes.string,
-		pickerBtnStyle: PropTypes.any,
+		pickerBtnStyle: Text.propTypes.style,
 		pickerTitle: PropTypes.string,
-		pickerTitleStyle: PropTypes.any,
-		pickerToolBarStyle: PropTypes.any,
-		pickerItemStyle: PropTypes.any,
+		pickerTitleStyle: Text.propTypes.style,
+		pickerToolBarStyle: View.propTypes.style,
 		showMask: PropTypes.bool,
 		showDuration: PropTypes.number,
 		pickerData: PropTypes.any.isRequired,
@@ -75,25 +74,7 @@ export default class PickerAny extends React.Component {
 	_getStateFromProps(props){
 		//the pickedValue must looks like [wheelone's, wheeltwo's, ...]
 		//this.state.selectedValue may be the result of the first pickerWheel
-		let {
-			style,
-			pickerElevation,
-			pickerBtnText,
-			pickerCancelBtnText,
-			pickerBtnStyle,
-			pickerTitle,
-			pickerTitleStyle,
-			pickerToolBarStyle,
-			pickerItemStyle,
-			showDuration,
-			showMask,
-			pickerData,
-			selectedValue,
-			onPickerDone,
-			onPickerCancel,
-			onValueChange
-		} = props;
-
+		let {pickerData, selectedValue} = props;
 		let pickerStyle = pickerData.constructor === Array ? 'parallel' : 'cascade';
 		let firstWheelData;
 		let firstPickedData;
@@ -125,22 +106,9 @@ export default class PickerAny extends React.Component {
 		this.pickedValue = JSON.parse(JSON.stringify(selectedValue));
 		this.pickerStyle = pickerStyle;
 		return {
-			style,
-			pickerElevation,
-			pickerBtnText,
-			pickerCancelBtnText,
-			pickerBtnStyle,
-			pickerTitle,
-			pickerTitleStyle,
-			pickerToolBarStyle,
-			pickerItemStyle,
-			showDuration,
-			showMask,
+			...props,
 			pickerData,
 			selectedValue,
-			onPickerDone,
-			onPickerCancel,
-			onValueChange,
 			//list of first wheel data
 			firstWheelData,
 			//first wheel selected value
@@ -198,7 +166,7 @@ export default class PickerAny extends React.Component {
 			this._slideUp();
 		}
 	}
-	//向父组件提供方法
+	
 	toggle(){
 		this._toggle();
 	}
@@ -217,12 +185,10 @@ export default class PickerAny extends React.Component {
 	}
 
 	_prePressHandle(callback){
-		//通知子组件往上滚
 		this.pickerWheel.moveUp();
 	}
 
 	_nextPressHandle(callback){
-		//通知子组件往下滚
 		this.pickerWheel.moveDown();
 	}
 
