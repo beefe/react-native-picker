@@ -60,7 +60,7 @@ Needs react-native >= 0.14.2
 	<Picker
 		style={{
 			height: 300
-		}},
+		}}
 		showDuration={300}
 		showMask={true}
 		pickerData={}//picker`s value List
