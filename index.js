@@ -1,20 +1,13 @@
-'use strict';
-
-import React, {
-	Component,
+import React, { Component, PropTypes } from 'react';
+import {
 	StyleSheet,
-	PropTypes,
 	View,
 	Text,
 	Animated,
-	Platform,
 	Dimensions,
-	PickerIOS
+	Picker,
 } from 'react-native';
 
-import PickerAndroid from 'react-native-picker-android';
-
-let Picker = Platform.OS === 'ios' ? PickerIOS : PickerAndroid;
 let PickerItem = Picker.Item;
 let {width, height} = Dimensions.get('window');
 
