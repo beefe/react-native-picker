@@ -18,9 +18,6 @@
     "name": "zooble",
     "email": "wenliang.web@gmail.com"
   },
-  "dependencies": {
-    "react-native-picker-android": "git+https://github.com/reactnativecn/react-native-picker-android.git"
-  },
   "engines": {
     "node": ">=4"
   },
