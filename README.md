@@ -62,7 +62,7 @@ if 0.24 < react-native `npm install react-native-picker --save`
 	<Picker
 		style={{
 			height: 300
-		}},
+		}}
 		showDuration={300}
 		showMask={true}
 		pickerData={}//picker`s value List
