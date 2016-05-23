@@ -1,9 +1,8 @@
 'use strict';
 
-import React, {
-	Component,
+import React, {Component, PropTypes} from 'react';
+import {
 	StyleSheet,
-	PropTypes,
 	View,
 	Text,
 	Animated,

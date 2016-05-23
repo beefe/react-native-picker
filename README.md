@@ -7,7 +7,9 @@ A Picker written in pure javascript for cross-platform support.
 
 It was most likely an example of how to build a cross-platform Picker Component use [react-native-picker-android](https://github.com/beefe/react-native-picker-android).
 
-Needs react-native >= 0.14.2
+###Warn
+if 0.14.2 <= react-native <=0.24 `npm install react-native-picker@2.0.5 --save`
+if 0.24 < react-native `npm install react-native-picker --save`
 
 ####Demo
 
