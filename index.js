@@ -31,6 +31,7 @@ export default class PickerAny extends Component {
 		pickerTitle: PropTypes.string,
 		pickerTitleStyle: Text.propTypes.style,
 		pickerToolBarStyle: View.propTypes.style,
+		pickerWidth: PropTypes.number,
 		showMask: PropTypes.bool,
 		showDuration: PropTypes.number,
 		pickerData: PropTypes.any.isRequired,
@@ -165,7 +166,7 @@ export default class PickerAny extends Component {
 			this._slideUp();
 		}
 	}
-	
+
 	toggle(){
 		this._toggle();
 	}
@@ -417,7 +418,7 @@ export default class PickerAny extends Component {
 			}]}>
 				{mask}
 				<View style={[styles.pickerBox, this.state.style]}>
-					<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle, {width: this.state.style.width || width}]}>
+					<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle, {width: this.state.pickerWidth}]}>
 						<View style={styles.pickerCancelBtn}>
 							<Text style={[styles.pickerFinishBtnText, this.state.pickerBtnStyle]}
 								onPress={this._pickerCancel.bind(this)}>{this.state.pickerCancelBtnText}</Text>
@@ -430,7 +431,7 @@ export default class PickerAny extends Component {
 								onPress={this._pickerFinish.bind(this)}>{this.state.pickerBtnText}</Text>
 						</View>
 					</View>
-					<View style={[styles.pickerWrap, {width: this.state.style.width || width}]}>
+					<View style={[styles.pickerWrap, {width: this.state.pickerWidth}]}>
 						{this._renderWheel(this.state.pickerData)}
 					</View>
 				</View>
