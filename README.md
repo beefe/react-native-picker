@@ -36,8 +36,8 @@ if 0.24 < react-native `npm install react-native-picker --save`
 - <b>pickerTitleStyle</b> textStylePropType, style of title
 - <b>pickerData</b> array
 - <b>selectedValue</b> any
-- <b>onPickerDone</b> function
-- <b>onPickerCancel</b> function
+- <b>onPickerDone</b> function, receive a pickedValue argument, which is an array of values selected on each wheel
+- <b>onPickerCancel</b> function, no arguments
 - <b>onValueChange</b> function
 
 ####Methods
