@@ -1,7 +1,6 @@
 # react-native-picker
 
-![version](https://img.shields.io/npm/v/react-native-picker.svg?style=flat-square)
-![dep](https://david-dm.org/beefe/react-native-picker.svg?style=flat-square)
+[![npm version](https://img.shields.io/npm/v/react-native-picker.svg?style=flat-square)](https://www.npmjs.com/package/react-native-picker) <a href="https://david-dm.org/beefe/react-native-picker"><img src="https://david-dm.org/beefe/react-native-picker.svg?style=flat-square" alt="dependency status"></a>  
 
 A Picker written in pure javascript for cross-platform support.
 
