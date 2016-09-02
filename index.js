@@ -8,7 +8,8 @@ import {
 	Animated,
 	Platform,
 	Dimensions,
-	PickerIOS
+	PickerIOS,
+	TouchableOpacity,
 } from 'react-native';
 
 import PickerAndroid from 'react-native-picker-android';
@@ -165,7 +166,7 @@ export default class PickerAny extends Component {
 			this._slideUp();
 		}
 	}
-	
+
 	toggle(){
 		this._toggle();
 	}
@@ -402,20 +403,19 @@ export default class PickerAny extends Component {
 
 	render(){
 
-		let mask = this.state.showMask ? (
-			<View style={styles.mask} >
-				<Text style={{width: width, height: height}} onPress={this._pickerCancel.bind(this)}></Text>
-			</View>
-		) : null;
 
 		return (
 			<Animated.View style={[styles.picker, {
 				elevation: this.state.pickerElevation,
 				width: longSide,
-				height: this.state.showMask ? height : this.state.style.height,
+				height,
 				bottom: this.state.slideAnim
 			}]}>
-				{mask}
+				{this.state.showMask &&
+					<TouchableOpacity style={{width: width, height: height}} onPress={this._pickerCancel.bind(this)}>
+						<View style={styles.mask} />
+					</TouchableOpacity>
+				}
 				<View style={[styles.pickerBox, this.state.style]}>
 					<View style={[styles.pickerToolbar, this.state.pickerToolBarStyle, {width: this.state.style.width || width}]}>
 						<View style={styles.pickerCancelBtn}>
