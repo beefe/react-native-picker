@@ -32,6 +32,7 @@ export default class PickerAny extends Component {
 		pickerTitleStyle: Text.propTypes.style,
 		pickerToolBarStyle: View.propTypes.style,
 		showMask: PropTypes.bool,
+		maskBackgroundColor: PropTypes.string,
 		showDuration: PropTypes.number,
 		pickerData: PropTypes.any.isRequired,
 		selectedValue: PropTypes.any.isRequired,
@@ -47,6 +48,7 @@ export default class PickerAny extends Component {
 		pickerBtnText: 'Done',
 		pickerCancelBtnText: 'Cancel',
 		showMask: false,
+		maskBackgroundColor: 'transparent',
 		showDuration: 300,
 		onPickerDone: ()=>{},
 		onPickerCancel: ()=>{},
@@ -165,7 +167,7 @@ export default class PickerAny extends Component {
 			this._slideUp();
 		}
 	}
-	
+
 	toggle(){
 		this._toggle();
 	}
@@ -403,7 +405,7 @@ export default class PickerAny extends Component {
 	render(){
 
 		let mask = this.state.showMask ? (
-			<View style={styles.mask} >
+			<View style={[styles.mask, { backgroundColor: this.state.maskBackgroundColor }]} >
 				<Text style={{width: width, height: height}} onPress={this._pickerCancel.bind(this)}></Text>
 			</View>
 		) : null;
@@ -455,7 +457,6 @@ let styles = StyleSheet.create({
 	mask: {
 		position: 'absolute',
 		top: 0,
-		backgroundColor: 'transparent',
 		height: height,
 		width: width
 	},
