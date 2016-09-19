@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.beefe.picker.view.LoopView
+        android:id="@+id/loopViewOne"
+        android:layout_width="0dp"
+        android:layout_weight="1.0"
+        android:layout_height="match_parent" />
+
+    <com.beefe.picker.view.LoopView
+        android:id="@+id/loopViewTwo"
+        android:layout_width="0dp"
+        android:layout_weight="1.0"
+        android:layout_height="match_parent" />
+
+    <com.beefe.picker.view.LoopView
+        android:id="@+id/loopViewThree"
+        android:layout_width="0dp"
+        android:layout_weight="1.0"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

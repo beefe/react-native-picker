@@ -1,0 +1,359 @@
+package com.beefe.picker;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.beefe.picker.view.OnSelectedListener;
+import com.beefe.picker.view.PickerViewAlone;
+import com.beefe.picker.view.PickerViewLinkage;
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+
+import java.util.ArrayList;
+
+/**
+ * Created by heng on 16/9/5.
+ */
+
+public class PickerViewModule extends ReactContextBaseJavaModule {
+
+    private static final String REACT_CLASS = "BEEPickerManager";
+
+    private static final String PICKER_DATA = "pickerData";
+    private static final String SELECTED_VALUE = "selectedValue";
+    private static final String IS_LOOP = "isLoop";
+    private static final String PICKER_BG_COLOR = "pickerBg";
+    private static final String TEXT_BAR_COLOR = "pickerToolBarBg";
+    private static final String CONFIRM_TEXT = "pickerConfirmBtnText";
+    private static final String CONFIRM_TEXT_COLOR = "pickerConfirmBtnColor";
+    private static final String CANCEL_TEXT = "pickerCancelBtnText";
+    private static final String CANCEL_TEXT_COLOR = "pickerCancelBtnColor";
+    private static final String TITLE_TEXT = "pickerTitleText";
+    private static final String TITLE_TEXT_COLOR = "pickerTitleColor";
+
+    private static final String PICKER_EVENT_NAME = "pickerEvent";
+    private static final String EVENT_KEY_CONFIRM = "confirm";
+    private static final String EVENT_KEY_CANCEL = "cancel";
+    private static final String EVENT_KEY_SELECTED = "select";
+
+    private static final String ERROR_NOT_INIT = "please initialize";
+
+    private View view;
+    private PopupWindow popupWindow = null;
+
+    private boolean isLoop = true;
+
+    private String confirmText;
+    private String cancelText;
+    private String titleText;
+
+    private int[] pickerColor = new int[4];
+    private int[] barBgColor = new int[4];
+    private int[] confirmTextColor = new int[4];
+    private int[] cancelTextColor = new int[4];
+    private int[] titleTextColor = new int[4];
+
+    private ArrayList<String> curSelectedList = new ArrayList<>();
+
+    private RelativeLayout pickerParent;
+    private RelativeLayout barLayout;
+    private TextView cancelTV;
+    private TextView titleTV;
+    private TextView confirmTV;
+    private PickerViewLinkage pickerViewLinkage;
+    private PickerViewAlone pickerViewAlone;
+
+    public PickerViewModule(ReactApplicationContext reactContext) {
+        super(reactContext);
+    }
+
+    @Override
+    public String getName() {
+        return REACT_CLASS;
+    }
+
+    @ReactMethod
+    public void _init(ReadableMap options) {
+        Activity activity = getCurrentActivity();
+        if (activity != null && options.hasKey(PICKER_DATA)) {
+            view = activity.getLayoutInflater().inflate(R.layout.popup_picker_view, null);
+            
+            pickerParent = (RelativeLayout) view.findViewById(R.id.pickerParent);
+            barLayout = (RelativeLayout) view.findViewById(R.id.barLayout);
+            cancelTV = (TextView) view.findViewById(R.id.cancel);
+            titleTV = (TextView) view.findViewById(R.id.title);
+            confirmTV = (TextView) view.findViewById(R.id.confirm);
+            pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
+            pickerViewAlone = (PickerViewAlone) view.findViewById(R.id.pickerViewAlone);
+
+            pickerParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commonEvent(EVENT_KEY_CANCEL);
+                    hide();
+                }
+            });
+
+            if (options.hasKey(TEXT_BAR_COLOR)) {
+                ReadableArray array = options.getArray(TEXT_BAR_COLOR);
+                for (int i = 0; i < array.size(); i++) {
+                    if (i == 3) {
+                        barBgColor[i] = (int) (array.getDouble(i) * 255);
+                    } else {
+                        barBgColor[i] = array.getInt(i);
+                    }
+                }
+                barLayout.setBackgroundColor(Color.argb(barBgColor[3], barBgColor[0], barBgColor[1], barBgColor[2]));
+            }
+
+
+            if (options.hasKey(CONFIRM_TEXT)) {
+                confirmText = options.getString(CONFIRM_TEXT);
+            }
+            confirmTV.setText(!TextUtils.isEmpty(confirmText) ? confirmText : "");
+
+            if (options.hasKey(CONFIRM_TEXT_COLOR)) {
+                ReadableArray array = options.getArray(CONFIRM_TEXT_COLOR);
+                for (int i = 0; i < array.size(); i++) {
+                    if (i == 3) {
+                        confirmTextColor[i] = (int) (array.getDouble(i) * 255);
+                    } else {
+                        confirmTextColor[i] = array.getInt(i);
+                    }
+                }
+                confirmTV.setTextColor(Color.argb(confirmTextColor[3], confirmTextColor[0], confirmTextColor[1], confirmTextColor[2]));
+            }
+            confirmTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commonEvent(EVENT_KEY_CONFIRM);
+                    hide();
+                }
+            });
+
+
+            if (options.hasKey(TITLE_TEXT)) {
+                titleText = options.getString(TITLE_TEXT);
+            }
+            titleTV.setText(!TextUtils.isEmpty(titleText) ? titleText : "");
+            if (options.hasKey(TITLE_TEXT_COLOR)) {
+                ReadableArray array = options.getArray(TITLE_TEXT_COLOR);
+                for (int i = 0; i < array.size(); i++) {
+                    if (i == 3) {
+                        titleTextColor[i] = (int) (array.getDouble(i) * 255);
+                    } else {
+                        titleTextColor[i] = array.getInt(i);
+                    }
+                }
+                titleTV.setTextColor(Color.argb(titleTextColor[3], titleTextColor[0], titleTextColor[1], titleTextColor[2]));
+            }
+
+            if (options.hasKey(CANCEL_TEXT)) {
+                cancelText = options.getString(CANCEL_TEXT);
+            }
+            cancelTV.setText(!TextUtils.isEmpty(cancelText) ? cancelText : "");
+            if (options.hasKey(CANCEL_TEXT_COLOR)) {
+                ReadableArray array = options.getArray(CANCEL_TEXT_COLOR);
+                for (int i = 0; i < array.size(); i++) {
+                    if (i == 3) {
+                        cancelTextColor[i] = (int) (array.getDouble(i) * 255);
+                    } else {
+                        cancelTextColor[i] = array.getInt(i);
+                    }
+                }
+                cancelTV.setTextColor(Color.argb(cancelTextColor[3], cancelTextColor[0], cancelTextColor[1], cancelTextColor[2]));
+            }
+            cancelTV.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    commonEvent(EVENT_KEY_CANCEL);
+                    hide();
+                }
+            });
+
+            if (options.hasKey(IS_LOOP)) {
+                isLoop = options.getBoolean(IS_LOOP);
+            }
+
+            String[] selectValue = {};
+            if (options.hasKey(SELECTED_VALUE)) {
+                ReadableArray array = options.getArray(SELECTED_VALUE);
+                selectValue = new String[array.size()];
+                String value = "";
+                for (int i = 0; i < array.size(); i++) {
+                    switch (array.getType(i).name()) {
+                        case "Boolean":
+                            value = String.valueOf(array.getBoolean(i));
+                            break;
+                        case "Number":
+                            try {
+                                value = String.valueOf(array.getInt(i));
+                            } catch (Exception e) {
+                                value = String.valueOf(array.getDouble(i));
+                            }
+                            break;
+                        case "String":
+                            value = array.getString(i);
+                            break;
+                    }
+                    selectValue[i] = value;
+                }
+            }
+
+            switch (options.getType(PICKER_DATA).name()) {
+                case "Map":
+                    pickerViewLinkage.setVisibility(View.VISIBLE);
+                    pickerViewAlone.setVisibility(View.GONE);
+                    ReadableMap linkageData = options.getMap(PICKER_DATA);
+                    if (linkageData != null) {
+                        pickerViewLinkage.setLinkageData(linkageData, curSelectedList);
+                    }
+                    pickerViewLinkage.setIsLoop(isLoop);
+                    if (options.hasKey(PICKER_BG_COLOR)) {
+                        ReadableArray array = options.getArray(PICKER_BG_COLOR);
+                        for (int i = 0; i < array.size(); i++) {
+                            if (i == 3) {
+                                pickerColor[i] = (int) (array.getDouble(i) * 255);
+                            } else {
+                                pickerColor[i] = array.getInt(i);
+                            }
+                        }
+                        pickerViewLinkage.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
+                    }
+                    pickerViewLinkage.setOnSelectListener(new OnSelectedListener() {
+                        @Override
+                        public void onSelected(ArrayList<String> selectedList) {
+                            curSelectedList = selectedList;
+                            commonEvent(EVENT_KEY_SELECTED);
+                        }
+                    });
+                    pickerViewLinkage.setSelectValue(selectValue, curSelectedList);
+                    break;
+                case "Array":
+                    pickerViewAlone.setVisibility(View.VISIBLE);
+                    pickerViewLinkage.setVisibility(View.GONE);
+                    ReadableArray aloneData = options.getArray(PICKER_DATA);
+
+                    if (aloneData != null) {
+                        switch (aloneData.getType(0).name()) {
+                            case "Array":
+                                pickerViewAlone.setPickerViewDta(aloneData, curSelectedList);
+                                break;
+                            default:
+                                pickerViewAlone.setAloneData(aloneData, curSelectedList);
+                                break;
+                        }
+                    }
+                    pickerViewAlone.setIsLoop(isLoop);
+                    if (options.hasKey(PICKER_BG_COLOR)) {
+                        ReadableArray array = options.getArray(PICKER_BG_COLOR);
+                        for (int i = 0; i < array.size(); i++) {
+                            if (i == 3) {
+                                pickerColor[i] = (int) (array.getDouble(i) * 255);
+                            } else {
+                                pickerColor[i] = array.getInt(i);
+                            }
+                        }
+                        pickerViewAlone.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
+                    }
+
+                    pickerViewAlone.setOnSelectedListener(new OnSelectedListener() {
+                        @Override
+                        public void onSelected(ArrayList<String> selectedList) {
+                            curSelectedList = selectedList;
+                            commonEvent(EVENT_KEY_SELECTED);
+                        }
+                    });
+
+                    pickerViewAlone.setSelectValue(selectValue, curSelectedList);
+
+                    break;
+            }
+
+            if (popupWindow == null) {
+                popupWindow = new PopupWindow(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                popupWindow.setBackgroundDrawable(new ColorDrawable());
+                popupWindow.setFocusable(true);
+                popupWindow.setAnimationStyle(R.style.PopAnim);
+                popupWindow.setOutsideTouchable(true);
+            }
+            popupWindow.setContentView(view);
+            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        }
+    }
+
+    @ReactMethod
+    public void initOK(Callback callback) {
+        callback.invoke(popupWindow != null);
+    }
+
+    @ReactMethod
+    public void toggle() {
+        if (popupWindow == null)
+            return;
+        if (popupWindow.isShowing()) {
+            hide();
+        } else {
+            show();
+        }
+    }
+
+    @ReactMethod
+    public void show() {
+        if (popupWindow != null) {
+            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        }
+    }
+
+    @ReactMethod
+    public void hide() {
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
+    }
+
+    @ReactMethod
+    public void isPickerShow(Callback callback) {
+        if (popupWindow == null) {
+            callback.invoke(ERROR_NOT_INIT);
+        } else {
+            callback.invoke(null, popupWindow.isShowing());
+        }
+    }
+
+    private void commonEvent(String eventKey) {
+        WritableMap map = Arguments.createMap();
+        WritableArray array = Arguments.createArray();
+        for (String item : curSelectedList) {
+            array.pushString(item);
+        }
+        map.putArray(eventKey, array);
+        sendEvent(getReactApplicationContext(), PICKER_EVENT_NAME, map);
+    }
+
+    private void sendEvent(ReactContext reactContext,
+                           String eventName,
+                           @Nullable WritableMap params) {
+        reactContext
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit(eventName, params);
+    }
+}

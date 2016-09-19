@@ -50,7 +50,23 @@ class PickerTest extends Component {
     }
 
     _onPressHandle() {
-        this.picker.toggle();
+        Picker.init({
+            pickerData: createDateData(),
+            selectedValue: ['2015年', '12月', '12日'],
+            onPickerConfirm: pickedValue => {
+                alert(JSON.stringify(pickedValue));
+                console.log(pickedValue);
+            },
+            onPickerCancel: pickedValue => {
+                alert(JSON.stringify(pickedValue));
+                console.log(pickedValue);
+            },
+            onPickerSelect: pickedValue => {
+                alert(JSON.stringify(pickedValue));
+                console.log(pickedValue);
+            }
+        });
+        Picker.show();
     }
 
     render() {
@@ -59,18 +75,6 @@ class PickerTest extends Component {
                 <TouchableOpacity style={{marginTop: 20}} onPress={this._onPressHandle.bind(this)}>
                     <Text>Click Me</Text>
                 </TouchableOpacity>
-                <Picker
-                    ref={picker => this.picker = picker}
-                    style={{height: 260}}
-                    showDuration={300}
-                    showMask={true}
-                    pickerData={createDateData()}
-                    selectedValue={['2015年', '12月', '12日']}
-                    onPickerDone={(pickedValue) => {
-                        alert(JSON.stringify(pickedValue));
-                        console.log(pickedValue);
-                    }}
-                />
             </View>
         );
     }
