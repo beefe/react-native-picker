@@ -4,10 +4,7 @@
 
 A Native Picker with high performance
 
-####Demo
-
-- <b>[Date-picker](./demo/date-picker.js)</b>
-- <b>[Area-picker](./demo/area-picker.js)</b>
+pure javascript version -> [v3.0.5][https://github.com/beefe/react-native-picker/tree/pure-javascript-version]
 
 
 ![ui](./doc/ui.gif)

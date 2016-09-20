@@ -13,9 +13,9 @@ import {
 import Picker from 'react-native-picker';
 
 function createDateData(){
-    let date = {};
+    let date = [];
     for(let i=1950;i<2050;i++){
-        let month = {};
+        let month = [];
         for(let j = 1;j<13;j++){
             let day = [];
             if(j === 2){
@@ -33,9 +33,13 @@ function createDateData(){
                     day.push(k+'日');
                 }
             }
-            month[j+'月'] = day;
+            let _month = {};
+            _month[j+'月'] = day;
+            month.push(_month);
         }
-        date[i+'年'] = month;
+        let _date = {};
+        _date[i+'年'] = month;
+        date.push(_date);
     }
     return date;
 };
@@ -43,18 +47,19 @@ function createDateData(){
 function createAreaData(callback){
     fetch('https://raw.githubusercontent.com/beefe/react-native-picker/master/example/PickerTest/area.json').then(res => {
         res.json().then(area => {
-            let data = {};
+            let data = [];
             let len = area.length;
             for(let i=0;i<len;i++){
-                let city = area[i]['city'];
-                let cityLen = city.length;
-                let ProvinceName = area[i]['name'];
-                data[ProvinceName] = {};
-                for(let j=0;j<cityLen;j++){
-                    let area = city[j]['area'];
-                    let cityName = city[j]['name'];
-                    data[ProvinceName][cityName] = area;
+                let city = [];
+                for(let j=0,cityLen=area[i]['city'].length;j<cityLen;j++){
+                    let _city = {};
+                    _city[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
+                    city.push(_city);
                 }
+
+                let _data = {};
+                _data[area[i]['name']] = city;
+                data.push(_data);
             }
             callback(data);
         });
@@ -70,7 +75,6 @@ export default class PickerTest extends Component {
     }
 
     _showDatePicker() {
-        Picker.hide();
         Picker.init({
             pickerData: createDateData(),
             selectedValue: ['2015年', '12月', '12日'],
