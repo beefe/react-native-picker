@@ -111,18 +111,87 @@ A Native Picker with high performance
 - two wheel
 
 ```javascript
-	pickerData = {
-		a: [1,2,3,4],
-		b: [5,6,7,8],
+	pickerData = [
+		{
+			value: 'a',
+			child: [1, 2, 3, 4]
+		},
+		{
+			value: 'b',
+			child: [5, 6, 7, 8]
+		},
 		...
-	};
+	];
 	selectedValue = ['a', 2];
 ```
 
 - three wheel
 
 ```javascript
-	pickerData = {
+	pickerData = [
+		{
+			value: 'a',
+			child: [
+				{
+					value: 'a1',
+					child: [1, 2, 3, 4]
+				},
+				{
+					value: 'a2',
+					child: [5, 6, 7, 8]
+				},
+				{
+					value: 'a3',
+					child: [9, 10, 11, 12]
+				}
+			]
+		},
+		{
+			value: 'b',
+			child: [
+				{
+					value: 'b1',
+					child: [11, 22, 33, 44]
+				},
+				{
+					value: 'b2',
+					child: [55, 66, 77, 88]
+				},
+				{
+					value: 'b3',
+					child: [99, 1010, 1111, 1212]
+				}
+			]
+		},
+		{
+			value: 'c',
+			child: [
+				{
+					value: 'c1',
+					child: ['a', 'b', 'c']
+				},
+				{
+					value: 'c2',
+					child: ['aa', 'bb', 'cc']
+				},
+				{
+					value: 'c3',
+					child: ['aaa', 'bbb', 'ccc']
+				}
+			]
+		}
+	]
+
+
+	
+	//以前两轮
+	{
+        a: [1,2,3,4],
+        b: [5,6,7,8],
+        ...
+    }
+	//以前三轮
+	{
 		a: {
 			a1: [1,2,3,4],
 			a2: [5,6,7,8],
