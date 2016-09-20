@@ -75,16 +75,13 @@ export default class PickerTest extends Component {
             pickerData: createDateData(),
             selectedValue: ['2015年', '12月', '12日'],
             onPickerConfirm: pickedValue => {
-                alert(JSON.stringify(pickedValue));
-                console.log(pickedValue);
+                console.log('date', pickedValue);
             },
             onPickerCancel: pickedValue => {
-                alert(JSON.stringify(pickedValue));
-                console.log(pickedValue);
+                console.log('date', pickedValue);
             },
             onPickerSelect: pickedValue => {
-                alert(JSON.stringify(pickedValue));
-                console.log(pickedValue);
+                console.log('date', pickedValue);
             }
         });
         Picker.show();
@@ -96,13 +93,13 @@ export default class PickerTest extends Component {
                 pickerData: data,
                 selectedValue: ['北京', '北京', '朝阳区'],
                 onPickerConfirm: pickedValue => {
-                    console.log(pickedValue);
+                    console.log('area', pickedValue);
                 },
                 onPickerCancel: pickedValue => {
-                    console.log(pickedValue);
+                    console.log('area', pickedValue);
                 },
                 onPickerSelect: pickedValue => {
-                    console.log(pickedValue);
+                    console.log('area', pickedValue);
                 }
             });
             Picker.show();

@@ -20,11 +20,11 @@ A Native Picker with high performance
 - <b>pickerConfirmBtnText</b> string, 确认按钮文字
 - <b>pickerCancelBtnText</b> string, 取消按钮文字
 - <b>pickerTitleText</b> string, 标题文字
-- <b>pickerConfirmBtnColor</b> ['255', '66', '00', 0.5],  确认按钮字体颜色
-- <b>pickerCancelBtnColor</b> ['255', '66', '00', 0.5],  取消按钮字体颜色
-- <b>pickerTitleColor</b> ['255', '66', '00', 0.5],  标题字体颜色
-- <b>pickerToolBarBg</b> ['255', '66', '00', 0.5],  工具栏背景颜色
-- <b>pickerBg</b> ['255', '66', '00', 0.5],  picker背景颜色
+- <b>pickerConfirmBtnColor</b> [1, 186, 245, 1],  确认按钮字体颜色
+- <b>pickerCancelBtnColor</b> [1, 186, 245, 1],  取消按钮字体颜色
+- <b>pickerTitleColor</b> [20, 20, 20, 1],  标题字体颜色
+- <b>pickerToolBarBg</b> [232, 232, 232, 1],  工具栏背景颜色
+- <b>pickerBg</b> [196, 199, 206, 1],  picker背景颜色
 - <b>pickerData</b> 数组或对象，picker数据
 - <b>selectedValue</b> string，默认选中数据
 - <b>onPickerConfirm</b> function，确认按钮回调
@@ -111,98 +111,61 @@ A Native Picker with high performance
 - two wheel
 
 ```javascript
-	pickerData = [
-		{
-			value: 'a',
-			child: [1, 2, 3, 4]
-		},
-		{
-			value: 'b',
-			child: [5, 6, 7, 8]
-		},
-		...
-	];
-	selectedValue = ['a', 2];
+    pickerData = [
+        {
+            a: [1, 2, 3, 4]
+        },
+        {
+            b: [5, 6, 7, 8]
+        },
+        ...
+    ];
+    selectedValue = ['a', 2];
 ```
 
 - three wheel
 
 ```javascript
-	pickerData = [
-		{
-			value: 'a',
-			child: [
-				{
-					value: 'a1',
-					child: [1, 2, 3, 4]
-				},
-				{
-					value: 'a2',
-					child: [5, 6, 7, 8]
-				},
-				{
-					value: 'a3',
-					child: [9, 10, 11, 12]
-				}
-			]
-		},
-		{
-			value: 'b',
-			child: [
-				{
-					value: 'b1',
-					child: [11, 22, 33, 44]
-				},
-				{
-					value: 'b2',
-					child: [55, 66, 77, 88]
-				},
-				{
-					value: 'b3',
-					child: [99, 1010, 1111, 1212]
-				}
-			]
-		},
-		{
-			value: 'c',
-			child: [
-				{
-					value: 'c1',
-					child: ['a', 'b', 'c']
-				},
-				{
-					value: 'c2',
-					child: ['aa', 'bb', 'cc']
-				},
-				{
-					value: 'c3',
-					child: ['aaa', 'bbb', 'ccc']
-				}
-			]
-		}
-	]
-
-
-	
-	//以前两轮
-	{
-        a: [1,2,3,4],
-        b: [5,6,7,8],
+    pickerData = [
+        {
+            a: [
+                {
+                    a1: [1, 2, 3, 4]
+                },
+                {
+                    a2: [5, 6, 7, 8]
+                },
+                {
+                    a3: [9, 10, 11, 12]
+                }
+            ]
+        },
+        {
+            b: [
+                {
+                    b1: [11, 22, 33, 44]
+                },
+                {
+                    b2: [55, 66, 77, 88]
+                },
+                {
+                    b3: [99, 1010, 1111, 1212]
+                }
+            ]
+        },
+        {
+            c: [
+                {
+                    c1: ['a', 'b', 'c']
+                },
+                {
+                    c2: ['aa', 'bb', 'cc']
+                },
+                {
+                    c3: ['aaa', 'bbb', 'ccc']
+                }
+            ]
+        },
         ...
-    }
-	//以前三轮
-	{
-		a: {
-			a1: [1,2,3,4],
-			a2: [5,6,7,8],
-			a3: [9,10,11,12]
-		},
-		b: {
-			b1: [1,2,3,4],
-			b2: [5,6,7,8],
-			b3: [9,10,12,12]
-		}
-		...
-	};
-	selectedValue = ['a', 'a1', 1];
+    ]
 ```

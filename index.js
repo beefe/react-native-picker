@@ -33,12 +33,9 @@ export default {
         };
 
         Picker._init(opt);
-        if(this.inited){
-            return;
-        }
-        this.inited = true;
-
-        NativeAppEventEmitter.addListener('pickerEvent', event => {
+        //there are no `removeListener` for NativeAppEventEmitter & DeviceEventEmitter
+        this.listener && this.listener.remove();
+        this.listener = NativeAppEventEmitter.addListener('pickerEvent', event => {
             if(ios){
                 fnConf[event['type']](event['selectedValue']);
             }
