@@ -43,13 +43,36 @@ function createDateData(){
     return date;
 };
 
+function createAreaData(callback){
+    fetch('https://raw.githubusercontent.com/beefe/react-native-picker/master/example/PickerTest/area.json').then(res => {
+        res.json().then(area => {
+            let data = {};
+            let len = area.length;
+            for(let i=0;i<len;i++){
+                let city = area[i]['city'];
+                let cityLen = city.length;
+                let ProvinceName = area[i]['name'];
+                data[ProvinceName] = {};
+                for(let j=0;j<cityLen;j++){
+                    let area = city[j]['area'];
+                    let cityName = city[j]['name'];
+                    data[ProvinceName][cityName] = area;
+                }
+            }
+            callback(data);
+        });
+    }, err => {
+        console.log(err);
+    });
+};
+
 class PickerTest extends Component {
 
     constructor(props, context) {
         super(props, context);
     }
 
-    _onPressHandle() {
+    _showDatePicker() {
         Picker.init({
             pickerData: createDateData(),
             selectedValue: ['2015年', '12月', '12日'],
@@ -69,11 +92,36 @@ class PickerTest extends Component {
         Picker.show();
     }
 
+    _showAreaPicker() {
+        createAreaData(data => {
+            Picker.init({
+                pickerData: data,
+                selectedValue: ['北京', '北京', '朝阳区'],
+                onPickerConfirm: pickedValue => {
+                    alert(JSON.stringify(pickedValue));
+                    console.log(pickedValue);
+                },
+                onPickerCancel: pickedValue => {
+                    alert(JSON.stringify(pickedValue));
+                    console.log(pickedValue);
+                },
+                onPickerSelect: pickedValue => {
+                    alert(JSON.stringify(pickedValue));
+                    console.log(pickedValue);
+                }
+            });
+            Picker.show();
+        });
+    }
+
     render() {
         return (
             <View style={{height: Dimensions.get('window').height}}>
-                <TouchableOpacity style={{marginTop: 20}} onPress={this._onPressHandle.bind(this)}>
-                    <Text>Click Me</Text>
+                <TouchableOpacity style={{marginTop: 40, marginLeft: 20}} onPress={this._showDatePicker.bind(this)}>
+                    <Text>DatePicker</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginTop: 40, marginLeft: 20}} onPress={this._showAreaPicker.bind(this)}>
+                    <Text>AreaPicker</Text>
                 </TouchableOpacity>
             </View>
         );
