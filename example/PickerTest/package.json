@@ -8,6 +8,6 @@
   "dependencies": {
     "react": "15.3.1",
     "react-native": "^0.32.0",
-    "react-native-picker": "beefe/react-native-picker"
+    "react-native-picker": "github:beefe/react-native-picker"
   }
 }
