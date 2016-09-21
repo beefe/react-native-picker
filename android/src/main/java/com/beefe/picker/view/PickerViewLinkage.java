@@ -73,10 +73,7 @@ public class PickerViewLinkage extends LinearLayout {
     private ArrayList<String> twoList = new ArrayList<>();
     private ArrayList<String> threeList = new ArrayList<>();
 
-    private ReadableArray array;
-    private ReadableMap map;
-    private ReadableMap childMap;
-
+    private ArrayList<ReadableMap> data = new ArrayList<>();
     private int selectOneIndex;
     private int selectTwoIndex;
 
@@ -87,12 +84,20 @@ public class PickerViewLinkage extends LinearLayout {
         }
     }
 
-    public void setLinkageData(final ReadableMap map, final ArrayList<String> curSelectedList) {
-        this.map = map;
-        ReadableMapKeySetIterator iterator = map.keySetIterator();
-        while (iterator.hasNextKey()) {
-            String key = iterator.nextKey();
-            oneList.add(key);
+    /**
+     *  ReadableArray getMap will remove the item.
+     *  <a href="https://github.com/facebook/react-native/issues/8557"></a>
+     * */
+    public void setPickerData(ReadableArray array, final ArrayList<String> curSelectedList) {
+        oneList.clear();
+        for (int i = 0; i < array.size(); i++) {
+            ReadableMap map = array.getMap(i);
+            data.add(map);
+            ReadableMapKeySetIterator iterator = map.keySetIterator();
+            if (iterator.hasNextKey()) {
+                String oneValue = iterator.nextKey();
+                oneList.add(oneValue);
+            }
         }
         checkItems(loopViewOne, oneList);
         if (curSelectedList.size() > 0) {
@@ -100,126 +105,135 @@ public class PickerViewLinkage extends LinearLayout {
         } else {
             curSelectedList.add(0, oneList.get(0));
         }
-        String name = map.getType(oneList.get(0)).name();
-        switch (name) {
-            case "Map":
-                setRow(3);
-                childMap = map.getMap(oneList.get(0));
-                ReadableMapKeySetIterator childIterator = childMap.keySetIterator();
-                twoList.clear();
-                while (childIterator.hasNextKey()) {
-                    String key = childIterator.nextKey();
-                    twoList.add(key);
-                }
-                checkItems(loopViewTwo, twoList);
-                if (curSelectedList.size() > 1) {
-                    curSelectedList.set(1, twoList.get(0));
-                } else {
-                    curSelectedList.add(1, twoList.get(0));
-                }
 
-                array = childMap.getArray(twoList.get(0));
-                threeList.clear();
-                threeList = arrayToList(array);
-                checkItems(loopViewThree, threeList);
-                if (curSelectedList.size() > 2) {
-                    curSelectedList.set(2, threeList.get(0));
-                } else {
-                    curSelectedList.add(2, threeList.get(0));
-                }
+        ReadableArray childArray = data.get(0).getArray(oneList.get(0));
+        String name = childArray.getType(0).name();
+        if (name.equals("Map")) {
+            setRow(3);
 
-                loopViewOne.setListener(new OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(String item, int index) {
-                        selectOneIndex = index;
-                        curSelectedList.set(0, item);
-
-                        childMap = map.getMap(item);
-                        ReadableMapKeySetIterator childIterator = childMap.keySetIterator();
-                        twoList.clear();
-                        while (childIterator.hasNextKey()) {
-                            String key = childIterator.nextKey();
-                            twoList.add(key);
-                        }
-                        checkItems(loopViewTwo, twoList);
-                        curSelectedList.set(1, twoList.get(0));
-
-                        array = childMap.getArray(twoList.get(0));
-                        threeList.clear();
-                        threeList = arrayToList(array);
-                        checkItems(loopViewThree, threeList);
-                        curSelectedList.set(2, threeList.get(0));
-
-                        if (onSelectedListener != null) {
-                            onSelectedListener.onSelected(curSelectedList);
-                        }
-                    }
-                });
-
-                loopViewTwo.setListener(new OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(String item, int index) {
-                        selectTwoIndex = index;
-                        array = childMap.getArray(item);
-                        threeList.clear();
-                        threeList = arrayToList(array);
-                        checkItems(loopViewThree, threeList);
-
-                        curSelectedList.set(0, oneList.get(selectOneIndex));
-                        curSelectedList.set(1, item);
-                        curSelectedList.set(2, threeList.get(0));
-                        if (onSelectedListener != null) {
-                            onSelectedListener.onSelected(curSelectedList);
-                        }
-                    }
-                });
-
-                loopViewThree.setListener(new OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(String item, int index) {
-                        curSelectedList.set(0, oneList.get(selectOneIndex));
-                        curSelectedList.set(1, twoList.get(selectTwoIndex));
-                        curSelectedList.set(2, item);
-                        if (onSelectedListener != null) {
-                            onSelectedListener.onSelected(curSelectedList);
-                        }
-                    }
-                });
-                break;
-            case "Array":
-                setRow(2);
-                loopViewOne.setListener(new OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(String item, int index) {
-                        selectOneIndex = index;
-                        array = map.getArray(item);
-                        twoList = arrayToList(array);
-                        checkItems(loopViewTwo, twoList);
-                        curSelectedList.set(0, item);
-                        curSelectedList.set(1, twoList.get(0));
-                        if (onSelectedListener != null) {
-                            onSelectedListener.onSelected(curSelectedList);
-                        }
-                    }
-                });
-
-                array = map.getArray(oneList.get(0));
-                twoList = arrayToList(array);
-                checkItems(loopViewTwo, twoList);
+            twoList.clear();
+            getTwoListData();
+            checkItems(loopViewTwo, twoList);
+            if (curSelectedList.size() > 1) {
+                curSelectedList.set(1, twoList.get(0));
+            } else {
                 curSelectedList.add(1, twoList.get(0));
-                loopViewTwo.setListener(new OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(String item, int index) {
-                        curSelectedList.set(0, oneList.get(selectOneIndex));
-                        curSelectedList.set(1, item);
-                        if (onSelectedListener != null) {
-                            onSelectedListener.onSelected(curSelectedList);
+            }
+
+            ReadableMap childMap = data.get(0).getArray(oneList.get(0)).getMap(0);
+            String key = childMap.keySetIterator().nextKey();
+            ReadableArray sunArray = childMap.getArray(key);
+            threeList.clear();
+            threeList = arrayToList(sunArray);
+            checkItems(loopViewThree, threeList);
+            if (curSelectedList.size() > 2) {
+                curSelectedList.set(2, threeList.get(0));
+            } else {
+                curSelectedList.add(2, threeList.get(0));
+            }
+
+            loopViewOne.setListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(String item, int index) {
+                    selectOneIndex = index;
+                    curSelectedList.set(0, item);
+                    twoList.clear();
+                    ReadableArray arr = data.get(index).getArray(item);
+                    for (int i = 0; i < arr.size(); i++) {
+                        ReadableMap map = arr.getMap(i);
+                        ReadableMapKeySetIterator ite = map.keySetIterator();
+                        if (ite.hasNextKey()) {
+                            twoList.add(ite.nextKey());
                         }
                     }
-                });
-                break;
-            default:
-                break;
+                    checkItems(loopViewTwo, twoList);
+                    curSelectedList.set(1, twoList.get(0));
+
+
+                    ReadableArray ar = data.get(index).getArray(item);
+                    ReadableMap childMap = ar.getMap(0);
+                    String key = childMap.keySetIterator().nextKey();
+                    ReadableArray sunArray = childMap.getArray(key);
+                    threeList.clear();
+                    threeList = arrayToList(sunArray);
+                    checkItems(loopViewThree, threeList);
+                    curSelectedList.set(2, threeList.get(0));
+
+                    if (onSelectedListener != null) {
+                        onSelectedListener.onSelected(curSelectedList);
+                    }
+                }
+            });
+
+            loopViewTwo.setListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(String item, int index) {
+                    selectTwoIndex = index;
+
+                    ReadableArray arr = data.get(selectOneIndex).getArray(oneList.get(selectOneIndex));
+                    ReadableMap childMap = arr.getMap(index);
+                    String key = childMap.keySetIterator().nextKey();
+                    ReadableArray sunArray = childMap.getArray(key);
+                    threeList.clear();
+                    threeList = arrayToList(sunArray);
+                    checkItems(loopViewThree, threeList);
+
+                    curSelectedList.set(0, oneList.get(selectOneIndex));
+                    curSelectedList.set(1, item);
+                    curSelectedList.set(2, threeList.get(0));
+                    if (onSelectedListener != null) {
+                        onSelectedListener.onSelected(curSelectedList);
+                    }
+                }
+            });
+
+            loopViewThree.setListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(String item, int index) {
+                    curSelectedList.set(0, oneList.get(selectOneIndex));
+                    curSelectedList.set(1, twoList.get(selectTwoIndex));
+                    curSelectedList.set(2, item);
+                    if (onSelectedListener != null) {
+                        onSelectedListener.onSelected(curSelectedList);
+                    }
+                }
+            });
+        } else {
+            setRow(2);
+            loopViewOne.setListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(String item, int index) {
+                    selectOneIndex = index;
+                    ReadableArray arr = data.get(index).getArray(item);
+                    twoList.clear();
+                    twoList = arrayToList(arr);
+                    checkItems(loopViewTwo, twoList);
+                    curSelectedList.set(0, item);
+                    curSelectedList.set(1, twoList.get(0));
+                    if (onSelectedListener != null) {
+                        onSelectedListener.onSelected(curSelectedList);
+                    }
+                }
+            });
+
+            twoList.clear();
+            twoList = arrayToList(childArray);
+            checkItems(loopViewTwo, twoList);
+            if (curSelectedList.size() > 1) {
+                curSelectedList.set(1, twoList.get(0));
+            } else {
+                curSelectedList.add(1, twoList.get(0));
+            }
+            loopViewTwo.setListener(new OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(String item, int index) {
+                    curSelectedList.set(0, oneList.get(selectOneIndex));
+                    curSelectedList.set(1, item);
+                    if (onSelectedListener != null) {
+                        onSelectedListener.onSelected(curSelectedList);
+                    }
+                }
+            });
         }
     }
 
@@ -258,39 +272,26 @@ public class PickerViewLinkage extends LinearLayout {
         } else {
             switch (selectValue.length) {
                 case 1:
-                    if (loopViewOne.hasItem(selectValue[0])) {
-                        selectOneIndex = loopViewOne.getItemPosition(selectValue[0]);
-                        loopViewOne.setSelectedPosition(selectOneIndex);
-                        curSelectedList.set(0, loopViewOne.getIndexItem(selectOneIndex));
-                    } else {
-                        loopViewOne.setSelectedPosition(0);
-                        curSelectedList.set(0, loopViewOne.getIndexItem(0));
-                    }
+                    selectOneLoop(selectValue, curSelectedList);
                     switch (curRow) {
                         case 3:
-                            childMap = map.getMap(oneList.get(selectOneIndex));
-                            ReadableMapKeySetIterator childIterator = childMap.keySetIterator();
-                            twoList.clear();
-                            while (childIterator.hasNextKey()) {
-                                String key = childIterator.nextKey();
-                                twoList.add(key);
-                            }
 
+                            twoList.clear();
+                            getTwoListData();
                             loopViewTwo.setItems(twoList);
                             loopViewTwo.setSelectedPosition(0);
                             curSelectedList.set(1, loopViewTwo.getIndexItem(0));
 
-                            array = childMap.getArray(twoList.get(0));
                             threeList.clear();
-                            threeList = arrayToList(array);
+                            getThreeListData();
                             loopViewThree.setItems(threeList);
                             loopViewThree.setSelectedPosition(0);
                             curSelectedList.set(2, loopViewThree.getIndexItem(0));
 
                             break;
                         case 2:
-                            array = map.getArray(oneList.get(selectOneIndex));
-                            twoList = arrayToList(array);
+                            twoList.clear();
+                            getAllTwoListData();
                             loopViewTwo.setItems(twoList);
                             loopViewTwo.setSelectedPosition(0);
                             curSelectedList.set(1, loopViewTwo.getIndexItem(0));
@@ -300,35 +301,15 @@ public class PickerViewLinkage extends LinearLayout {
                 case 2:
                     switch (curRow) {
                         case 3:
-                            if (loopViewOne.hasItem(selectValue[0])) {
-                                selectOneIndex = loopViewOne.getItemPosition(selectValue[0]);
-                                loopViewOne.setSelectedPosition(selectOneIndex);
-                                curSelectedList.set(0, loopViewOne.getIndexItem(selectOneIndex));
-                            } else {
-                                loopViewOne.setSelectedPosition(0);
-                                curSelectedList.set(0, loopViewOne.getIndexItem(0));
-                            }
+                            selectOneLoop(selectValue, curSelectedList);
 
-                            childMap = map.getMap(oneList.get(selectOneIndex));
-                            ReadableMapKeySetIterator childIterator = childMap.keySetIterator();
                             twoList.clear();
-                            while (childIterator.hasNextKey()) {
-                                String key = childIterator.nextKey();
-                                twoList.add(key);
-                            }
-                            loopViewTwo.setItems(twoList);
-                            if (loopViewTwo.hasItem(selectValue[1])) {
-                                selectTwoIndex = loopViewTwo.getItemPosition(selectValue[1]);
-                                loopViewTwo.setSelectedPosition(selectTwoIndex);
-                                curSelectedList.set(1, loopViewTwo.getIndexItem(selectTwoIndex));
-                            } else {
-                                loopViewTwo.setSelectedPosition(0);
-                                curSelectedList.set(1, loopViewTwo.getIndexItem(0));
-                            }
+                            getTwoListData();
+                            selectTwoLoop(selectValue,curSelectedList);
 
-                            array = childMap.getArray(twoList.get(selectTwoIndex));
+
                             threeList.clear();
-                            threeList = arrayToList(array);
+                            getThreeListData();
                             loopViewThree.setItems(threeList);
                             loopViewThree.setSelectedPosition(0);
                             curSelectedList.set(2, loopViewThree.getIndexItem(0));
@@ -344,78 +325,124 @@ public class PickerViewLinkage extends LinearLayout {
     private void selectValues(String[] values, final ArrayList<String> curSelectedList) {
         switch (values.length) {
             case 3:
-                if (loopViewOne.hasItem(values[0])) {
-                    selectOneIndex = loopViewOne.getItemPosition(values[0]);
-                    loopViewOne.setSelectedPosition(selectOneIndex);
-                    curSelectedList.set(0, loopViewOne.getIndexItem(selectOneIndex));
-                } else {
-                    loopViewOne.setSelectedPosition(0);
-                    curSelectedList.set(0, loopViewOne.getIndexItem(0));
-                }
+                selectOneLoop(values, curSelectedList);
 
-                childMap = map.getMap(oneList.get(selectOneIndex));
-                ReadableMapKeySetIterator childIterator = childMap.keySetIterator();
                 twoList.clear();
-                while (childIterator.hasNextKey()) {
-                    String key = childIterator.nextKey();
-                    twoList.add(key);
-                }
-                loopViewTwo.setItems(twoList);
-                if (loopViewTwo.hasItem(values[1])) {
-                    selectTwoIndex = loopViewTwo.getItemPosition(values[1]);
-                    loopViewTwo.setSelectedPosition(selectTwoIndex);
-                    curSelectedList.set(1, loopViewTwo.getIndexItem(selectTwoIndex));
-                } else {
-                    loopViewTwo.setSelectedPosition(0);
-                    curSelectedList.set(1, loopViewTwo.getIndexItem(0));
-                }
+                getTwoListData();
+                selectTwoLoop(values, curSelectedList);
 
-                array = childMap.getArray(twoList.get(selectTwoIndex));
                 threeList.clear();
-                threeList = arrayToList(array);
-                loopViewThree.setItems(threeList);
-                if (loopViewThree.hasItem(values[2])) {
-                    int selectThreeIndex = loopViewThree.getItemPosition(values[2]);
-                    loopViewThree.setSelectedPosition(selectThreeIndex);
-                    curSelectedList.set(2, loopViewThree.getIndexItem(selectThreeIndex));
-                } else {
-                    loopViewThree.setSelectedPosition(0);
-                    curSelectedList.set(2, loopViewThree.getIndexItem(0));
-                }
+                getThreeListData();
+                selectThreeLoop(values, curSelectedList);
                 break;
             case 2:
-                if (loopViewOne.hasItem(values[0])) {
-                    selectOneIndex = loopViewOne.getItemPosition(values[0]);
-                    loopViewOne.setSelectedPosition(selectOneIndex);
-                    curSelectedList.set(0, loopViewOne.getIndexItem(selectOneIndex));
-                } else {
-                    loopViewOne.setSelectedPosition(0);
-                    curSelectedList.set(0, loopViewOne.getIndexItem(0));
-                }
+                selectOneLoop(values, curSelectedList);
 
-                array = map.getArray(oneList.get(selectOneIndex));
-                twoList = arrayToList(array);
-                loopViewTwo.setItems(twoList);
-                if (loopViewTwo.hasItem(values[1])) {
-                    selectTwoIndex = loopViewTwo.getItemPosition(values[1]);
-                    loopViewTwo.setSelectedPosition(selectTwoIndex);
-                    curSelectedList.set(1, loopViewTwo.getIndexItem(selectTwoIndex));
-                } else {
-                    loopViewTwo.setSelectedPosition(0);
-                    curSelectedList.set(1, loopViewTwo.getIndexItem(0));
-                }
+                twoList.clear();
+                getAllTwoListData();
+                selectTwoLoop(values, curSelectedList);
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * 设置第一个滚轮选中的值
+     */
+    private void selectOneLoop(String[] values, final ArrayList<String> curSelectedList) {
+        if (loopViewOne.hasItem(values[0])) {
+            selectOneIndex = loopViewOne.getItemPosition(values[0]);
+            loopViewOne.setSelectedPosition(selectOneIndex);
+            curSelectedList.set(0, loopViewOne.getIndexItem(selectOneIndex));
+        } else {
+            selectOneIndex = 0;
+            loopViewOne.setSelectedPosition(0);
+            curSelectedList.set(0, loopViewOne.getIndexItem(0));
+        }
+    }
+
+    /**
+     * 设置第二个滚轮选中的值
+     */
+    private void selectTwoLoop(String[] values, final ArrayList<String> curSelectedList) {
+        loopViewTwo.setItems(twoList);
+        if (loopViewTwo.hasItem(values[1])) {
+            selectTwoIndex = loopViewTwo.getItemPosition(values[1]);
+            loopViewTwo.setSelectedPosition(selectTwoIndex);
+            curSelectedList.set(1, loopViewTwo.getIndexItem(selectTwoIndex));
+        } else {
+            selectTwoIndex = 0;
+            loopViewTwo.setSelectedPosition(0);
+            curSelectedList.set(1, loopViewTwo.getIndexItem(0));
+        }
+    }
+
+    /**
+     * 设置第三个滚轮选中的值
+     */
+    private void selectThreeLoop(String[] values, final ArrayList<String> curSelectedList) {
+        loopViewThree.setItems(threeList);
+        if (loopViewThree.hasItem(values[2])) {
+            int selectThreeIndex = loopViewThree.getItemPosition(values[2]);
+            loopViewThree.setSelectedPosition(selectThreeIndex);
+            curSelectedList.set(2, loopViewThree.getIndexItem(selectThreeIndex));
+        } else {
+            loopViewThree.setSelectedPosition(0);
+            curSelectedList.set(2, loopViewThree.getIndexItem(0));
+        }
+    }
+
+    /**
+     * 只有两个滚轮
+     * 获取第二个滚轮的值
+     */
+    private void getAllTwoListData() {
+        ReadableArray arr = data.get(selectOneIndex).getArray(oneList.get(selectOneIndex));
+        twoList = arrayToList(arr);
+    }
+
+    /**
+     * 有三个滚轮
+     * 获取第二个滚轮的值
+     */
+    private void getTwoListData() {
+        ReadableArray childArray = data.get(selectOneIndex).getArray(oneList.get(selectOneIndex));
+        for (int i = 0; i < childArray.size(); i++) {
+            ReadableMap map = childArray.getMap(i);
+            ReadableMapKeySetIterator iterator = map.keySetIterator();
+            if (iterator.hasNextKey()) {
+                twoList.add(iterator.nextKey());
+            }
+        }
+    }
+
+    /**
+     * 获取第三个滚轮的值
+     * */
+    private void getThreeListData(){
+        //{ NativeMap: {"b":[{"b1":[11,22,33,44]},{"b2":[55,66,77,88]},{"b3":[99,1010,1111,1212]}]} }
+        ReadableMap childMap = data.get(selectOneIndex).getArray(oneList.get(selectOneIndex)).getMap(selectTwoIndex);
+        String key = childMap.keySetIterator().nextKey();
+        ReadableArray sunArray = childMap.getArray(key);
+        threeList = arrayToList(sunArray);
+    }
+
 
     public void setIsLoop(boolean isLoop) {
         if (!isLoop) {
-            loopViewOne.setNotLoop();
-            loopViewTwo.setNotLoop();
-            loopViewThree.setNotLoop();
+            switch (curRow) {
+                case 2:
+                    loopViewOne.setNotLoop();
+                    loopViewTwo.setNotLoop();
+                    break;
+                case 3:
+                    loopViewOne.setNotLoop();
+                    loopViewTwo.setNotLoop();
+                    loopViewThree.setNotLoop();
+                    break;
+            }
+
         }
     }
 

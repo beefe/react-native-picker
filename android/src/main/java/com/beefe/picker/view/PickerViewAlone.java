@@ -43,7 +43,18 @@ public class PickerViewAlone extends LinearLayout {
         this.onSelectedListener = listener;
     }
 
-    public void setAloneData(ReadableArray array, final ArrayList<String> curSelectedList) {
+    public void setPickerData(ReadableArray array, final ArrayList<String> curSelectedList){
+        switch (array.getType(0).name()){
+            case "Array":
+                setMultipleData(array,curSelectedList);
+                break;
+            default:
+                setAloneData(array,curSelectedList);
+                break;
+        }
+    }
+
+    private void setAloneData(ReadableArray array, final ArrayList<String> curSelectedList) {
         ArrayList<String> values = arrayToList(array);
         final LoopView loopView = new LoopView(getContext());
         LayoutParams params = new LayoutParams(
@@ -69,8 +80,7 @@ public class PickerViewAlone extends LinearLayout {
         pickerViewAloneLayout.addView(loopView);
     }
 
-
-    public void setPickerViewDta(ReadableArray array, final ArrayList<String> curSelectedList) {
+    private void setMultipleData(ReadableArray array, final ArrayList<String> curSelectedList) {
         final String[] selectedItems = new String[array.size()];
         for (int i = 0; i < array.size(); i++) {
             switch (array.getType(i).name()) {

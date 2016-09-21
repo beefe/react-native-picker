@@ -95,7 +95,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
         Activity activity = getCurrentActivity();
         if (activity != null && options.hasKey(PICKER_DATA)) {
             view = activity.getLayoutInflater().inflate(R.layout.popup_picker_view, null);
-            
             pickerParent = (RelativeLayout) view.findViewById(R.id.pickerParent);
             barLayout = (RelativeLayout) view.findViewById(R.id.barLayout);
             cancelTV = (TextView) view.findViewById(R.id.cancel);
@@ -218,26 +217,27 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
                 }
             }
 
-            switch (options.getType(PICKER_DATA).name()) {
+            if (options.hasKey(PICKER_BG_COLOR)) {
+                ReadableArray array = options.getArray(PICKER_BG_COLOR);
+                for (int i = 0; i < array.size(); i++) {
+                    if (i == 3) {
+                        pickerColor[i] = (int) (array.getDouble(i) * 255);
+                    } else {
+                        pickerColor[i] = array.getInt(i);
+                    }
+                }
+            }
+
+            ReadableArray pickerData = options.getArray(PICKER_DATA);
+
+            String name = pickerData.getType(0).name();
+            switch (name) {
                 case "Map":
                     pickerViewLinkage.setVisibility(View.VISIBLE);
                     pickerViewAlone.setVisibility(View.GONE);
-                    ReadableMap linkageData = options.getMap(PICKER_DATA);
-                    if (linkageData != null) {
-                        pickerViewLinkage.setLinkageData(linkageData, curSelectedList);
-                    }
+                    pickerViewLinkage.setPickerData(pickerData, curSelectedList);
                     pickerViewLinkage.setIsLoop(isLoop);
-                    if (options.hasKey(PICKER_BG_COLOR)) {
-                        ReadableArray array = options.getArray(PICKER_BG_COLOR);
-                        for (int i = 0; i < array.size(); i++) {
-                            if (i == 3) {
-                                pickerColor[i] = (int) (array.getDouble(i) * 255);
-                            } else {
-                                pickerColor[i] = array.getInt(i);
-                            }
-                        }
-                        pickerViewLinkage.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
-                    }
+                    pickerViewLinkage.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
                     pickerViewLinkage.setOnSelectListener(new OnSelectedListener() {
                         @Override
                         public void onSelected(ArrayList<String> selectedList) {
@@ -247,33 +247,13 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
                     });
                     pickerViewLinkage.setSelectValue(selectValue, curSelectedList);
                     break;
-                case "Array":
+                default:
                     pickerViewAlone.setVisibility(View.VISIBLE);
                     pickerViewLinkage.setVisibility(View.GONE);
-                    ReadableArray aloneData = options.getArray(PICKER_DATA);
 
-                    if (aloneData != null) {
-                        switch (aloneData.getType(0).name()) {
-                            case "Array":
-                                pickerViewAlone.setPickerViewDta(aloneData, curSelectedList);
-                                break;
-                            default:
-                                pickerViewAlone.setAloneData(aloneData, curSelectedList);
-                                break;
-                        }
-                    }
+                    pickerViewAlone.setPickerData(pickerData, curSelectedList);
                     pickerViewAlone.setIsLoop(isLoop);
-                    if (options.hasKey(PICKER_BG_COLOR)) {
-                        ReadableArray array = options.getArray(PICKER_BG_COLOR);
-                        for (int i = 0; i < array.size(); i++) {
-                            if (i == 3) {
-                                pickerColor[i] = (int) (array.getDouble(i) * 255);
-                            } else {
-                                pickerColor[i] = array.getInt(i);
-                            }
-                        }
-                        pickerViewAlone.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
-                    }
+                    pickerViewAlone.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
 
                     pickerViewAlone.setOnSelectedListener(new OnSelectedListener() {
                         @Override
@@ -284,9 +264,9 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
                     });
 
                     pickerViewAlone.setSelectValue(selectValue, curSelectedList);
-
                     break;
             }
+
 
             if (popupWindow == null) {
                 popupWindow = new PopupWindow(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);

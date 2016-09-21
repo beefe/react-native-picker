@@ -22,12 +22,15 @@ typedef void(^backBolock)(NSDictionary * );
 
 @property (strong, nonatomic) NSDictionary *pickerDic;//一开始进来的字典
 
-@property (strong, nonatomic) NSArray *provinceArray;//省、市
-@property (strong, nonatomic) NSArray *cityArray;//市，县
+@property(strong,nonatomic)NSArray *dataDry;//一进来的就没有数组和字典的区别肯定是一个字典
+
+@property (strong, nonatomic) NSMutableArray *provinceArray;//省、市
+@property (strong, nonatomic) NSMutableArray *cityArray;//市，县
 @property (strong, nonatomic) NSArray *townArray;//县，区
 
 
-@property (strong, nonatomic) NSDictionary *selectedDic;//3级联动时候用到的
+@property(strong,nonatomic)NSArray *selectthreeAry;
+
 @property (strong,nonatomic)NSArray *selectArry;//2级联动时候用的
 
 @property (strong,nonatomic)UIButton *leftBtn;//取消
@@ -38,8 +41,6 @@ typedef void(^backBolock)(NSDictionary * );
 @property(strong,nonatomic)NSString *rightStr;
 
 
-//用来判断进来的类型
-@property(strong,nonatomic)id value;
 
 @property(assign,nonatomic)BOOL Correlation;//判断有没有没有关联
 
@@ -52,9 +53,19 @@ typedef void(^backBolock)(NSDictionary * );
 
 @property(assign,nonatomic)BOOL noArryElementBool;
 
+@property(strong,nonatomic)NSMutableArray *infoArry;
+
 //创建一个数组 接收进来的选择Value
 
 @property(strong,nonatomic)NSArray *selectValueArry;
+
+//创建一个下角标记录是第几行 来一进来判断第一行被选中 当进来的是关联两行的逻辑的时候 或者三行关联的时候取第二行做记录
+
+@property(assign,nonatomic)NSInteger num;
+
+//创建一个下角标 第三行做记录
+
+@property(assign,nonatomic)NSInteger threenum;
 
 
 

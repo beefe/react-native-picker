@@ -16,6 +16,8 @@
     if (self)
     {
         self.backArry=[[NSMutableArray alloc]init];
+        self.provinceArray=[[NSMutableArray alloc]init];
+        self.cityArray=[[NSMutableArray alloc]init];
         self.selectValueArry=selectValueArry;
         self.pickerDic=dic;
         self.leftStr=leftStr;
@@ -83,13 +85,6 @@
     [self addSubview:self.pick];
     
     self.pick.backgroundColor=[self colorWith:bottombgColor];
-    
-    if (_Correlation) {
-        
-        NSDictionary *dic=(NSDictionary *)self.value;
-        
-        self.selectedDic =[dic objectForKey:[self.provinceArray objectAtIndex:0]];
-    }
 }
 //返回显示的列数
 -(NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
@@ -194,106 +189,116 @@
             //表示一个数组 特殊情况
             return 110;
         }else{
-            NSArray *arry=(NSArray *)self.value;
             
-            return SCREEN_WIDTH/arry.count;
+            return SCREEN_WIDTH/self.dataDry.count;
         }
     }
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
+    if (!row) {
+        row=0;
+    }
     [self.backArry removeAllObjects];
-
+    [self.infoArry removeAllObjects];
+    
     if (_Correlation) {
         //这里是关联的
-         if ([_numberCorrela isEqualToString:@"three"]) {
         
-   
-        if (component == 0)
-        {
-            NSDictionary *dic=(NSDictionary *)self.value;
+        if ([_numberCorrela isEqualToString:@"three"]) {
             
-            NSInteger setline=[_pick selectedRowInComponent:0];
-            
-            if (setline) {
-                self.selectedDic =[dic objectForKey:[self.provinceArray objectAtIndex:setline]];
-            }else{
-                self.selectedDic =[dic objectForKey:[self.provinceArray objectAtIndex:row]];
-            }
-            
-            if (self.selectedDic) {
-                
-                self.cityArray = [self.selectedDic allKeys];
-            }
-            else
+            if (component == 0)
             {
-                self.cityArray = nil;
-            }
-            if (self.cityArray.count > 0)
-            {
+                [self.cityArray removeAllObjects];
                 
-                NSInteger oldrow=[self.pick selectedRowInComponent:1];
-               
-                if (oldrow) {
+                NSInteger setline=[_pick selectedRowInComponent:0];
+                
+                if (setline) {
                     
-                    self.townArray=[self.selectedDic objectForKey:[self.cityArray objectAtIndex:oldrow]];
+                    self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
                 }else{
                     
-                    row=0;
+                    setline=0;
                     
-                self.townArray=[self.selectedDic objectForKey:[self.cityArray objectAtIndex:row]];
+                    self.selectthreeAry =[[self.dataDry objectAtIndex:0] objectForKey:[self.provinceArray objectAtIndex:0]];
+                }
+                
+                if (self.selectthreeAry) {
+                    //遍历数组
+                    for (NSInteger i=0; i<self.selectthreeAry.count; i++) {
+                        NSDictionary *dic=self.selectthreeAry[i];
+                        NSArray *ary=[dic allKeys];
+                        [self.cityArray addObject:[ary firstObject]];
+                    }
+                }
+                else
+                {
+                    self.cityArray = nil;
+                }
+                if (self.cityArray.count > 0)
+                {
+                    
+                    self.townArray=[[self.selectthreeAry objectAtIndex:0]objectForKey:[self.cityArray objectAtIndex:0]];
+                    
+                }
+                else
+                {
+                    self.townArray = nil;
+                }
+                [pickerView reloadAllComponents];
+                [pickerView selectRow:0 inComponent:1 animated:YES];
+                [pickerView selectRow:0 inComponent:2 animated:YES];
+                
+            }
+            
+            if (component == 1)
+            {
+                
+                NSInteger setline=[_pick selectedRowInComponent:0];
+                
+                if (setline) {
+                    
+                    self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
+                    
+                    NSLog(@"%@",_selectthreeAry);
+                    self.townArray=[[self.selectthreeAry  objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
+                    
+                }else{
+                    
+                    setline=0;
+                    
+                    self.selectthreeAry =[[self.dataDry objectAtIndex:0] objectForKey:[self.provinceArray objectAtIndex:0]];
+                    
+                    //NSLog(@"%ld",(long)row);
+                    self.townArray=[[self.selectthreeAry objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
+                }
+                
+                [pickerView reloadAllComponents];
+                [pickerView selectRow:0 inComponent:2 animated:YES];
+                
+            }
+            
+        }else if ([_numberCorrela isEqualToString:@"two"]){
+            
+            if (component == 0)
+            {
+                [self.cityArray removeAllObjects];
+                
+                self.selectArry =[[self.dataDry objectAtIndex:row]objectForKey:[self.provinceArray objectAtIndex:row]];
+                
+                if (self.selectArry.count>0) {
+                    
+                    [self.cityArray addObjectsFromArray:self.selectArry];
+                }
+                else
+                {
+                    self.cityArray = nil;
                 }
             }
-            else
-            {
-                self.townArray = nil;
-            }
+            [pickerView reloadComponent:1];
+            [pickerView selectRow:0 inComponent:1 animated:YES];
         }
-        
-        [pickerView selectedRowInComponent:1];
-        [pickerView reloadAllComponents];
-        [pickerView selectedRowInComponent:2];
-        
-        if (component == 1)
-        {
-            
-            if (self.selectedDic && self.cityArray.count > 0)
-            {
-                
-                self.townArray=[self.selectedDic objectForKey:[self.cityArray objectAtIndex:row]];
-            }
-            else
-            {
-                self.townArray = nil;
-                
-            }
-            [pickerView selectRow:1 inComponent:2 animated:YES];
-        }
-        
-        [pickerView reloadComponent:2];
-        
-    }else if ([_numberCorrela isEqualToString:@"two"]){
-        
-        if (component == 0)
-        {
-            NSDictionary *dic=(NSDictionary *)self.value;
-            
-            self.selectArry =[dic objectForKey:[self.provinceArray objectAtIndex:row]];
-            
-            if (self.selectArry.count>0) {
-                
-                self.cityArray = self.selectArry;
-            }
-            else
-            {
-                self.cityArray = nil;
-            }
-        }
-        
-        [pickerView selectedRowInComponent:1];
-        [pickerView reloadComponent:1];
-     }
     }
     //返回选择的值就可以了
     
@@ -310,30 +315,33 @@
             [self.backArry addObject:c];
             
         }else if ([_numberCorrela isEqualToString:@"two"]){
-        
+            
             NSString *a=[self.provinceArray objectAtIndex:[self.pick selectedRowInComponent:0]];
             NSString *b=[self.cityArray objectAtIndex:[self.pick selectedRowInComponent:1]];
-            NSLog(@"%@---%@",a,b);
+            // NSLog(@"%@---%@",a,b);
             [self.backArry addObject:a];
             [self.backArry addObject:b];
         }
         
     }else
     {
+        
         if (_noArryElementBool) {
             
             [self.backArry addObject:[self.noCorreArry objectAtIndex:row]];
             
+            
         }else{
-        //无关联的，直接给三个选项就行
-        for (NSInteger i=0; i<self.noCorreArry.count; i++) {
-            
-            NSArray *eachAry=self.noCorreArry[i];
-            
-            [self.backArry addObject:[eachAry objectAtIndex:[self.pick selectedRowInComponent:i]]];
-
+            //无关联的，直接给三个选项就行
+            for (NSInteger i=0; i<self.noCorreArry.count; i++) {
+                
+                NSArray *eachAry=self.noCorreArry[i];
+                
+                
+                [self.backArry addObject:[eachAry objectAtIndex:[self.pick selectedRowInComponent:i]]];
+                
+            }
         }
-      }
     }
     
     NSMutableDictionary *dic=[[NSMutableDictionary alloc]init];
@@ -346,74 +354,105 @@
 -(void)getStyle
 {
     
-    self.value=[self.pickerDic objectForKey:@"pickerData"];
+    self.dataDry=[self.pickerDic objectForKey:@"pickerData"];
     
-    if ([self.value isKindOfClass:[NSArray class]]) {
+    id firstobject=[self.dataDry firstObject];
+    
+    if ([firstobject isKindOfClass:[NSArray class]]) {
         
         _Correlation=NO;
         
-    }else if ([self.value isKindOfClass:[NSDictionary class]]){
+    }else if ([firstobject isKindOfClass:[NSDictionary class]]){
         
+        //_Correlation为YES的话是关联的情况 为NO的话 是不关联的情况
         _Correlation=YES;
         
-        NSDictionary *dic=(NSDictionary *)self.value;
+        NSDictionary *dic=(NSDictionary *)firstobject;
         
-        NSArray *dicValue=[dic allValues];
+        NSArray * twoOrthree=[dic allKeys];
         
-        id fistObjct=[dicValue firstObject];
-    
-        if ([fistObjct isKindOfClass:[NSDictionary class]]) {
+        
+        id scendObjct=[[dic objectForKey:[twoOrthree firstObject]] firstObject];
+        
+        if ([scendObjct isKindOfClass:[NSDictionary class]]) {
             
             _numberCorrela=@"three";
             
-        }else if ([fistObjct isKindOfClass:[NSArray class]]){
+        }else{
             
             _numberCorrela=@"two";
         }
     }
-    
 }
 -(void)getnumStyle{
+    
     if (_Correlation) {
-     //这里是关联的
-      if ([_numberCorrela isEqualToString:@"three"]) {
-        //省 市
-        NSDictionary *dic=(NSDictionary *)self.value;
         
-        self.provinceArray = [dic allKeys];
-        
-        if (self.provinceArray.count > 0) {
+        //这里是关联的
+        if ([_numberCorrela isEqualToString:@"three"]) {
+            //省 市
+            for (NSInteger i=0; i<self.dataDry.count; i++) {
+                
+                NSDictionary *dic=[self.dataDry objectAtIndex:i];
+                
+                NSArray *ary=[dic allKeys];
+                
+                [self.provinceArray addObject:[ary firstObject]];
+            }
             
-            self.cityArray = [[dic objectForKey:[self.provinceArray objectAtIndex:0]] allKeys];
+            NSDictionary *dic=[self.dataDry firstObject];
+            
+            NSArray *ary=[dic objectForKey:[self.provinceArray objectAtIndex:0]];
+            
+            
+            if (self.provinceArray.count > 0) {
+                
+                for (NSInteger i=0; i<ary.count; i++) {
+                    
+                    NSDictionary *dic=[ary objectAtIndex:i];
+                    
+                    NSArray *ary=[dic allKeys];
+                    
+                    [self.cityArray addObject:[ary firstObject]];
+                    
+                }
+            }
+            
+            if (self.cityArray.count > 0) {
+                
+                NSDictionary *dic=[ary firstObject];
+                
+                self.townArray=[dic objectForKey:[self.cityArray firstObject]];
+                
+            }
+        }else if ([_numberCorrela isEqualToString:@"two"]){
+            
+            for (NSInteger i=0; i<self.dataDry.count; i++) {
+                
+                NSDictionary *dic=[self.dataDry objectAtIndex:i];
+                
+                NSArray *ary=[dic allKeys];
+                
+                [self.provinceArray addObject:[ary firstObject]];
+            }
+            [self.cityArray addObjectsFromArray:[[self.dataDry objectAtIndex:0] objectForKey:[self.provinceArray objectAtIndex:0]]];
         }
-        if (self.cityArray.count > 0) {
+    }else
+    {
+        //这里是不关联的
+        self.noCorreArry=self.dataDry;
+        
+        id noArryElement=[self.dataDry firstObject];
+        
+        if ([noArryElement isKindOfClass:[NSArray class]]) {
             
-            self.townArray = [[dic objectForKey:[self.provinceArray objectAtIndex:0]] objectForKey:[self.cityArray objectAtIndex:0]];
+            _noArryElementBool=NO;
             
+        }else{
+            //这里为yes表示里面就就一行数据 表示的是只有一行的特殊情况
+            _noArryElementBool=YES;
         }
-    }else if ([_numberCorrela isEqualToString:@"two"]){
-        
-        NSDictionary *dic=(NSDictionary *)self.value;
-        
-        self.provinceArray = [dic allKeys];
-        
-        self.cityArray=[dic objectForKey:[self.provinceArray objectAtIndex:0]];
     }
-   }else
-   {
-     //这里是不关联的
-       self.noCorreArry=(NSArray *)self.value;
-       id noArryElement=[self.noCorreArry firstObject];
-       
-       if ([noArryElement isKindOfClass:[NSArray class]]) {
-           
-           _noArryElementBool=NO;
-           
-       }else{
-       
-           _noArryElementBool=YES;
-       }
-   }
 }
 
 //按了取消按钮
@@ -475,14 +514,13 @@
 {
     if (_Correlation) {
         //关联的一开始的默认选择行数
-        
-        NSDictionary *dic=(NSDictionary *)self.value;
-        
         if ([_numberCorrela isEqualToString:@"three"]) {
-            [self selectValueThree:dic];
+            
+            [self selectValueThree];
+            
         }else if ([_numberCorrela isEqualToString:@"two"]){
             
-            [self selectValueTwo:dic];
+            [self selectValueTwo];
         }
     }else{
         //一行的时候
@@ -490,23 +528,34 @@
     }
 }
 //三行时候的选择哪个的逻辑
--(void)selectValueThree:(NSDictionary *)dic
+-(void)selectValueThree
 {
     NSString *selectStr=[NSString stringWithFormat:@"%@",self.selectValueArry.firstObject];
     
     for (NSInteger i=0; i<self.provinceArray.count; i++) {
         NSString *str=[NSString stringWithFormat:@"%@",[self.provinceArray objectAtIndex:i]];
         if ([selectStr isEqualToString:str]) {
+            _num=i;
             [_pick selectRow:i  inComponent:0 animated:NO];
             break;
         }
     }
     
-    NSArray *selecityAry = [[dic objectForKey:selectStr] allKeys];
+    NSArray *selecityAry = [[self.dataDry objectAtIndex:_num] objectForKey:selectStr];
     
     if (selecityAry.count>0) {
-        self.cityArray=selecityAry;
         
+        [self.cityArray removeAllObjects];
+        
+        for (NSInteger i=0; i<selecityAry.count; i++) {
+            
+            NSDictionary *dic=selecityAry[i];
+            
+            NSArray *ary=[dic allKeys];
+            
+            [self.cityArray addObject:[ary firstObject]];
+            
+        }
     }
     NSString *selectStrTwo;
     
@@ -517,20 +566,21 @@
         
         NSString *str=[NSString stringWithFormat:@"%@",[self.cityArray objectAtIndex:i]];
         if ([selectStrTwo isEqualToString:str]) {
+            
+            _threenum=i;
+            
             [_pick selectRow:i  inComponent:1 animated:NO];
             
             break;
         }
     }
     
-    NSDictionary *threeDic=[dic objectForKey:[self.selectValueArry firstObject]];
-    if (threeDic) {
-        
-        self.selectedDic=threeDic;
+    if (selecityAry.count>0) {
         
         if (self.selectValueArry.count>1) {
             
-            NSArray *arry =[threeDic objectForKey:[self.selectValueArry objectAtIndex:1]];
+            NSArray *arry =[[selecityAry objectAtIndex:_threenum] objectForKey:[self.selectValueArry objectAtIndex:1]];
+            
             if (arry.count>0) {
                 self.townArray=arry;
                 
@@ -552,10 +602,9 @@
         }
     }
     [_pick reloadAllComponents];
-    
 }
 //两行时候的选择哪个的逻辑
--(void)selectValueTwo:(NSDictionary *)dic
+-(void)selectValueTwo
 {
     
     NSString *selectStr=[NSString stringWithFormat:@"%@",self.selectValueArry.firstObject];
@@ -563,21 +612,30 @@
     for (NSInteger i=0; i<self.provinceArray.count; i++) {
         NSString *str=[NSString stringWithFormat:@"%@",[self.provinceArray objectAtIndex:i]];
         if ([selectStr isEqualToString:str]) {
+            
             [_pick selectRow:i  inComponent:0 animated:NO];
+            _num=i;
             break;
         }
     }
-    if ([dic objectForKey:selectStr]) {
-        self.cityArray =[dic objectForKey:selectStr];
+    NSArray *twoArry=[[self.dataDry objectAtIndex:_num]objectForKey:selectStr];
+    
+    if (twoArry&&twoArry.count>0) {
+        
+        [self.cityArray removeAllObjects];
+        [self.cityArray addObjectsFromArray:twoArry];
     }
+    
     NSString *selectTwoStr;
     if (self.selectValueArry.count>1) {
+        
         selectTwoStr =[NSString stringWithFormat:@"%@",[self.selectValueArry objectAtIndex:1]];
     }
     
     for (NSInteger i=0; i<self.cityArray.count; i++) {
         
         NSString *str=[NSString stringWithFormat:@"%@",[self.cityArray objectAtIndex:i]];
+        
         if ([selectTwoStr isEqualToString:str]) {
             
             [_pick selectRow:i inComponent:1 animated:NO];
@@ -585,6 +643,7 @@
             break;
         }
     }
+    
     [_pick reloadAllComponents];
 }
 //一行时候的选择哪个的逻辑
@@ -689,7 +748,7 @@
             }
             
         }else{
-            //无关联的，直接给三个选项就行
+            //无关联的，直接给几个选项就行
             for (NSInteger i=0; i<self.noCorreArry.count; i++) {
                 
                 NSArray *eachAry=self.noCorreArry[i];
