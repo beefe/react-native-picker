@@ -30,6 +30,7 @@
 
 |Name | Description | Type | Default|
 | --- | ----------- | ---- | ------ |
+|init         |init and pass parameters to picker      |   |   |
 |toggle       |show or hide picker                     |   |   |
 |show         |show picker                             |   |   |
 |hide         |hide picker                             |   |   |
