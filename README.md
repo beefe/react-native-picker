@@ -11,7 +11,7 @@
 ####Params
 
 |Key | Description | Type | Default|
-| -- | ----------- | ---- | ------ |
+| --- | ----------- | ---- | ------ |
 |pickerConfirmBtnText  |  |string  |确认                |
 |pickerCancelBtnText   |  |string  |取消                |
 |pickerTitleText       |  |string  |请选择              |
