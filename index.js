@@ -67,8 +67,9 @@ export default {
     },
 
     isPickerShow(fn){
-        Picker.isPickerShow(hide => {
-            fn(!hide);
+        //android return show or not, ios return hide or not...
+        Picker.isPickerShow(status => {
+            fn(android ? status : !status);
         });
     }
 };

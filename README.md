@@ -6,9 +6,6 @@ A Native Picker with high performance.
 
 pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)
 
-
-![ui](./doc/ui.gif)
-
 ![ui2](./doc/ui2.jpg)
 
 ###Documentation

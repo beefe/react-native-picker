@@ -110,6 +110,16 @@ export default class PickerTest extends Component {
         });
     }
 
+    _toggle() {
+        Picker.toggle();
+    }
+
+    _isPickerShow(){
+        Picker.isPickerShow(status => {
+            alert(status);
+        });
+    }
+
     render() {
         return (
             <View style={{height: Dimensions.get('window').height}}>
@@ -118,6 +128,12 @@ export default class PickerTest extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._showAreaPicker.bind(this)}>
                     <Text>AreaPicker</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._toggle.bind(this)}>
+                    <Text>toggle</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._isPickerShow.bind(this)}>
+                    <Text>isPickerShow</Text>
                 </TouchableOpacity>
             </View>
         );
