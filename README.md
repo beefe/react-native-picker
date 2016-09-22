@@ -8,26 +8,33 @@
 
 ###Documentation
 
-####Props
-- <b>pickerConfirmBtnText</b>(string), 确认按钮文字
-- <b>pickerCancelBtnText</b>(string), 取消按钮文字
-- <b>pickerTitleText</b>(string), 标题文字
-- <b>pickerConfirmBtnColor</b>([1, 186, 245, 1]),  确认按钮字体颜色
-- <b>pickerCancelBtnColor</b>([1, 186, 245, 1]),  取消按钮字体颜色
-- <b>pickerTitleColor</b>([20, 20, 20, 1]),  标题字体颜色
-- <b>pickerToolBarBg</b>([232, 232, 232, 1]),  工具栏背景颜色
-- <b>pickerBg</b>([196, 199, 206, 1]),  picker背景颜色
-- <b>pickerData</b>(array), picker数据
-- <b>selectedValue</b>(string)，默认选中数据
-- <b>onPickerConfirm</b>(function)，确认按钮回调
-- <b>onPickerCancel</b>(function)，取消按钮回调
-- <b>onPickerSelect</b>(function)，滚轮滚动时回调
+####Params
+
+|Key | Description | Type | Default|
+| -- | ----------- | ---- | ------ |
+|pickerConfirmBtnText  |  |string  |确认                |
+|pickerCancelBtnText   |  |string  |取消                |
+|pickerTitleText       |  |string  |请选择              |
+|pickerConfirmBtnColor |  |array   |[1, 186, 245, 1]   |
+|pickerCancelBtnColor  |  |array   |[1, 186, 245, 1]   |
+|pickerTitleColor      |  |array   |[20, 20, 20, 1])   |
+|pickerToolBarBg       |  |array   |[232, 232, 232, 1] |
+|pickerBg              |  |array   |[196, 199, 206, 1] |
+|pickerData            |  |array   |                   |
+|selectedValue         |  |string  |                   |
+|onPickerConfirm       |  |function|                   |
+|onPickerCancel        |  |function|                   |
+|onPickerSelect        |  |function|                   |
 
 ####Methods
-- <b>toggle</b> show or hide picker, default to be hiden
-- <b>show</b> show picker
-- <b>hide</b> hide picker
-- <b>isPickerShow</b> get status of picker, return a boolean
+
+|Name | Description | Type | Default|
+| --- | ----------- | ---- | ------ |
+|toggle       |show or hide picker                     |   |   |
+|show         |show picker                             |   |   |
+|hide         |hide picker                             |   |   |
+|isPickerShow |get status of picker, return a boolean  |   |   |
+
 
 ###Usage
 
