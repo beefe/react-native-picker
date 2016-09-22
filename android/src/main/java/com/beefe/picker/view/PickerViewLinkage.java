@@ -446,6 +446,10 @@ public class PickerViewLinkage extends LinearLayout {
         }
     }
 
+    public int getViewHeight (){
+        return loopViewOne.getViewHeight();
+    }
+
     public void setOnSelectListener(OnSelectedListener listener) {
         this.onSelectedListener = listener;
     }

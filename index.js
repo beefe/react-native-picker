@@ -67,9 +67,17 @@ export default {
     },
 
     isPickerShow(fn){
-        //android return show or not, ios return hide or not...
-        Picker.isPickerShow(status => {
-            fn(android ? status : !status);
+        //android return two params: err(error massage) and status(show or not)
+        //ios return only one param: hide or not...
+        Picker.isPickerShow((err, status) => {
+            let returnValue = null;
+            if(android){
+                returnValue = err ? false : status;
+            }
+            else if(ios){
+                returnValue = !err;
+            }
+            fn(returnValue);
         });
     }
 };

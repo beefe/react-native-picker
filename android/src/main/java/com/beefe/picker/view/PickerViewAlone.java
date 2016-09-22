@@ -169,6 +169,16 @@ public class PickerViewAlone extends LinearLayout {
         }
     }
 
+    public int getViewHeight(){
+        int viewHeight = 0;
+        View view = pickerViewAloneLayout.getChildAt(0);
+        if (view instanceof LoopView) {
+            LoopView loopView = (LoopView) view;
+            viewHeight = loopView.getViewHeight();
+        }
+        return viewHeight;
+    }
+
     private ArrayList<String> arrayToList(ReadableArray array) {
         ArrayList<String> values = new ArrayList<>();
         for (int i = 0; i < array.size(); i++) {

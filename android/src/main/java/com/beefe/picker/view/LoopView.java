@@ -32,7 +32,6 @@ public class LoopView extends View {
     private GestureDetector gestureDetector;
     OnItemSelectedListener onItemSelectedListener;
 
-    // Timer mTimer;
     private ScheduledExecutorService mExecutor = Executors.newSingleThreadScheduledExecutor();
     private ScheduledFuture<?> mFuture;
 
@@ -222,6 +221,10 @@ public class LoopView extends View {
 
     public int getItemPosition(String item) {
         return items.indexOf(item);
+    }
+
+    public int getViewHeight(){
+       return measuredHeight;
     }
 
     public final void setSelectedPosition(int initPosition) {

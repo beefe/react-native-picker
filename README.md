@@ -1,29 +1,27 @@
 # react-native-picker
 
-[![npm version](https://img.shields.io/npm/v/react-native-picker.svg?style=flat-square)](https://www.npmjs.com/package/react-native-picker) <a href="https://david-dm.org/beefe/react-native-picker"><img src="https://david-dm.org/beefe/react-native-picker.svg?style=flat-square" alt="dependency status"></a>  
+[![npm version](https://img.shields.io/npm/v/react-native-picker.svg?style=flat-square)](https://www.npmjs.com/package/react-native-picker) <a href="https://david-dm.org/beefe/react-native-picker"><img src="https://david-dm.org/beefe/react-native-picker.svg?style=flat-square" alt="dependency status"></a>   
 
-A Native Picker with high performance.
-
-pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)
+### For pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)
 
 ![ui2](./doc/ui2.jpg)
 
 ###Documentation
 
 ####Props
-- <b>pickerConfirmBtnText</b> string, 确认按钮文字
-- <b>pickerCancelBtnText</b> string, 取消按钮文字
-- <b>pickerTitleText</b> string, 标题文字
-- <b>pickerConfirmBtnColor</b> [1, 186, 245, 1],  确认按钮字体颜色
-- <b>pickerCancelBtnColor</b> [1, 186, 245, 1],  取消按钮字体颜色
-- <b>pickerTitleColor</b> [20, 20, 20, 1],  标题字体颜色
-- <b>pickerToolBarBg</b> [232, 232, 232, 1],  工具栏背景颜色
-- <b>pickerBg</b> [196, 199, 206, 1],  picker背景颜色
-- <b>pickerData</b> 数组或对象，picker数据
-- <b>selectedValue</b> string，默认选中数据
-- <b>onPickerConfirm</b> function，确认按钮回调
-- <b>onPickerCancel</b> function，取消按钮回调
-- <b>onPickerSelect</b> function，滚轮滚动时回调
+- <b>pickerConfirmBtnText</b>(string), 确认按钮文字
+- <b>pickerCancelBtnText</b>(string), 取消按钮文字
+- <b>pickerTitleText</b>(string), 标题文字
+- <b>pickerConfirmBtnColor</b>([1, 186, 245, 1]),  确认按钮字体颜色
+- <b>pickerCancelBtnColor</b>([1, 186, 245, 1]),  取消按钮字体颜色
+- <b>pickerTitleColor</b>([20, 20, 20, 1]),  标题字体颜色
+- <b>pickerToolBarBg</b>([232, 232, 232, 1]),  工具栏背景颜色
+- <b>pickerBg</b>([196, 199, 206, 1]),  picker背景颜色
+- <b>pickerData</b>(array), picker数据
+- <b>selectedValue</b>(string)，默认选中数据
+- <b>onPickerConfirm</b>(function)，确认按钮回调
+- <b>onPickerCancel</b>(function)，取消按钮回调
+- <b>onPickerSelect</b>(function)，滚轮滚动时回调
 
 ####Methods
 - <b>toggle</b> show or hide picker, default to be hiden

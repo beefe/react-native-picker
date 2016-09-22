@@ -30,7 +30,13 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.util.ArrayList;
 
 /**
+ * Author: heng <a href="https://github.com/shexiaoheng"/>
+ *
  * Created by heng on 16/9/5.
+ *
+ * Edited by heng on 16/9/22.
+ *  1. PopupWindow height : full screen -> assignation
+ *  2. Added pickerToolBarHeight support
  */
 
 public class PickerViewModule extends ReactContextBaseJavaModule {
@@ -42,6 +48,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
     private static final String IS_LOOP = "isLoop";
     private static final String PICKER_BG_COLOR = "pickerBg";
     private static final String TEXT_BAR_COLOR = "pickerToolBarBg";
+    private static final String TEXT_BAR_HEIGHT = "pickerToolBarHeight";
     private static final String CONFIRM_TEXT = "pickerConfirmBtnText";
     private static final String CONFIRM_TEXT_COLOR = "pickerConfirmBtnColor";
     private static final String CANCEL_TEXT = "pickerCancelBtnText";
@@ -73,13 +80,15 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
 
     private ArrayList<String> curSelectedList = new ArrayList<>();
 
-    private RelativeLayout pickerParent;
     private RelativeLayout barLayout;
     private TextView cancelTV;
     private TextView titleTV;
     private TextView confirmTV;
     private PickerViewLinkage pickerViewLinkage;
     private PickerViewAlone pickerViewAlone;
+
+    private int pickerViewHeight;
+    private int barViewHeight;
 
     public PickerViewModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -95,7 +104,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
         Activity activity = getCurrentActivity();
         if (activity != null && options.hasKey(PICKER_DATA)) {
             view = activity.getLayoutInflater().inflate(R.layout.popup_picker_view, null);
-            pickerParent = (RelativeLayout) view.findViewById(R.id.pickerParent);
             barLayout = (RelativeLayout) view.findViewById(R.id.barLayout);
             cancelTV = (TextView) view.findViewById(R.id.cancel);
             titleTV = (TextView) view.findViewById(R.id.title);
@@ -103,13 +111,19 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
             pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
             pickerViewAlone = (PickerViewAlone) view.findViewById(R.id.pickerViewAlone);
 
-            pickerParent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    commonEvent(EVENT_KEY_CANCEL);
-                    hide();
+            if (options.hasKey(TEXT_BAR_HEIGHT)) {
+                try {
+                    barViewHeight = options.getInt(TEXT_BAR_HEIGHT);
+                } catch (Exception e) {
+                    barViewHeight = (int) options.getDouble(TEXT_BAR_HEIGHT);
                 }
-            });
+            } else {
+                barViewHeight = (int) (activity.getResources().getDisplayMetrics().density * 40);
+            }
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    barViewHeight);
+            barLayout.setLayoutParams(params);
 
             if (options.hasKey(TEXT_BAR_COLOR)) {
                 ReadableArray array = options.getArray(TEXT_BAR_COLOR);
@@ -237,7 +251,9 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
                     pickerViewAlone.setVisibility(View.GONE);
                     pickerViewLinkage.setPickerData(pickerData, curSelectedList);
                     pickerViewLinkage.setIsLoop(isLoop);
-                    pickerViewLinkage.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
+                    if (options.hasKey(PICKER_BG_COLOR)) {
+                        pickerViewLinkage.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
+                    }
                     pickerViewLinkage.setOnSelectListener(new OnSelectedListener() {
                         @Override
                         public void onSelected(ArrayList<String> selectedList) {
@@ -246,6 +262,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
                         }
                     });
                     pickerViewLinkage.setSelectValue(selectValue, curSelectedList);
+                    pickerViewHeight = pickerViewLinkage.getViewHeight();
                     break;
                 default:
                     pickerViewAlone.setVisibility(View.VISIBLE);
@@ -253,7 +270,9 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
 
                     pickerViewAlone.setPickerData(pickerData, curSelectedList);
                     pickerViewAlone.setIsLoop(isLoop);
-                    pickerViewAlone.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
+                    if (options.hasKey(PICKER_BG_COLOR)) {
+                        pickerViewAlone.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
+                    }
 
                     pickerViewAlone.setOnSelectedListener(new OnSelectedListener() {
                         @Override
@@ -264,16 +283,16 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
                     });
 
                     pickerViewAlone.setSelectValue(selectValue, curSelectedList);
+                    pickerViewHeight = pickerViewAlone.getViewHeight();
                     break;
             }
 
 
             if (popupWindow == null) {
-                popupWindow = new PopupWindow(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                int height = barViewHeight + pickerViewHeight;
+                popupWindow = new PopupWindow(WindowManager.LayoutParams.MATCH_PARENT, height);
                 popupWindow.setBackgroundDrawable(new ColorDrawable());
-                popupWindow.setFocusable(true);
                 popupWindow.setAnimationStyle(R.style.PopAnim);
-                popupWindow.setOutsideTouchable(true);
             }
             popupWindow.setContentView(view);
             popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
