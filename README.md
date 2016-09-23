@@ -21,7 +21,7 @@
 |pickerToolBarBg       |  |array   |[232, 232, 232, 1] |
 |pickerBg              |  |array   |[196, 199, 206, 1] |
 |pickerData            |  |array   |                   |
-|selectedValue         |  |string  |                   |
+|selectedValue         |  |array   |                   |
 |onPickerConfirm       |  |function|                   |
 |onPickerCancel        |  |function|                   |
 |onPickerSelect        |  |function|                   |
