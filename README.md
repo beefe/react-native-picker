@@ -92,7 +92,7 @@
 
 ```javascript
 	pickerData = [1,2,3,4];
-	selectedValue = 3;
+	selectedValue = [3];
 ```
 
 - two or more wheel:
