@@ -14,6 +14,9 @@ import java.util.Arrays;
 
 /**
  * Created by heng on 16/9/6.
+ *
+ * Edited by heng on 16/10/09:
+ * 修复滚动后返回值错误的bug
  */
 
 public class PickerViewAlone extends LinearLayout {
@@ -21,8 +24,6 @@ public class PickerViewAlone extends LinearLayout {
     private LinearLayout pickerViewAloneLayout;
 
     private OnSelectedListener onSelectedListener;
-
-    private int position;
 
     public PickerViewAlone(Context context) {
         super(context);
@@ -43,13 +44,13 @@ public class PickerViewAlone extends LinearLayout {
         this.onSelectedListener = listener;
     }
 
-    public void setPickerData(ReadableArray array, final ArrayList<String> curSelectedList){
-        switch (array.getType(0).name()){
+    public void setPickerData(ReadableArray array, final ArrayList<String> curSelectedList) {
+        switch (array.getType(0).name()) {
             case "Array":
-                setMultipleData(array,curSelectedList);
+                setMultipleData(array, curSelectedList);
                 break;
             default:
-                setAloneData(array,curSelectedList);
+                setAloneData(array, curSelectedList);
                 break;
         }
     }
@@ -105,17 +106,14 @@ public class PickerViewAlone extends LinearLayout {
                         @Override
                         public void onItemSelected(String item, int index) {
                             int viewCount = pickerViewAloneLayout.getChildCount();
-                            for (int j = 0; j < viewCount; j++) {
-                                View view = pickerViewAloneLayout.getChildAt(j);
+                            for (int k = 0; k < viewCount; k++) {
+                                View view = pickerViewAloneLayout.getChildAt(k);
                                 if (view instanceof LoopView) {
                                     LoopView loop = (LoopView) view;
-                                    if (loop.getTag() == loopView.getTag()) {
-                                        position = j;
-                                        break;
-                                    }
+                                    selectedItems[k] = loop.getSelectedItem();
                                 }
                             }
-                            selectedItems[position] = item;
+
                             if (onSelectedListener != null) {
                                 for (int i = 0; i < selectedItems.length; i++) {
                                     curSelectedList.set(i, selectedItems[i]);
@@ -169,7 +167,7 @@ public class PickerViewAlone extends LinearLayout {
         }
     }
 
-    public int getViewHeight(){
+    public int getViewHeight() {
         int viewHeight = 0;
         View view = pickerViewAloneLayout.getChildAt(0);
         if (view instanceof LoopView) {
