@@ -536,6 +536,8 @@
         NSString *str=[NSString stringWithFormat:@"%@",[self.provinceArray objectAtIndex:i]];
         if ([selectStr isEqualToString:str]) {
             _num=i;
+            [_pick reloadAllComponents];
+
             [_pick selectRow:i  inComponent:0 animated:NO];
             break;
         }
@@ -569,6 +571,8 @@
             
             _threenum=i;
             
+            [_pick reloadAllComponents];
+
             [_pick selectRow:i  inComponent:1 animated:NO];
             
             break;
@@ -597,11 +601,12 @@
         
         NSString *str=[NSString stringWithFormat:@"%@",[self.townArray objectAtIndex:i]];
         if ([selectStrThree isEqualToString:str]) {
+            [_pick reloadAllComponents];
+
             [_pick selectRow:i  inComponent:2 animated:NO];
             break;
         }
     }
-    [_pick reloadAllComponents];
 }
 //两行时候的选择哪个的逻辑
 -(void)selectValueTwo
@@ -613,6 +618,7 @@
         NSString *str=[NSString stringWithFormat:@"%@",[self.provinceArray objectAtIndex:i]];
         if ([selectStr isEqualToString:str]) {
             
+            [_pick reloadAllComponents];
             [_pick selectRow:i  inComponent:0 animated:NO];
             _num=i;
             break;
@@ -638,13 +644,12 @@
         
         if ([selectTwoStr isEqualToString:str]) {
             
+            [_pick reloadAllComponents];
             [_pick selectRow:i inComponent:1 animated:NO];
             
             break;
         }
     }
-    
-    [_pick reloadAllComponents];
 }
 //一行时候的选择哪个的逻辑
 -(void)selectValueOne
@@ -659,6 +664,7 @@
         for (NSInteger i=0; i<self.noCorreArry.count; i++) {
             NSString *str=[NSString stringWithFormat:@"%@",[self.noCorreArry objectAtIndex:i]];
             if ([selectStr isEqualToString:str]) {
+                [_pick reloadAllComponents];
                 [_pick selectRow:i  inComponent:0 animated:NO];
                 break;
             }
@@ -681,7 +687,7 @@
                         NSString *str=[NSString stringWithFormat:@"%@",[arry objectAtIndex:j]];
                         
                         if ([selectStr isEqualToString:str]) {
-                            
+                            [_pick reloadAllComponents];
                             [_pick selectRow:j inComponent:i animated:YES];
                             
                             break;
@@ -700,7 +706,7 @@
                         NSString *str=[NSString stringWithFormat:@"%@",[arry objectAtIndex:j]];
                         
                         if ([selectStr isEqualToString:str]) {
-                            
+                            [_pick reloadAllComponents];
                             [_pick selectRow:j inComponent:i animated:YES];
                             
                             break;

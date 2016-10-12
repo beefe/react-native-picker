@@ -95,7 +95,7 @@ export default class PickerTest extends Component {
         createAreaData(data => {
             Picker.init({
                 pickerData: data,
-                selectedValue: ['北京', '北京', '朝阳区'],
+                selectedValue: ['河北', '唐山', '古冶区'],
                 onPickerConfirm: pickedValue => {
                     console.log('area', pickedValue);
                 },
