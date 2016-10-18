@@ -41,7 +41,7 @@
     
     
     self.leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.leftBtn.frame = CGRectMake(10, 5, 50, 30);
+    self.leftBtn.frame = CGRectMake(10, 5, 90, 30);
     [self.leftBtn setTitle:self.leftStr forState:UIControlStateNormal];
     [self.leftBtn setFont:[UIFont systemFontOfSize:16]];
     self.leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -55,7 +55,7 @@
     
 
     self.rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.rightBtn.frame = CGRectMake(view.frame.size.width-60,5, 50, 30);
+     self.rightBtn.frame = CGRectMake(view.frame.size.width-100,5, 90, 30);
     [self.rightBtn setTitle:self.rightStr forState:UIControlStateNormal];
     self.rightBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
     
@@ -67,7 +67,9 @@
     [self.rightBtn addTarget:self action:@selector(cfirmAction) forControlEvents:UIControlEventTouchUpInside];
     
     
-    UILabel *cenLabel=[[UILabel alloc]initWithFrame:CGRectMake(view.frame.size.width/2-25, 5, 50, 30)];
+    UILabel *cenLabel=[[UILabel alloc]initWithFrame:CGRectMake(90, 5, SCREEN_WIDTH-180, 30)];
+    
+    cenLabel.textAlignment=NSTextAlignmentCenter;
     
     [cenLabel setFont:[UIFont systemFontOfSize:16]];
     
@@ -183,11 +185,16 @@
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
     
     if (_Correlation) {
-        return 110;
+        if ([_numberCorrela isEqualToString:@"three"]) {
+            
+            return SCREEN_WIDTH/3;
+        }else{
+            return SCREEN_WIDTH/2;
+        }
     }else{
         if (_noArryElementBool) {
             //表示一个数组 特殊情况
-            return 110;
+            return SCREEN_WIDTH;
         }else{
             
             return SCREEN_WIDTH/self.dataDry.count;
