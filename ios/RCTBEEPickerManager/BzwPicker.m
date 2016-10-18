@@ -184,6 +184,28 @@
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
     
+    NSArray *pickerWidth = [self.pickerDic objectForKey:@"pickerWidth"];
+    
+    if (pickerWidth != nil && pickerWidth.count > 0) {
+        CGFloat totalFixedWidth = 0;
+        int totalAutoWidthNumber = 0;
+        for (id widthValue in pickerWidth) {
+            if ([widthValue isKindOfClass:[NSNumber class]]) {
+                totalFixedWidth += ((NSNumber *) widthValue).doubleValue;
+            } else {
+                totalAutoWidthNumber++;
+            }
+        }
+        
+        if (component < pickerWidth.count && [pickerWidth isKindOfClass:[NSNumber class]]) {
+            return ((NSNumber *)[pickerWidth objectAtIndex:component]).doubleValue;
+        } else if (SCREEN_WIDTH - totalFixedWidth > 0) {
+            return (SCREEN_WIDTH - totalFixedWidth)/totalAutoWidthNumber;
+        } else {
+            return 0;
+        }
+    }
+    
     if (_Correlation) {
         if ([_numberCorrela isEqualToString:@"three"]) {
             

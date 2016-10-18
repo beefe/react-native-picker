@@ -60,12 +60,14 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     NSArray *pickerToolBarBg=indic[@"pickerToolBarBg"];
     NSArray *pickerBg=indic[@"pickerBg"];
     NSArray *selectArry=indic[@"selectedValue"];
+    NSArray *pickerWidth=indic[@"pickerWidth"];
     
     id pickerData=indic[@"pickerData"];
     
     NSMutableDictionary *dataDic=[[NSMutableDictionary alloc]init];
     
     dataDic[@"pickerData"]=pickerData;
+    dataDic[@"pickerWidth"]=pickerWidth;
     
     [result.view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
