@@ -183,7 +183,6 @@
     
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    
     NSArray *pickerWidth = [self.pickerDic objectForKey:@"pickerWidth"];
     
     if (pickerWidth != nil && pickerWidth.count > 0) {
@@ -197,7 +196,7 @@
             }
         }
         
-        if (component < pickerWidth.count && [pickerWidth isKindOfClass:[NSNumber class]]) {
+        if (component < pickerWidth.count && [pickerWidth[component] isKindOfClass:[NSNumber class]]) {
             return ((NSNumber *)[pickerWidth objectAtIndex:component]).doubleValue;
         } else if (SCREEN_WIDTH - totalFixedWidth > 0) {
             return (SCREEN_WIDTH - totalFixedWidth)/totalAutoWidthNumber;
