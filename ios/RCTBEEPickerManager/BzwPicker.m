@@ -183,12 +183,12 @@
     
 }
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component {
-    NSArray *pickerWidth = [self.pickerDic objectForKey:@"pickerWidth"];
+    NSArray *wheelWidth = [self.pickerDic objectForKey:@"wheelWidth"];
     
-    if (pickerWidth != nil && pickerWidth.count > 0) {
+    if (wheelWidth != nil && wheelWidth.count > 0) {
         CGFloat totalFixedWidth = 0;
         int totalAutoWidthNumber = 0;
-        for (id widthValue in pickerWidth) {
+        for (id widthValue in wheelWidth) {
             if ([widthValue isKindOfClass:[NSNumber class]]) {
                 totalFixedWidth += ((NSNumber *) widthValue).doubleValue;
             } else {
@@ -196,8 +196,8 @@
             }
         }
         
-        if (component < pickerWidth.count && [pickerWidth[component] isKindOfClass:[NSNumber class]]) {
-            return ((NSNumber *)[pickerWidth objectAtIndex:component]).doubleValue;
+        if (component < wheelWidth.count && [wheelWidth[component] isKindOfClass:[NSNumber class]]) {
+            return ((NSNumber *)[wheelWidth objectAtIndex:component]).doubleValue;
         } else if (SCREEN_WIDTH - totalFixedWidth > 0) {
             return (SCREEN_WIDTH - totalFixedWidth)/totalAutoWidthNumber;
         } else {
