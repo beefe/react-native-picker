@@ -44,10 +44,10 @@ public class PickerViewAlone extends LinearLayout {
         this.onSelectedListener = listener;
     }
 
-    public void setPickerData(ReadableArray array, final ArrayList<String> curSelectedList) {
+    public void setPickerData(ReadableArray array, int[] wheelFlex, final ArrayList<String> curSelectedList) {
         switch (array.getType(0).name()) {
             case "Array":
-                setMultipleData(array, curSelectedList);
+                setMultipleData(array, wheelFlex, curSelectedList);
                 break;
             default:
                 setAloneData(array, curSelectedList);
@@ -81,7 +81,7 @@ public class PickerViewAlone extends LinearLayout {
         pickerViewAloneLayout.addView(loopView);
     }
 
-    private void setMultipleData(ReadableArray array, final ArrayList<String> curSelectedList) {
+    private void setMultipleData(ReadableArray array, int[] wheelFlex, final ArrayList<String> curSelectedList) {
         final String[] selectedItems = new String[array.size()];
         for (int i = 0; i < array.size(); i++) {
             switch (array.getType(i).name()) {
@@ -90,8 +90,7 @@ public class PickerViewAlone extends LinearLayout {
                     ArrayList<String> values = arrayToList(childArray);
                     final LoopView loopView = new LoopView(getContext());
                     LayoutParams params = new LayoutParams(
-                            LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                    params.weight = 1.0f;
+                            0, LayoutParams.MATCH_PARENT, wheelFlex[i]);
                     loopView.setLayoutParams(params);
                     loopView.setItems(values);
                     loopView.setTag(i);
