@@ -21,6 +21,8 @@
 |pickerToolBarBg       |  |array   |[232, 232, 232, 1] |
 |pickerBg              |  |array   |[196, 199, 206, 1] |
 |pickerData            |  |array   |                   |
+|wheelWidth            |  |array   |                   |
+|wheelFlex             |  |array   |                   |
 |selectedValue         |  |array   |                   |
 |onPickerConfirm       |  |function|                   |
 |onPickerCancel        |  |function|                   |
@@ -86,6 +88,7 @@
 
 <b>2. cascade:</b> such as date picker, address picker .etc, when front wheel changed, the behind wheels will all be reset
 
+<b>3. customize width:</b> wheels width can be customized both on the `Android` and `iOS` platform.
 ####parallel:
 
 - single wheel:
@@ -169,3 +172,35 @@
         ...
     ]
 ```
+
+####customize width:
+
+- `iOS`
+
+Wheels will rendered by a specific number or regarded as auto case(equal division) in other types. If the length of `wheelWidth` array is less than the pickerData's, the unspecific width will be regarded as auto case *(i.e. as much wide as possible)*.
+
+```javascript
+	pickerData = [['12月31日 周五'], ['上午'], ['5'], ['00']],
+	wheelWidth = ['auto', 10, 10, 10]
+```
+
+#####rendering
+
+![wheelWidth](./doc/wheelWidth.png)
+
+
+
+- `Android`
+
+On `Android` platform, variable devices has so many different screen resolution that we can not give a specific point number to all of them. So wheels will rendered with width weight which is something like `flex` in `react-native`. All you need to do is giving a proportion to each wheel of `pickerData`. If the length of `wheelFlex` array is less than the pickerData's, the unspecific wheel will be regarded as `0` weight *(i.e. will not display)*.
+
+```javascript
+	pickerData = [['12月31日 周五'], ['上午'], ['5'], ['00']],
+	wheelFlex = [3, 1, 1, 1]
+```
+
+#####rendering
+
+![wheelFlex](./doc/wheelFlex.png)
+
+
