@@ -20,6 +20,7 @@
 |pickerTitleColor      |  |array   |[20, 20, 20, 1])   |
 |pickerToolBarBg       |  |array   |[232, 232, 232, 1] |
 |pickerBg              |  |array   |[196, 199, 206, 1] |
+|wheelFlex             |  |array   |[2, 1, 1]          |
 |pickerData            |  |array   |                   |
 |selectedValue         |  |array   |                   |
 |onPickerConfirm       |  |function|                   |

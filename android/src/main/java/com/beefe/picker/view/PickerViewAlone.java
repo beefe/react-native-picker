@@ -14,7 +14,7 @@ import java.util.Arrays;
 
 /**
  * Created by heng on 16/9/6.
- *
+ * <p>
  * Edited by heng on 16/10/09:
  * 修复滚动后返回值错误的bug
  */
@@ -24,6 +24,8 @@ public class PickerViewAlone extends LinearLayout {
     private LinearLayout pickerViewAloneLayout;
 
     private OnSelectedListener onSelectedListener;
+
+    private ArrayList<String> curSelectedList;
 
     public PickerViewAlone(Context context) {
         super(context);
@@ -44,15 +46,20 @@ public class PickerViewAlone extends LinearLayout {
         this.onSelectedListener = listener;
     }
 
-    public void setPickerData(ReadableArray array, final ArrayList<String> curSelectedList) {
+    public void setPickerData(ReadableArray array,  double[] weights) {
+        curSelectedList = new ArrayList<>();
         switch (array.getType(0).name()) {
             case "Array":
-                setMultipleData(array, curSelectedList);
+                setMultipleData(array, curSelectedList, weights);
                 break;
             default:
                 setAloneData(array, curSelectedList);
                 break;
         }
+    }
+
+    public ArrayList<String> getSelectedData(){
+        return this.curSelectedList;
     }
 
     private void setAloneData(ReadableArray array, final ArrayList<String> curSelectedList) {
@@ -81,7 +88,7 @@ public class PickerViewAlone extends LinearLayout {
         pickerViewAloneLayout.addView(loopView);
     }
 
-    private void setMultipleData(ReadableArray array, final ArrayList<String> curSelectedList) {
+    private void setMultipleData(ReadableArray array, final ArrayList<String> curSelectedList, double[] weights) {
         final String[] selectedItems = new String[array.size()];
         for (int i = 0; i < array.size(); i++) {
             switch (array.getType(i).name()) {
@@ -89,9 +96,16 @@ public class PickerViewAlone extends LinearLayout {
                     ReadableArray childArray = array.getArray(i);
                     ArrayList<String> values = arrayToList(childArray);
                     final LoopView loopView = new LoopView(getContext());
-                    LayoutParams params = new LayoutParams(
-                            LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                    params.weight = 1.0f;
+                    LayoutParams params = new LayoutParams(0, LayoutParams.MATCH_PARENT);
+                    if (weights != null) {
+                        if (i < weights.length) {
+                            params.weight = (float) weights[i];
+                        } else {
+                            params.weight = 1.0f;
+                        }
+                    } else {
+                        params.weight = 1.0f;
+                    }
                     loopView.setLayoutParams(params);
                     loopView.setItems(values);
                     loopView.setTag(i);
@@ -130,7 +144,7 @@ public class PickerViewAlone extends LinearLayout {
         }
     }
 
-    public void setSelectValue(String[] selectValue, final ArrayList<String> curSelectedList) {
+    public void setSelectValue(String[] selectValue) {
         int viewCount = pickerViewAloneLayout.getChildCount();
         int valueCount = selectValue.length;
         if (valueCount <= viewCount) {

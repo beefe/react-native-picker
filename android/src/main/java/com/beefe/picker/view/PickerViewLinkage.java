@@ -77,6 +77,8 @@ public class PickerViewLinkage extends LinearLayout {
     private int selectOneIndex;
     private int selectTwoIndex;
 
+    private ArrayList<String> curSelectedList;
+
     private void checkItems(LoopView loopView, ArrayList<String> list) {
         if (list != null && list.size() > 0) {
             loopView.setItems(list);
@@ -84,11 +86,57 @@ public class PickerViewLinkage extends LinearLayout {
         }
     }
 
+    private void setWeights(double[] weights) {
+        LayoutParams paramsOne = new LayoutParams(0, LayoutParams.MATCH_PARENT);
+        LayoutParams paramsTwo = new LayoutParams(0, LayoutParams.MATCH_PARENT);
+        LayoutParams paramsThree = new LayoutParams(0, LayoutParams.MATCH_PARENT);
+
+        switch (curRow) {
+            case 2:
+                switch (weights.length) {
+                    case 1:
+                        paramsOne.weight = (float) weights[0];
+                        paramsTwo.weight = 1.0f;
+                        break;
+                    default:
+                        paramsOne.weight = (float) weights[0];
+                        paramsTwo.weight = (float) weights[1];
+                        break;
+                }
+                loopViewOne.setLayoutParams(paramsOne);
+                loopViewTwo.setLayoutParams(paramsTwo);
+                break;
+            case 3:
+                switch (weights.length) {
+                    case 1:
+                        paramsOne.weight = (float) weights[0];
+                        paramsTwo.weight = 1.0f;
+                        paramsThree.weight = 1.0f;
+                        break;
+                    case 2:
+                        paramsOne.weight = (float) weights[0];
+                        paramsTwo.weight = (float) weights[1];
+                        paramsThree.weight = 1.0f;
+                        break;
+                    default:
+                        paramsOne.weight = (float) weights[0];
+                        paramsTwo.weight = (float) weights[1];
+                        paramsThree.weight = (float) weights[2];
+                        break;
+                }
+                loopViewOne.setLayoutParams(paramsOne);
+                loopViewTwo.setLayoutParams(paramsTwo);
+                loopViewThree.setLayoutParams(paramsThree);
+                break;
+        }
+    }
+
     /**
-     *  ReadableArray getMap will remove the item.
-     *  <a href="https://github.com/facebook/react-native/issues/8557"></a>
-     * */
-    public void setPickerData(ReadableArray array, final ArrayList<String> curSelectedList) {
+     * ReadableArray getMap will remove the item.
+     * <a href="https://github.com/facebook/react-native/issues/8557"></a>
+     */
+    public void setPickerData(ReadableArray array, double[] weights) {
+        curSelectedList = new ArrayList<>();
         oneList.clear();
         for (int i = 0; i < array.size(); i++) {
             ReadableMap map = array.getMap(i);
@@ -235,6 +283,9 @@ public class PickerViewLinkage extends LinearLayout {
                 }
             });
         }
+        if (weights != null) {
+            setWeights(weights);
+        }
     }
 
     private ArrayList<String> arrayToList(ReadableArray array) {
@@ -265,7 +316,7 @@ public class PickerViewLinkage extends LinearLayout {
         }
     }
 
-    public void setSelectValue(String[] selectValue, final ArrayList<String> curSelectedList) {
+    public void setSelectValue(String[] selectValue) {
         if (curRow <= selectValue.length) {
             String[] values = Arrays.copyOf(selectValue, curRow);
             selectValues(values, curSelectedList);
@@ -275,7 +326,6 @@ public class PickerViewLinkage extends LinearLayout {
                     selectOneLoop(selectValue, curSelectedList);
                     switch (curRow) {
                         case 3:
-
                             twoList.clear();
                             getTwoListData();
                             loopViewTwo.setItems(twoList);
@@ -305,7 +355,7 @@ public class PickerViewLinkage extends LinearLayout {
 
                             twoList.clear();
                             getTwoListData();
-                            selectTwoLoop(selectValue,curSelectedList);
+                            selectTwoLoop(selectValue, curSelectedList);
 
 
                             threeList.clear();
@@ -419,9 +469,8 @@ public class PickerViewLinkage extends LinearLayout {
 
     /**
      * 获取第三个滚轮的值
-     * */
-    private void getThreeListData(){
-        //{ NativeMap: {"b":[{"b1":[11,22,33,44]},{"b2":[55,66,77,88]},{"b3":[99,1010,1111,1212]}]} }
+     */
+    private void getThreeListData() {
         ReadableMap childMap = data.get(selectOneIndex).getArray(oneList.get(selectOneIndex)).getMap(selectTwoIndex);
         String key = childMap.keySetIterator().nextKey();
         ReadableArray sunArray = childMap.getArray(key);
@@ -446,8 +495,12 @@ public class PickerViewLinkage extends LinearLayout {
         }
     }
 
-    public int getViewHeight (){
+    public int getViewHeight() {
         return loopViewOne.getViewHeight();
+    }
+
+    public ArrayList<String> getSelectedData(){
+        return this.curSelectedList;
     }
 
     public void setOnSelectListener(OnSelectedListener listener) {

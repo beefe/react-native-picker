@@ -59,6 +59,8 @@ typedef void(^backBolock)(NSDictionary * );
 
 @property(strong,nonatomic)NSArray *selectValueArry;
 
+@property(strong,nonatomic)NSArray *weightArry;
+
 //创建一个下角标记录是第几行 来一进来判断第一行被选中 当进来的是关联两行的逻辑的时候 或者三行关联的时候取第二行做记录
 
 @property(assign,nonatomic)NSInteger num;
@@ -69,7 +71,7 @@ typedef void(^backBolock)(NSDictionary * );
 
 
 
--(instancetype)initWithFrame:(CGRect)frame dic:(NSDictionary *)dic leftStr:(NSString *)leftStr centerStr:(NSString *)centerStr rightStr:(NSString *)rightStr topbgColor:(NSArray *)topbgColor bottombgColor:(NSArray *)bottombgColor leftbtnbgColor:(NSArray *)leftbtnbgColor rightbtnbgColor:(NSArray *)rightbtnbgColor centerbtnColor:(NSArray *)centerbtnColor selectValueArry:(NSArray *)selectValueArry;
+-(instancetype)initWithFrame:(CGRect)frame dic:(NSDictionary *)dic leftStr:(NSString *)leftStr centerStr:(NSString *)centerStr rightStr:(NSString *)rightStr topbgColor:(NSArray *)topbgColor bottombgColor:(NSArray *)bottombgColor leftbtnbgColor:(NSArray *)leftbtnbgColor rightbtnbgColor:(NSArray *)rightbtnbgColor centerbtnColor:(NSArray *)centerbtnColor selectValueArry:(NSArray *)selectValueArry  weightArry:(NSArray *)weightArry;
 
 
 @end

@@ -60,6 +60,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     NSArray *pickerToolBarBg=indic[@"pickerToolBarBg"];
     NSArray *pickerBg=indic[@"pickerBg"];
     NSArray *selectArry=indic[@"selectedValue"];
+    NSArray *weightArry=indic[@"wheelFlex"];
     
     id pickerData=indic[@"pickerData"];
     
@@ -78,7 +79,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
         
     }];
     
-    self.pick=[[BzwPicker alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 250) dic:dataDic leftStr:pickerCancelBtnText centerStr:pickerTitleText rightStr:pickerConfirmBtnText topbgColor:pickerToolBarBg bottombgColor:pickerBg leftbtnbgColor:pickerCancelBtnColor rightbtnbgColor:pickerConfirmBtnColor centerbtnColor:pickerTitleColor selectValueArry:selectArry];
+    self.pick=[[BzwPicker alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 250) dic:dataDic leftStr:pickerCancelBtnText centerStr:pickerTitleText rightStr:pickerConfirmBtnText topbgColor:pickerToolBarBg bottombgColor:pickerBg leftbtnbgColor:pickerCancelBtnColor rightbtnbgColor:pickerConfirmBtnColor centerbtnColor:pickerTitleColor selectValueArry:selectArry weightArry:weightArry];
     
     _pick.bolock=^(NSDictionary *backinfoArry){
         

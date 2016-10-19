@@ -10,7 +10,7 @@
 
 @implementation BzwPicker
 
--(instancetype)initWithFrame:(CGRect)frame dic:(NSDictionary *)dic leftStr:(NSString *)leftStr centerStr:(NSString *)centerStr rightStr:(NSString *)rightStr topbgColor:(NSArray *)topbgColor bottombgColor:(NSArray *)bottombgColor leftbtnbgColor:(NSArray *)leftbtnbgColor rightbtnbgColor:(NSArray *)rightbtnbgColor centerbtnColor:(NSArray *)centerbtnColor selectValueArry:(NSArray *)selectValueArry
+-(instancetype)initWithFrame:(CGRect)frame dic:(NSDictionary *)dic leftStr:(NSString *)leftStr centerStr:(NSString *)centerStr rightStr:(NSString *)rightStr topbgColor:(NSArray *)topbgColor bottombgColor:(NSArray *)bottombgColor leftbtnbgColor:(NSArray *)leftbtnbgColor rightbtnbgColor:(NSArray *)rightbtnbgColor centerbtnColor:(NSArray *)centerbtnColor selectValueArry:(NSArray *)selectValueArry  weightArry:(NSArray *)weightArry
 {
     self = [super initWithFrame:frame];
     if (self)
@@ -19,6 +19,7 @@
         self.provinceArray=[[NSMutableArray alloc]init];
         self.cityArray=[[NSMutableArray alloc]init];
         self.selectValueArry=selectValueArry;
+        self.weightArry=weightArry;
         self.pickerDic=dic;
         self.leftStr=leftStr;
         self.rightStr=rightStr;
@@ -186,18 +187,115 @@
     
     if (_Correlation) {
         if ([_numberCorrela isEqualToString:@"three"]) {
-            
-            return SCREEN_WIDTH/3;
+            if (self.weightArry.count>=3) {
+                NSString *onestr=[NSString stringWithFormat:@"%@",[self.weightArry firstObject]];
+                NSString *twostr=[NSString stringWithFormat:@"%@",self.weightArry[1]];
+                NSString *threestr=[NSString stringWithFormat:@"%@",self.weightArry[2]];
+                double totalweight=onestr.doubleValue+twostr.doubleValue+threestr.doubleValue;
+                if (component==0) {
+                    return SCREEN_WIDTH*onestr.doubleValue/totalweight;
+                }else if (component==1){
+                    return SCREEN_WIDTH*twostr.doubleValue/totalweight;
+                }else{
+                    return SCREEN_WIDTH*threestr.doubleValue/totalweight;
+                }
+            }else{
+                if (self.weightArry.count>0) {
+                    NSInteger totalNum=self.weightArry.count;
+                    
+                    double totalweight=0;
+                    
+                    for (NSInteger i=0; i<self.weightArry.count; i++) {
+                        NSString *str=[NSString stringWithFormat:@"%@",[self.weightArry objectAtIndex:i]];
+                        totalweight=totalweight+str.doubleValue;
+                    }
+                    if (component>totalNum-1) {
+                        NSString *str=[NSString stringWithFormat:@"%f",totalweight+3-totalNum];
+                        return SCREEN_WIDTH/str.doubleValue;;
+                        
+                    }else{
+                        
+                        NSString *str=[NSString stringWithFormat:@"%f",totalweight+3-totalNum];
+                        
+                        return  SCREEN_WIDTH*[NSString stringWithFormat:@"%@",[self.weightArry objectAtIndex:component]].doubleValue/str.doubleValue;
+                        
+                    }
+                }else{
+                    return SCREEN_WIDTH/3;
+                }
+            }
         }else{
-            return SCREEN_WIDTH/2;
+            if (self.weightArry.count>=2) {
+                NSString *onestr=[NSString stringWithFormat:@"%@",[self.weightArry firstObject]];
+                NSString *twostr=[NSString stringWithFormat:@"%@",self.weightArry[1]];
+                
+                double totalweight=onestr.doubleValue+twostr.doubleValue;
+                if (component==0) {
+                    return SCREEN_WIDTH*onestr.doubleValue/totalweight;
+                }else{
+                    return SCREEN_WIDTH*twostr.doubleValue/totalweight;
+                }
+            }else{
+                if (self.weightArry.count>0) {
+                    double twonum=[NSString stringWithFormat:@"%@",[self.weightArry firstObject]].doubleValue;
+                    if (component==0) {
+                        
+                        NSString *str=[NSString stringWithFormat:@"%f",twonum+1];
+                        return SCREEN_WIDTH*twonum/str.doubleValue;
+                        
+                    }else{
+                        NSString *str=[NSString stringWithFormat:@"%f",twonum+1];
+                        return SCREEN_WIDTH/str.doubleValue;
+                        
+                    }
+                }else
+                {
+                    return SCREEN_WIDTH/2;
+                }
+            }
         }
     }else{
         if (_noArryElementBool) {
             //表示一个数组 特殊情况
             return SCREEN_WIDTH;
         }else{
-            
-            return SCREEN_WIDTH/self.dataDry.count;
+            if (self.weightArry.count>=self.dataDry.count) {
+                
+                double totalweight=0;
+                
+                for (NSInteger i=0; i<self.dataDry.count; i++) {
+                    NSString *str=[NSString stringWithFormat:@"%@",[self.weightArry objectAtIndex:i]];
+                    totalweight=totalweight+str.doubleValue;
+                }
+                NSString *comStr=[NSString stringWithFormat:@"%@",[self.weightArry objectAtIndex:component]];
+                
+                return SCREEN_WIDTH*comStr.doubleValue/totalweight;
+            }else
+            {
+                if (self.weightArry.count>0) {
+                    
+                    NSInteger totalNum=self.weightArry.count;
+                    
+                    double totalweight=0;
+                    
+                    for (NSInteger i=0; i<self.weightArry.count; i++) {
+                        NSString *str=[NSString stringWithFormat:@"%@",[self.weightArry objectAtIndex:i]];
+                        totalweight=totalweight+str.doubleValue;
+                    }
+                    if (component>totalNum-1) {
+                        
+                        NSString *str=[NSString stringWithFormat:@"%f",totalweight+self.dataDry.count-totalNum];
+                        return SCREEN_WIDTH/str.doubleValue;
+                        
+                    }else{
+                        
+                        NSString *str=[NSString stringWithFormat:@"%f",totalweight+self.dataDry.count-totalNum];
+                        return SCREEN_WIDTH*[NSString stringWithFormat:@"%@",[self.weightArry objectAtIndex:component]].doubleValue/str.doubleValue;
+                    }
+                }else{
+                    return SCREEN_WIDTH/self.dataDry.count;
+                }
+            }
         }
     }
 }
