@@ -10,22 +10,22 @@
 
 ####Params
 
-|Key | Description | Type | Default|
-| --- | ----------- | ---- | ------ |
-|pickerConfirmBtnText  |  |string  |确认                |
-|pickerCancelBtnText   |  |string  |取消                |
-|pickerTitleText       |  |string  |请选择              |
-|pickerConfirmBtnColor |  |array   |[1, 186, 245, 1]   |
-|pickerCancelBtnColor  |  |array   |[1, 186, 245, 1]   |
-|pickerTitleColor      |  |array   |[20, 20, 20, 1])   |
-|pickerToolBarBg       |  |array   |[232, 232, 232, 1] |
-|pickerBg              |  |array   |[196, 199, 206, 1] |
-|wheelFlex             |  |array   |[2, 1, 1]          |
-|pickerData            |  |array   |                   |
-|selectedValue         |  |array   |                   |
-|onPickerConfirm       |  |function|                   |
-|onPickerCancel        |  |function|                   |
-|onPickerSelect        |  |function|                   |
+|Key | Type | Default| Description |
+| --- | ---- | ------ | ----------- |
+|pickerConfirmBtnText   |string  |确认                |               |
+|pickerCancelBtnText    |string  |取消                |               |
+|pickerTitleText        |string  |请选择              |               |
+|pickerConfirmBtnColor  |array   |[1, 186, 245, 1]   |               |
+|pickerCancelBtnColor   |array   |[1, 186, 245, 1]   |               |
+|pickerTitleColor       |array   |[20, 20, 20, 1])   |               |
+|pickerToolBarBg        |array   |[232, 232, 232, 1] |               |
+|pickerBg               |array   |[196, 199, 206, 1] |               |
+|wheelFlex              |array   |[2, 1, 1]          |set width of the three wheels to 2:1:1     |
+|pickerData             |array   |                   |               |
+|selectedValue          |array   |                   |               |
+|onPickerConfirm        |function|                   |               |
+|onPickerCancel         |function|                   |               |
+|onPickerSelect         |function|                   |               |
 
 ####Methods
 
