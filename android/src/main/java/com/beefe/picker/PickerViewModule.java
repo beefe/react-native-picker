@@ -44,6 +44,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
     private static final String REACT_CLASS = "BEEPickerManager";
 
     private static final String PICKER_DATA = "pickerData";
+    private static final String WHEEL_FLEX = "wheelFlex";
     private static final String SELECTED_VALUE = "selectedValue";
     private static final String IS_LOOP = "isLoop";
     private static final String PICKER_BG_COLOR = "pickerBg";
@@ -243,6 +244,21 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
             }
 
             ReadableArray pickerData = options.getArray(PICKER_DATA);
+            int[] wheelFlex = new int[pickerData.size()];
+            if (!options.hasKey(WHEEL_FLEX)) {
+                for (int index = 0; index < wheelFlex.length; index++) {
+                    wheelFlex[index] = 1;
+                }
+            } else {
+                ReadableArray wheelFlexInOptions = options.getArray(WHEEL_FLEX);
+                for (int index = 0; index < wheelFlex.length; index++) {
+                    if (index < wheelFlexInOptions.size()) {
+                        wheelFlex[index] = wheelFlexInOptions.getInt(index);
+                        continue;
+                    }
+                    wheelFlex[index] = 0;
+                }
+            }
 
             String name = pickerData.getType(0).name();
             switch (name) {
@@ -268,7 +284,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule {
                     pickerViewAlone.setVisibility(View.VISIBLE);
                     pickerViewLinkage.setVisibility(View.GONE);
 
-                    pickerViewAlone.setPickerData(pickerData, curSelectedList);
+                    pickerViewAlone.setPickerData(pickerData, wheelFlex, curSelectedList);
                     pickerViewAlone.setIsLoop(isLoop);
                     if (options.hasKey(PICKER_BG_COLOR)) {
                         pickerViewAlone.setBackgroundColor(Color.argb(pickerColor[3], pickerColor[0], pickerColor[1], pickerColor[2]));
