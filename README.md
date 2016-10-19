@@ -177,7 +177,7 @@
 
 - `iOS`
 
-Wheels will rendered by a specific number or regarded as auto case(equal division) in other types. If the length of `wheelWidth` array is less than the pickerData's, the unspecific width will be regarded as auto case *(i.e. as much wide as possible)*.
+Wheels will be rendered by a specific number or regarded as `auto` case(equal division) in other types. If the length of `wheelWidth` array is less than the pickerData's, the unspecific width will be regarded as auto case *(i.e. as much wide as possible)*.
 
 ```javascript
 	pickerData = [['12月31日 周五'], ['上午'], ['5'], ['00']],
@@ -192,7 +192,7 @@ Wheels will rendered by a specific number or regarded as auto case(equal divisio
 
 - `Android`
 
-On `Android` platform, variable devices has so many different screen resolution that we can not give a specific point number to all of them. So wheels will rendered with width weight which is something like `flex` in `react-native`. All you need to do is giving a proportion to each wheel of `pickerData`. If the length of `wheelFlex` array is less than the pickerData's, the unspecific wheel will be regarded as `0` weight *(i.e. will not display)*.
+On `Android` platform, variable devices have so many different screen resolution that we can not give a specific point number to all of them. So wheels will be rendered with width weight which is something like `flex` in `react-native`. All you need to do is giving a proportion to each wheel of `pickerData`. If the length of `wheelFlex` array is less than the pickerData's, the unspecific wheel will be regarded as `0` weight *(i.e. will not display)*.
 
 ```javascript
 	pickerData = [['12月31日 周五'], ['上午'], ['5'], ['00']],
