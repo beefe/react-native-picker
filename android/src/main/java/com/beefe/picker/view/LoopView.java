@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -17,6 +18,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Edited by shexiaoheng on 2016/10/20
+ * 1. Added method getY
+ * 2. Changed line color 0xffc5c5c5 -> 0xffb8bbc2
+ */
 public class LoopView extends View {
 
     private float scaleX = 1.05F;
@@ -106,7 +112,8 @@ public class LoopView extends View {
         textSize = 0;
         colorGray = 0xffafafaf;
         colorBlack = 0xff313131;
-        colorLightGray = 0xffc5c5c5;
+        colorLightGray = 0xffb8bbc2;
+        // colorLightGray = 0xffc5c5c5;
 
         totalScrollY = 0;
         initPosition = -1;
@@ -338,32 +345,32 @@ public class LoopView extends View {
                     // 条目经过第一条线
                     canvas.save();
                     canvas.clipRect(0, 0, getWidth(), firstLineY - translateY);
-                    canvas.drawText(text, getX(text, paintOuterText), maxTextHeight, paintOuterText);
+                    canvas.drawText(text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, firstLineY - translateY, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintCenterText), maxTextHeight, paintCenterText);
+                    canvas.drawText(text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
                     // 条目经过第二条线
                     canvas.save();
                     canvas.clipRect(0, 0, getWidth(), secondLineY - translateY);
-                    canvas.drawText(text, getX(text, paintCenterText), maxTextHeight, paintCenterText);
+                    canvas.drawText(text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, secondLineY - translateY, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintOuterText), maxTextHeight, paintOuterText);
+                    canvas.drawText(text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
                     // 中间条目
                     canvas.clipRect(0, 0, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintCenterText), maxTextHeight, paintCenterText);
+                    canvas.drawText(text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
                     selectedItem = text;
                     selectedIndex = items.indexOf(text);
                 } else {
                     // 其他条目
                     canvas.clipRect(0, 0, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintOuterText), maxTextHeight, paintOuterText);
+                    canvas.drawText(text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
                 }
                 canvas.restore();
             }
@@ -374,6 +381,18 @@ public class LoopView extends View {
     private float getX(String text, Paint paint) {
         paint.getTextBounds(text, 0, text.length(), tempRect);
         return (getWidth() - tempRect.width() * scaleX) / 2;
+    }
+
+    /**
+     * Added by shexiaoheng
+     * 让字体垂直方向居中
+     * */
+    private float getY(Paint paint) {
+        Rect rect = new Rect(0, 0, getWidth(), maxTextHeight);
+        RectF bounds = new RectF(rect);
+        bounds.bottom = paint.descent() - paint.ascent();
+        bounds.top += (rect.height() - bounds.bottom) / 2.0f;
+        return bounds.top - paint.ascent();
     }
 
 
