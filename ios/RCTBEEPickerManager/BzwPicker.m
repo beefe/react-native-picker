@@ -133,7 +133,7 @@
      }
     }
     
-    NSLog(@"%@",[self.noCorreArry objectAtIndex:component]);
+    //NSLog(@"%@",[self.noCorreArry objectAtIndex:component]);
     
     if (self.noCorreArry.count==1) {
         
@@ -366,7 +366,7 @@
                     
                     self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
                     
-                    NSLog(@"%@",_selectthreeAry);
+                    //NSLog(@"%@",_selectthreeAry);
                     self.townArray=[[self.selectthreeAry  objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
                     
                 }else{
@@ -402,7 +402,12 @@
                 }
             }
             [pickerView reloadComponent:1];
-            [pickerView selectRow:0 inComponent:1 animated:YES];
+            if (component==1) {
+                [pickerView selectRow:row inComponent:1 animated:YES];
+                
+            }else{
+                [pickerView selectRow:0 inComponent:1 animated:YES];
+            }
         }
     }
     //返回选择的值就可以了
@@ -642,7 +647,7 @@
         if ([selectStr isEqualToString:str]) {
             _num=i;
             [_pick reloadAllComponents];
-
+            
             [_pick selectRow:i  inComponent:0 animated:NO];
             break;
         }
@@ -661,12 +666,13 @@
             NSArray *ary=[dic allKeys];
             
             [self.cityArray addObject:[ary firstObject]];
-            
         }
     }
+    
     NSString *selectStrTwo;
     
     if (self.selectValueArry.count>1) {
+        
         selectStrTwo=[NSString stringWithFormat:@"%@",self.selectValueArry[1]];
     }
     for (NSInteger i=0; i<self.cityArray.count; i++) {
@@ -677,7 +683,7 @@
             _threenum=i;
             
             [_pick reloadAllComponents];
-
+            
             [_pick selectRow:i  inComponent:1 animated:NO];
             
             break;
@@ -690,28 +696,38 @@
             
             NSArray *arry =[[selecityAry objectAtIndex:_threenum] objectForKey:[self.selectValueArry objectAtIndex:1]];
             
-            if (arry.count>0) {
-                self.townArray=arry;
-                
-            }
+            self.townArray=arry;
+            
         }
     }
     
     NSString *selectStrThree;
     
+    
     if (self.selectValueArry.count>2) {
         selectStrThree=[NSString stringWithFormat:@"%@",self.selectValueArry[2]];
     }
-    for (NSInteger i=0; i<self.townArray.count; i++) {
+    
+    if (self.townArray.count>0) {
         
-        NSString *str=[NSString stringWithFormat:@"%@",[self.townArray objectAtIndex:i]];
-        if ([selectStrThree isEqualToString:str]) {
-            [_pick reloadAllComponents];
-
-            [_pick selectRow:i  inComponent:2 animated:NO];
-            break;
+        for (NSInteger i=0; i<self.townArray.count; i++) {
+            
+            NSString *str=[NSString stringWithFormat:@"%@",[self.townArray objectAtIndex:i]];
+            if ([selectStrThree isEqualToString:str]) {
+                
+                [_pick reloadAllComponents];
+                
+                [_pick selectRow:i  inComponent:2 animated:NO];
+                
+                break;
+            }
         }
+    }else
+    {
+        NSArray *threekey=[[selecityAry objectAtIndex:0]allKeys];
+        self.townArray=[[selecityAry objectAtIndex:0]objectForKey:[threekey firstObject]];
     }
+    [_pick reloadAllComponents];
 }
 //两行时候的选择哪个的逻辑
 -(void)selectValueTwo
@@ -840,7 +856,7 @@
             
             NSString *a=[self.provinceArray objectAtIndex:[self.pick selectedRowInComponent:0]];
             NSString *b=[self.cityArray objectAtIndex:[self.pick selectedRowInComponent:1]];
-            NSLog(@"%@---%@",a,b);
+            //NSLog(@"%@---%@",a,b);
             [self.backArry addObject:a];
             [self.backArry addObject:b];
         }
