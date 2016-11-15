@@ -22,6 +22,10 @@ function createDateData(){
                 for(let k=1;k<29;k++){
                     day.push(k+'日');
                 }
+                //Leap day for years that are divisible by 4, such as 2000, 2004
+                if(i%4 === 0){
+                    day.push(29+'日');
+                }
             }
             else if(j in {1:1, 3:1, 5:1, 7:1, 8:1, 10:1, 12:1}){
                 for(let k=1;k<32;k++){
