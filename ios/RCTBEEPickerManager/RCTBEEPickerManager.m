@@ -14,6 +14,7 @@
 
 @property(nonatomic,strong)BzwPicker *pick;
 @property(nonatomic,assign)float height;
+@property(nonatomic,strong) UIWindow * window;
 
 @end
 
@@ -25,32 +26,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     
-    UIViewController *result = nil;
-    
-    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal)
-    {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows)
-        {
-            if (tmpWin.windowLevel == UIWindowLevelNormal)
-            {
-                window = tmpWin;
-                break;
-            }
-        }
-    }
-    
-    UIView *frontView = [[window subviews] objectAtIndex:0];
-    id nextResponder = [frontView nextResponder];
-    
-    if ([nextResponder isKindOfClass:[UIViewController class]])
-        
-        result = nextResponder;
-    
-    else
-        
-        result = window.rootViewController;
+   self.window = [[UIApplication sharedApplication].windows lastObject];
     
     NSString *pickerConfirmBtnText=indic[@"pickerConfirmBtnText"];
     NSString *pickerCancelBtnText=indic[@"pickerCancelBtnText"];
@@ -69,7 +45,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     
     dataDic[@"pickerData"]=pickerData;
     
-    [result.view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.window.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         if ([obj isKindOfClass:[BzwPicker class]]) {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -98,7 +74,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        [result.view addSubview:_pick];
+         [self.window addSubview:_pick];
         
         [UIView animateWithDuration:.3 animations:^{
             
