@@ -94,16 +94,16 @@ export default class PickerTest extends React.Component {
     Picker.show();
   }
 
-  showAreaPicker() {
+  showAreaPicker = () => {
     initPicker(createAreaData(), ['2016', 'August', '4']);
     Picker.show();
   }
 
-  toggle() {
+  toggle = () => {
     Picker.toggle();
   }
 
-  isPickerShow(){
+  isPickerShow = () => {
     Picker.isPickerShow((status) => {
       alert(status);
     });
