@@ -16,9 +16,9 @@ class ReactNativePicker {
   init(options) {
     const fullOptions = {
       isLoop: false,
-      pickerConfirmBtnText: '确认',
-      pickerCancelBtnText: '取消',
-      pickerTitleText: '请选择',
+      pickerConfirmBtnText: 'Confirm',
+      pickerCancelBtnText: 'Cancel',
+      pickerTitleText: '',
       pickerBg: [196, 199, 206, 1],
       pickerToolBarBg: [232, 232, 232, 1],
       pickerTitleColor: [20, 20, 20, 1],
@@ -40,14 +40,14 @@ class ReactNativePicker {
 
     this.listener && this.listener.remove();
     this.listener = NativeAppEventEmitter.addListener('pickerEvent', (events) => {
-        if (isIos) {
-          pickerFunctions[events['type']](events['selectedValue']);
+      if (isIos) {
+        pickerFunctions[events['type']](events['selectedValue']);
+      }
+      else if (isAndroid) {
+        for (let key in events) {
+          typeof pickerFunctions[key] === 'function' && pickerFunctions[key](events[key]);
         }
-        else if (android) {
-          for (let key in events) {
-            typeof pickerFunctions[key] === 'function' && pickerFunctions[key](events[key]);
-          }
-        }
+      }
     });
   }
 
