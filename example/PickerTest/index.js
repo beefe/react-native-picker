@@ -1,145 +1,130 @@
 /**
  * Bootstrap of PickerTest
  */
-
-import React, {Component} from 'react';
+import React from 'react';
 import {
-    View,
-    Text,
-    TouchableOpacity,
-    Dimensions
+  View,
+  Text,
+  TouchableOpacity,
+  Dimensions,
+  AppRegistry,
 } from 'react-native';
-
 import Picker from 'react-native-picker';
 
-function createDateData(){
-    let date = [];
-    for(let i=1950;i<2050;i++){
-        let month = [];
-        for(let j = 1;j<13;j++){
-            let day = [];
-            if(j === 2){
-                for(let k=1;k<29;k++){
-                    day.push(k+'日');
-                }
-                //Leap day for years that are divisible by 4, such as 2000, 2004
-                if(i%4 === 0){
-                    day.push(29+'日');
-                }
-            }
-            else if(j in {1:1, 3:1, 5:1, 7:1, 8:1, 10:1, 12:1}){
-                for(let k=1;k<32;k++){
-                    day.push(k+'日');
-                }
-            }
-            else{
-                for(let k=1;k<31;k++){
-                    day.push(k+'日');
-                }
-            }
-            let _month = {};
-            _month[j+'月'] = day;
-            month.push(_month);
-        }
-        let _date = {};
-        _date[i+'年'] = month;
-        date.push(_date);
-    }
-    return date;
+import area from './area.json';
+
+const monthNames = [
+  'January', 'February', 'March',
+  'April', 'May', 'June',
+  'July', 'August', 'September',
+  'October', 'November', 'December',
+];
+
+const createDaysData = (year, month) => {
+  const monthLength = new Date(year, month + 1, 0).getDate();
+  const days = [...Array(monthLength)].map((_, i) => i + 1);
+
+  return days;
 };
 
-function createAreaData(callback){
-    fetch('https://raw.githubusercontent.com/beefe/react-native-picker/master/example/PickerTest/area.json').then(res => {
-        res.json().then(area => {
-            let data = [];
-            let len = area.length;
-            for(let i=0;i<len;i++){
-                let city = [];
-                for(let j=0,cityLen=area[i]['city'].length;j<cityLen;j++){
-                    let _city = {};
-                    _city[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
-                    city.push(_city);
-                }
+const createDateData = () => {
+  const yearsData = [];
+  for (let year = 2000; year <= 2030; year += 1) {
+    const monthsData = [];
+    for (let month = 0; month < 12; month += 1) {
+      const monthObject = {};
+      monthObject[monthNames[month]] = createDaysData(year, month);
 
-                let _data = {};
-                _data[area[i]['name']] = city;
-                data.push(_data);
-            }
-            callback(data);
-        });
-    }, err => {
-        console.log(err);
+      monthsData[monthsData.length] = monthObject;
+    }
+
+    const yearObject = {};
+    yearObject[year] = monthsData;
+
+    yearsData[yearsData.length] = yearObject;
+  }
+
+  return yearsData;
+};
+
+const createAreaData = () => {
+  const data = [];
+
+  for (let i = 0; i < area.length; i += 1) {
+    const city = [];
+    for (let j = 0; j < area[i]['city'].length; j += 1) {
+      const cityObject = {};
+      cityObject[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
+
+      city[city.length] = cityObject;
+    }
+    const dataObject = {};
+    dataObject[area[i]['name']] = city;
+
+    data[data.length] = dataObject;
+  }
+
+  return data;
+};
+
+const initPicker = (pickerData, selectedValue) => {
+  Picker.init({
+    pickerData,
+    selectedValue,
+    onPickerConfirm: (value) => {
+        console.log('confirmed', value);
+    },
+    onPickerCancel: (value) => {
+        console.log('cancelled', value);
+    },
+    onPickerSelect: (value) => {
+        console.log('selected', value);
+    },
+  });
+}
+
+export default class PickerTest extends React.Component {
+
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  showDatePicker = () => {
+    initPicker(createDateData(), ['2016', 'August', '4']);
+    Picker.show();
+  }
+
+  showAreaPicker = () => {
+    initPicker(createAreaData(), ['2016', 'August', '4']);
+    Picker.show();
+  }
+
+  toggle = () => {
+    Picker.toggle();
+  }
+
+  isPickerShow = () => {
+    Picker.isPickerShow((status) => {
+      alert(status);
     });
+  }
+
+  render() {
+    return (
+      <View>
+        <Button label="Date Picker" onPress={this.showDatePicker} />
+        <Button label="Area Picker" onPress={this.showAreaPicker} />
+        <Button label="Toggle" onPress={this.toggle} />
+        <Button label="isPickerShow" onPress={this.isPickerShow} />
+      </View>
+    );
+  }
 };
 
-export default class PickerTest extends Component {
+const Button = ({ onPress, label }) => (
+  <TouchableOpacity style={{ marginTop: 10, marginLeft: 20 }} onPress={onPress}>
+    <Text>{label}</Text>
+  </TouchableOpacity>
+);
 
-    constructor(props, context) {
-        super(props, context);
-    }
-
-    _showDatePicker() {
-        Picker.init({
-            pickerData: createDateData(),
-            selectedValue: ['2015年', '12月', '12日'],
-            onPickerConfirm: pickedValue => {
-                console.log('date', pickedValue);
-            },
-            onPickerCancel: pickedValue => {
-                console.log('date', pickedValue);
-            },
-            onPickerSelect: pickedValue => {
-                console.log('date', pickedValue);
-            }
-        });
-        Picker.show();
-    }
-
-    _showAreaPicker() {
-        createAreaData(data => {
-            Picker.init({
-                pickerData: data,
-                selectedValue: ['河北', '唐山', '古冶区'],
-                onPickerConfirm: pickedValue => {
-                    console.log('area', pickedValue);
-                },
-                onPickerCancel: pickedValue => {
-                    console.log('area', pickedValue);
-                },
-                onPickerSelect: pickedValue => {
-                    console.log('area', pickedValue);
-                }
-            });
-            Picker.show();
-        });
-    }
-
-    _toggle() {
-        Picker.toggle();
-    }
-
-    _isPickerShow(){
-        Picker.isPickerShow(status => {
-            alert(status);
-        });
-    }
-
-    render() {
-        return (
-            <View style={{height: Dimensions.get('window').height}}>
-                <TouchableOpacity style={{marginTop: 40, marginLeft: 20}} onPress={this._showDatePicker.bind(this)}>
-                    <Text>DatePicker</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._showAreaPicker.bind(this)}>
-                    <Text>AreaPicker</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._toggle.bind(this)}>
-                    <Text>toggle</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._isPickerShow.bind(this)}>
-                    <Text>isPickerShow</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
-};
+AppRegistry.registerComponent('PickerTest', () => PickerTest);
