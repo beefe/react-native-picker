@@ -8,11 +8,11 @@ const isIos = Platform.OS === 'ios';
 const isAndroid = Platform.OS === 'android';
 const Picker = NativeModules.BEEPickerManager;
 
-const listener = Symbol('listener');
-
 const NOOP = () => {};
 
 class ReactNativePicker {
+  listener = null;
+
   init(options) {
     const fullOptions = {
       isLoop: false,
@@ -38,8 +38,8 @@ class ReactNativePicker {
 
     Picker._init(fullOptions);
 
-    this[listener] && this[listener].remove();
-    this[listener] = NativeAppEventEmitter.addListener('pickerEvent', (events) => {
+    this.listener && this.listener.remove();
+    this.listener = NativeAppEventEmitter.addListener('pickerEvent', (events) => {
       if (isIos) {
         pickerFunctions[events['type']](events['selectedValue']);
       }
