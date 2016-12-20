@@ -4,83 +4,80 @@
 
 import React, {Component} from 'react';
 import {
+    AppRegistry,
     View,
     Text,
+    TextInput,
     TouchableOpacity,
     Dimensions
 } from 'react-native';
 
 import Picker from 'react-native-picker';
+import area from './area.json';
 
-function createDateData(){
-    let date = [];
-    for(let i=1950;i<2050;i++){
-        let month = [];
-        for(let j = 1;j<13;j++){
-            let day = [];
-            if(j === 2){
-                for(let k=1;k<29;k++){
-                    day.push(k+'日');
-                }
-                //Leap day for years that are divisible by 4, such as 2000, 2004
-                if(i%4 === 0){
-                    day.push(29+'日');
-                }
-            }
-            else if(j in {1:1, 3:1, 5:1, 7:1, 8:1, 10:1, 12:1}){
-                for(let k=1;k<32;k++){
-                    day.push(k+'日');
-                }
-            }
-            else{
-                for(let k=1;k<31;k++){
-                    day.push(k+'日');
-                }
-            }
-            let _month = {};
-            _month[j+'月'] = day;
-            month.push(_month);
-        }
-        let _date = {};
-        _date[i+'年'] = month;
-        date.push(_date);
-    }
-    return date;
-};
-
-function createAreaData(callback){
-    fetch('https://raw.githubusercontent.com/beefe/react-native-picker/master/example/PickerTest/area.json').then(res => {
-        res.json().then(area => {
-            let data = [];
-            let len = area.length;
-            for(let i=0;i<len;i++){
-                let city = [];
-                for(let j=0,cityLen=area[i]['city'].length;j<cityLen;j++){
-                    let _city = {};
-                    _city[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
-                    city.push(_city);
-                }
-
-                let _data = {};
-                _data[area[i]['name']] = city;
-                data.push(_data);
-            }
-            callback(data);
-        });
-    }, err => {
-        console.log(err);
-    });
-};
-
-export default class PickerTest extends Component {
+class PickerTest extends Component {
 
     constructor(props, context) {
         super(props, context);
     }
 
+    _createDateData() {
+        let date = [];
+        for(let i=1950;i<2050;i++){
+            let month = [];
+            for(let j = 1;j<13;j++){
+                let day = [];
+                if(j === 2){
+                    for(let k=1;k<29;k++){
+                        day.push(k+'日');
+                    }
+                    //Leap day for years that are divisible by 4, such as 2000, 2004
+                    if(i%4 === 0){
+                        day.push(29+'日');
+                    }
+                }
+                else if(j in {1:1, 3:1, 5:1, 7:1, 8:1, 10:1, 12:1}){
+                    for(let k=1;k<32;k++){
+                        day.push(k+'日');
+                    }
+                }
+                else{
+                    for(let k=1;k<31;k++){
+                        day.push(k+'日');
+                    }
+                }
+                let _month = {};
+                _month[j+'月'] = day;
+                month.push(_month);
+            }
+            let _date = {};
+            _date[i+'年'] = month;
+            date.push(_date);
+        }
+        return date;
+    }
+
+    _createAreaData() {
+        let data = [];
+        let len = area.length;
+        for(let i=0;i<len;i++){
+            let city = [];
+            for(let j=0,cityLen=area[i]['city'].length;j<cityLen;j++){
+                let _city = {};
+                _city[area[i]['city'][j]['name']] = area[i]['city'][j]['area'];
+                city.push(_city);
+            }
+
+            let _data = {};
+            _data[area[i]['name']] = city;
+            data.push(_data);
+        }
+        return data;
+    }
+
     _showDatePicker() {
         Picker.init({
-            pickerData: createDateData(),
+            pickerData: this._createDateData(),
             selectedValue: ['2015年', '12月', '12日'],
             onPickerConfirm: pickedValue => {
                 console.log('date', pickedValue);
@@ -96,22 +93,20 @@ export default class PickerTest extends Component {
     }
 
     _showAreaPicker() {
-        createAreaData(data => {
-            Picker.init({
-                pickerData: data,
-                selectedValue: ['河北', '唐山', '古冶区'],
-                onPickerConfirm: pickedValue => {
-                    console.log('area', pickedValue);
-                },
-                onPickerCancel: pickedValue => {
-                    console.log('area', pickedValue);
-                },
-                onPickerSelect: pickedValue => {
-                    console.log('area', pickedValue);
-                }
-            });
-            Picker.show();
+        Picker.init({
+            pickerData: this._createAreaData(),
+            selectedValue: ['河北', '唐山', '古冶区'],
+            onPickerConfirm: pickedValue => {
+                console.log('area', pickedValue);
+            },
+            onPickerCancel: pickedValue => {
+                console.log('area', pickedValue);
+            },
+            onPickerSelect: pickedValue => {
+                console.log('area', pickedValue);
+            }
         });
+        Picker.show();
     }
 
     _toggle() {
@@ -139,7 +134,21 @@ export default class PickerTest extends Component {
                 <TouchableOpacity style={{marginTop: 10, marginLeft: 20}} onPress={this._isPickerShow.bind(this)}>
                     <Text>isPickerShow</Text>
                 </TouchableOpacity>
+                <TextInput 
+                    placeholder="test picker with input"
+                    style={{
+                        height: 40,
+                        borderColor: 'gray',
+                        borderWidth: 1,
+                        marginLeft: 20,
+                        marginRight: 20,
+                        marginTop: 10,
+                        padding: 5
+                    }}
+                />
             </View>
         );
     }
 };
+
+AppRegistry.registerComponent('PickerTest', () => PickerTest);

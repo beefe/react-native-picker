@@ -14,7 +14,7 @@
 
 @property(nonatomic,strong)BzwPicker *pick;
 @property(nonatomic,assign)float height;
-@property(nonatomic,strong) UIWindow * window;
+@property(nonatomic,weak)UIWindow * window;
 
 @end
 
@@ -26,7 +26,7 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     
-   self.window = [[UIApplication sharedApplication].windows lastObject];
+    self.window = [[UIApplication sharedApplication].windows lastObject];
     
     NSString *pickerConfirmBtnText=indic[@"pickerConfirmBtnText"];
     NSString *pickerCancelBtnText=indic[@"pickerCancelBtnText"];
@@ -56,7 +56,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
         
     }];
     
-    if  ([[UIDevice currentDevice].systemVersion doubleValue] >= 9.0 ){
+    if ([[UIDevice currentDevice].systemVersion doubleValue] >= 9.0 ) {
         self.height=250;
     }else{
         self.height=220;
