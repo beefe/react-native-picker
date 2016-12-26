@@ -85,11 +85,7 @@
     
     [view addSubview:cenLabel];
     
-<<<<<<< HEAD
     self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, self.frame.size.width, self.frame.size.height - 40)];
-=======
-    self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(-5, 40, self.frame.size.width+5, self.frame.size.height - 40)];
->>>>>>> dfafe73491181099295072df68b4d0ebb18d38a8
     
     self.pick.delegate = self;
     self.pick.dataSource = self;
