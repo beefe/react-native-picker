@@ -13,17 +13,24 @@ export default {
     init(options){
         let opt = {
             isLoop: false,
-            pickerConfirmBtnText: '确认',
-            pickerCancelBtnText: '取消',
-            pickerTitleText: '请选择',
-            pickerBg: [196, 199, 206, 1],
-            pickerToolBarBg: [232, 232, 232, 1],
-            pickerTitleColor: [20, 20, 20, 1],
-            pickerCancelBtnColor: [1, 186, 245, 1],
+            pickerConfirmBtnText: 'confirm',
+            pickerCancelBtnText: 'cancel',
+            pickerTitleText: 'pls select',
             pickerConfirmBtnColor: [1, 186, 245, 1],
+            pickerCancelBtnColor: [1, 186, 245, 1],
+            pickerTitleColor: [20, 20, 20, 1],
+            pickerToolBarBg: [232, 232, 232, 1],
+            pickerBg: [196, 199, 206, 1],
+            wheelFlex: [1, 1, 1],
+            pickerData: [],
+            selectedValue: [],
             onPickerConfirm(){},
             onPickerCancel(){},
             onPickerSelect(){},
+            //4.0.12 add
+            pickerToolBarFontSize: 16,
+            pickerFontSize: 16,
+            pickerFontColor: [31, 31 ,31, 1],
             ...options
         };
         let fnConf = {
@@ -36,14 +43,7 @@ export default {
         //there are no `removeListener` for NativeAppEventEmitter & DeviceEventEmitter
         this.listener && this.listener.remove();
         this.listener = NativeAppEventEmitter.addListener('pickerEvent', event => {
-            if(ios){
-                fnConf[event['type']](event['selectedValue']);
-            }
-            else if(android){
-                for (let i in event){
-                    typeof fnConf[i] === 'function' && fnConf[i](event[i]);
-                }
-            }
+            fnConf[event['type']](event['selectedValue'], event['selectedIndex']);
         });
     },
 

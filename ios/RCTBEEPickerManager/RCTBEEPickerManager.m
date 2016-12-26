@@ -26,7 +26,11 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     
-    self.window = [[UIApplication sharedApplication].windows lastObject];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[UIApplication sharedApplication].keyWindow endEditing:YES];
+    });
+    
+    self.window = [UIApplication sharedApplication].keyWindow;
     
     NSString *pickerConfirmBtnText=indic[@"pickerConfirmBtnText"];
     NSString *pickerCancelBtnText=indic[@"pickerCancelBtnText"];
@@ -38,6 +42,9 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     NSArray *pickerBg=indic[@"pickerBg"];
     NSArray *selectArry=indic[@"selectedValue"];
     NSArray *weightArry=indic[@"wheelFlex"];
+    NSString *pickerToolBarFontSize=[NSString stringWithFormat:@"%@",indic[@"pickerToolBarFontSize"]];
+    NSString *pickerFontSize=[NSString stringWithFormat:@"%@",indic[@"pickerFontSize"]];
+    NSArray *pickerFontColor=indic[@"pickerFontColor"];
     
     id pickerData=indic[@"pickerData"];
     
@@ -62,7 +69,8 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
         self.height=220;
     }
     
-    self.pick=[[BzwPicker alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, self.height) dic:dataDic leftStr:pickerCancelBtnText centerStr:pickerTitleText rightStr:pickerConfirmBtnText topbgColor:pickerToolBarBg bottombgColor:pickerBg leftbtnbgColor:pickerCancelBtnColor rightbtnbgColor:pickerConfirmBtnColor centerbtnColor:pickerTitleColor selectValueArry:selectArry weightArry:weightArry];
+    self.pick=[[BzwPicker alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, self.height) dic:dataDic leftStr:pickerCancelBtnText centerStr:pickerTitleText rightStr:pickerConfirmBtnText topbgColor:pickerToolBarBg bottombgColor:pickerBg leftbtnbgColor:pickerCancelBtnColor rightbtnbgColor:pickerConfirmBtnColor centerbtnColor:pickerTitleColor selectValueArry:selectArry weightArry:weightArry pickerToolBarFontSize:pickerToolBarFontSize pickerFontSize:pickerFontSize pickerFontColor:pickerFontColor];
+    
     
     _pick.bolock=^(NSDictionary *backinfoArry){
         
@@ -74,7 +82,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
-         [self.window addSubview:_pick];
+        [self.window addSubview:_pick];
         
         [UIView animateWithDuration:.3 animations:^{
             

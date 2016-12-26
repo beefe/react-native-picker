@@ -13,10 +13,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by heng on 16/9/6.
+ * Created by <a href="https://github.com/shexiaoheng">heng</a> on 16/9/6.
  * <p>
  * Edited by heng on 16/10/09:
  * 修复滚动后返回值错误的bug
+ *
+ * Edited by heng on 2016/12/26
+ * 1. Fixed returnData bug
+ * 2. Added LoopView TextColor and TextSize support
  */
 
 public class PickerViewAlone extends LinearLayout {
@@ -25,7 +29,7 @@ public class PickerViewAlone extends LinearLayout {
 
     private OnSelectedListener onSelectedListener;
 
-    private ArrayList<String> curSelectedList;
+    private ArrayList<ReturnData> curSelectedList;
 
     public PickerViewAlone(Context context) {
         super(context);
@@ -46,23 +50,23 @@ public class PickerViewAlone extends LinearLayout {
         this.onSelectedListener = listener;
     }
 
-    public void setPickerData(ReadableArray array,  double[] weights) {
+    public void setPickerData(ReadableArray array, double[] weights) {
         curSelectedList = new ArrayList<>();
         switch (array.getType(0).name()) {
             case "Array":
-                setMultipleData(array, curSelectedList, weights);
+                setMultipleData(array, weights);
                 break;
             default:
-                setAloneData(array, curSelectedList);
+                setAloneData(array);
                 break;
         }
     }
 
-    public ArrayList<String> getSelectedData(){
+    public ArrayList<ReturnData> getSelectedData() {
         return this.curSelectedList;
     }
 
-    private void setAloneData(ReadableArray array, final ArrayList<String> curSelectedList) {
+    private void setAloneData(ReadableArray array) {
         ArrayList<String> values = arrayToList(array);
         final LoopView loopView = new LoopView(getContext());
         LayoutParams params = new LayoutParams(
@@ -71,16 +75,22 @@ public class PickerViewAlone extends LinearLayout {
         loopView.setLayoutParams(params);
         loopView.setItems(values);
         loopView.setSelectedPosition(0);
+        ReturnData returnData = new ReturnData();
+        returnData.setItem(values.get(0));
+        returnData.setIndex(loopView.getSelectedIndex());
         if (curSelectedList.size() > 0) {
-            curSelectedList.set(0, values.get(0));
+            curSelectedList.set(0, returnData);
         } else {
-            curSelectedList.add(0, values.get(0));
+            curSelectedList.add(0, returnData);
         }
         loopView.setListener(new OnItemSelectedListener() {
             @Override
             public void onItemSelected(String item, int index) {
                 if (onSelectedListener != null) {
-                    curSelectedList.set(0, item);
+                    ReturnData returnData1 = new ReturnData();
+                    returnData1.setItem(item);
+                    returnData1.setIndex(index);
+                    curSelectedList.set(0, returnData1);
                     onSelectedListener.onSelected(curSelectedList);
                 }
             }
@@ -88,8 +98,9 @@ public class PickerViewAlone extends LinearLayout {
         pickerViewAloneLayout.addView(loopView);
     }
 
-    private void setMultipleData(ReadableArray array, final ArrayList<String> curSelectedList, double[] weights) {
+    private void setMultipleData(ReadableArray array, double[] weights) {
         final String[] selectedItems = new String[array.size()];
+        final int[] selectedIndexes = new int[array.size()];
         for (int i = 0; i < array.size(); i++) {
             switch (array.getType(i).name()) {
                 case "Array":
@@ -110,10 +121,14 @@ public class PickerViewAlone extends LinearLayout {
                     loopView.setItems(values);
                     loopView.setTag(i);
                     loopView.setSelectedPosition(0);
+
+                    ReturnData returnData = new ReturnData();
+                    returnData.setItem(values.get(0));
+                    returnData.setIndex(loopView.getSelectedIndex());
                     if (curSelectedList.size() > i) {
-                        curSelectedList.set(i, values.get(0));
+                        curSelectedList.set(i, returnData);
                     } else {
-                        curSelectedList.add(i, values.get(0));
+                        curSelectedList.add(i, returnData);
                     }
                     selectedItems[i] = values.get(0);
                     loopView.setListener(new OnItemSelectedListener() {
@@ -125,12 +140,16 @@ public class PickerViewAlone extends LinearLayout {
                                 if (view instanceof LoopView) {
                                     LoopView loop = (LoopView) view;
                                     selectedItems[k] = loop.getSelectedItem();
+                                    selectedIndexes[k] = loop.getSelectedIndex();
                                 }
                             }
 
                             if (onSelectedListener != null) {
                                 for (int i = 0; i < selectedItems.length; i++) {
-                                    curSelectedList.set(i, selectedItems[i]);
+                                    ReturnData returnData1 = new ReturnData();
+                                    returnData1.setItem(selectedItems[i]);
+                                    returnData1.setIndex(selectedIndexes[i]);
+                                    curSelectedList.set(i, returnData1);
                                 }
                                 onSelectedListener.onSelected(curSelectedList);
                             }
@@ -155,15 +174,40 @@ public class PickerViewAlone extends LinearLayout {
         }
     }
 
-    private void setSelect(int size, String[] values, ArrayList<String> curSelectedList) {
+    private void setSelect(int size, String[] values, ArrayList<ReturnData> curSelectedList) {
         for (int i = 0; i < size; i++) {
             View view = pickerViewAloneLayout.getChildAt(i);
             if (view instanceof LoopView) {
                 LoopView loop = (LoopView) view;
                 if (loop.hasItem(values[i])) {
                     loop.setSelectedItem(values[i]);
-                    curSelectedList.set(i, values[i]);
+                    ReturnData returnData = new ReturnData();
+                    returnData.setItem(values[i]);
+                    returnData.setIndex(loop.getSelectedIndex());
+                    curSelectedList.set(i, returnData);
                 }
+            }
+        }
+    }
+
+    public void setTextColor(int color){
+        int viewCount = pickerViewAloneLayout.getChildCount();
+        for (int i = 0; i < viewCount; i++) {
+            View view = pickerViewAloneLayout.getChildAt(i);
+            if (view instanceof LoopView) {
+                LoopView loopView = (LoopView) view;
+                loopView.setTextColor(color);
+            }
+        }
+    }
+
+    public void setTextSize(float size){
+        int viewCount = pickerViewAloneLayout.getChildCount();
+        for (int i = 0; i < viewCount; i++) {
+            View view = pickerViewAloneLayout.getChildAt(i);
+            if (view instanceof LoopView) {
+                LoopView loopView = (LoopView) view;
+                loopView.setTextSize(size);
             }
         }
     }

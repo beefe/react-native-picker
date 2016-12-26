@@ -19,6 +19,7 @@ class PickerTest extends Component {
 
     constructor(props, context) {
         super(props, context);
+        this._showDatePicker();
     }
 
     _createDateData() {
@@ -78,15 +79,17 @@ class PickerTest extends Component {
     _showDatePicker() {
         Picker.init({
             pickerData: this._createDateData(),
-            selectedValue: ['2015年', '12月', '12日'],
-            onPickerConfirm: pickedValue => {
-                console.log('date', pickedValue);
+            pickerToolBarFontSize: 16,
+            pickerFontSize: 16,
+            pickerFontColor: [255, 0 ,0, 1],
+            onPickerConfirm: (pickedValue, pickedIndex) => {
+                console.log('date', pickedValue, pickedIndex);
             },
-            onPickerCancel: pickedValue => {
-                console.log('date', pickedValue);
+            onPickerCancel: (pickedValue, pickedIndex) => {
+                console.log('date', pickedValue, pickedIndex);
             },
-            onPickerSelect: pickedValue => {
-                console.log('date', pickedValue);
+            onPickerSelect: (pickedValue, pickedIndex) => {
+                console.log('date', pickedValue, pickedIndex);
             }
         });
         Picker.show();

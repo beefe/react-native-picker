@@ -19,9 +19,13 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Edited by shexiaoheng on 2016/10/20
+ * Edited by <a href="https://github.com/shexiaoheng">heng</a> on 2016/10/20
  * 1. Added method getY
  * 2. Changed line color 0xffc5c5c5 -> 0xffb8bbc2
+ *
+ * Edited by heng on 2016/12/26
+ * 1. Added setTextColor
+ * 2. Added setTextSize
  */
 public class LoopView extends View {
 
@@ -49,10 +53,6 @@ public class LoopView extends View {
 
     private int textSize;
     int maxTextHeight;
-
-    private int colorGray;
-    private int colorBlack;
-    private int colorLightGray;
 
     // 条目间距倍数
     float lineSpacingMultiplier;
@@ -109,37 +109,30 @@ public class LoopView extends View {
         lineSpacingMultiplier = 2.0F;
         isLoop = true;
         itemsVisible = 9;
-        textSize = 0;
-        colorGray = 0xffafafaf;
-        colorBlack = 0xff313131;
-        colorLightGray = 0xffb8bbc2;
-        // colorLightGray = 0xffc5c5c5;
+        textSize = (int) (context.getResources().getDisplayMetrics().density * 16);
 
         totalScrollY = 0;
         initPosition = -1;
 
-
         initPaints();
-
-        setTextSize(20F);
     }
 
     private void initPaints() {
         paintOuterText = new Paint();
-        paintOuterText.setColor(colorGray);
+        paintOuterText.setColor(0xffafafaf);
         paintOuterText.setAntiAlias(true);
         paintOuterText.setTypeface(Typeface.MONOSPACE);
         paintOuterText.setTextSize(textSize);
 
         paintCenterText = new Paint();
-        paintCenterText.setColor(colorBlack);
+        paintCenterText.setColor(0xff000000);
         paintCenterText.setAntiAlias(true);
         paintCenterText.setTextScaleX(scaleX);
         paintCenterText.setTypeface(Typeface.MONOSPACE);
         paintCenterText.setTextSize(textSize);
 
         paintIndicator = new Paint();
-        paintIndicator.setColor(colorLightGray);
+        paintIndicator.setColor(0xffb8bbc2);
         paintIndicator.setAntiAlias(true);
 
         if (android.os.Build.VERSION.SDK_INT >= 11) {
@@ -204,15 +197,22 @@ public class LoopView extends View {
         }
     }
 
+    public void setTextColor(int color){
+        paintCenterText.setColor(color);
+        invalidate();
+    }
+
     public final void setNotLoop() {
         isLoop = false;
     }
 
     public final void setTextSize(float size) {
         if (size > 0.0F) {
-            textSize = (int) (context.getResources().getDisplayMetrics().density * size);
+            this.textSize = (int) (context.getResources().getDisplayMetrics().density * size);
             paintOuterText.setTextSize(textSize);
             paintCenterText.setTextSize(textSize);
+            remeasure();
+            invalidate();
         }
     }
 
@@ -242,6 +242,7 @@ public class LoopView extends View {
                 this.initPosition = initPosition;
             }
         }
+        selectedIndex = initPosition;
         totalScrollY = 0;
         cancelFuture();
         invalidate();

@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 public interface OnSelectedListener {
 
-    void onSelected(ArrayList<String> selectedList);
+    void onSelected(ArrayList<ReturnData> selectedList);
 
 }
