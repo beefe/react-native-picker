@@ -46,7 +46,6 @@
     
     [self addSubview:view];
     
-    
     self.leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.leftBtn.frame = CGRectMake(10, 5, 90, 30);
     [self.leftBtn setTitle:self.leftStr forState:UIControlStateNormal];
@@ -67,11 +66,9 @@
     
     [self.rightBtn setTitleColor:[self colorWith:rightbtnbgColor] forState:UIControlStateNormal];
     
-    
     [view addSubview:self.rightBtn];
     [self.rightBtn setFont:[UIFont systemFontOfSize:[_pickerToolBarFontSize integerValue]]];
-    [self.rightBtn addTarget:self action:@selector(cfirmAction) forControlEvents:UIControlEventTouchUpInside];
-    
+    [self.rightBtn addTarget:self action:@selector(cfirmAction) forControlEvents:UIControlEventTouchUpInside];  
     
     UILabel *cenLabel=[[UILabel alloc]initWithFrame:CGRectMake(90, 5, SCREEN_WIDTH-180, 30)];
     
@@ -84,9 +81,8 @@
     [cenLabel setTextColor:[self colorWith:centerbtnColor]];
     
     [view addSubview:cenLabel];
-    
+
     self.pick = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 40, self.frame.size.width, self.frame.size.height - 40)];
-    
     self.pick.delegate = self;
     self.pick.dataSource = self;
     self.pick.showsSelectionIndicator=YES;
@@ -100,7 +96,6 @@
     if (_Correlation) {
         //这里是关联的
         if ([_numberCorrela isEqualToString:@"three"]) {
-            
             return 3;
             
         }else if ([_numberCorrela isEqualToString:@"two"]){
@@ -192,6 +187,7 @@
     
     if (_Correlation) {
         if ([_numberCorrela isEqualToString:@"three"]) {
+            
             _lineWith=SCREEN_WIDTH-2*linSpace;
             
             if (self.weightArry.count>=3) {
@@ -376,8 +372,9 @@
                     self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
                     
                     //NSLog(@"%@",_selectthreeAry);
-                    self.townArray=[[self.selectthreeAry  objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
-                    
+                    if (row<self.selectthreeAry.count) {
+                        self.townArray=[[self.selectthreeAry objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
+                    }
                 }else{
                     
                     setline=0;
@@ -385,7 +382,7 @@
                     self.selectthreeAry =[[self.dataDry objectAtIndex:0] objectForKey:[self.provinceArray objectAtIndex:0]];
                     
                     //NSLog(@"%ld",(long)row);
-                    self.townArray=[[self.selectthreeAry objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
+                    self.townArray=[[self.selectthreeAry objectAtIndex:0]objectForKey:[self.cityArray objectAtIndex:0]];
                 }
                 
                 [pickerView reloadAllComponents];
@@ -429,17 +426,21 @@
             NSString *b=[self.cityArray objectAtIndex:[self.pick selectedRowInComponent:1]];
             NSString *c=[self.townArray objectAtIndex:[self.pick selectedRowInComponent:2]];
             
-            [self.backArry addObject:a];
-            [self.backArry addObject:b];
-            [self.backArry addObject:c];
+            if (a&&b&&c) {
+                [self.backArry addObject:a];
+                [self.backArry addObject:b];
+                [self.backArry addObject:c];
+            }
             
         }else if ([_numberCorrela isEqualToString:@"two"]){
             
             NSString *a=[self.provinceArray objectAtIndex:[self.pick selectedRowInComponent:0]];
             NSString *b=[self.cityArray objectAtIndex:[self.pick selectedRowInComponent:1]];
             // NSLog(@"%@---%@",a,b);
-            [self.backArry addObject:a];
-            [self.backArry addObject:b];
+            if (a&&b) {
+                [self.backArry addObject:a];
+                [self.backArry addObject:b];
+            }
         }
         
     }else
@@ -468,8 +469,9 @@
     [dic setValue:@"select" forKey:@"type"];
     
     [dic setValue:[self getselectIndexArry] forKey:@"selectedIndex"];
-    
-    self.bolock(dic);
+    if (self.backArry.count>0) {
+         self.bolock(dic);
+    }
 }
 //判断进来的类型是那种
 -(void)getStyle
