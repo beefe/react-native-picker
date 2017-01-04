@@ -324,15 +324,7 @@
                 
                 NSInteger setline=[_pick selectedRowInComponent:0];
                 
-                if (setline) {
-                    
-                    self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
-                }else{
-                    
-                    setline=0;
-                    
-                    self.selectthreeAry =[[self.dataDry objectAtIndex:0] objectForKey:[self.provinceArray objectAtIndex:0]];
-                }
+                self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
                 
                 if (self.selectthreeAry) {
                     //遍历数组
