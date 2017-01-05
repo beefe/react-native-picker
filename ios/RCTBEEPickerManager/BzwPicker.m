@@ -324,7 +324,15 @@
                 
                 NSInteger setline=[_pick selectedRowInComponent:0];
                 
-                self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
+                if (setline) {
+                    
+                    self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
+                }else{
+                    
+                    setline=0;
+                    
+                    self.selectthreeAry =[[self.dataDry objectAtIndex:0] objectForKey:[self.provinceArray objectAtIndex:0]];
+                }
                 
                 if (self.selectthreeAry) {
                     //遍历数组
@@ -358,23 +366,12 @@
             {
                 
                 NSInteger setline=[_pick selectedRowInComponent:0];
+                    
+                self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
                 
-                if (setline) {
-                    
-                    self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
-                    
-                    //NSLog(@"%@",_selectthreeAry);
-                    if (row<self.selectthreeAry.count) {
-                        self.townArray=[[self.selectthreeAry objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
-                    }
-                }else{
-                    
-                    setline=0;
-                    
-                    self.selectthreeAry =[[self.dataDry objectAtIndex:0] objectForKey:[self.provinceArray objectAtIndex:0]];
-                    
-                    //NSLog(@"%ld",(long)row);
-                    self.townArray=[[self.selectthreeAry objectAtIndex:0]objectForKey:[self.cityArray objectAtIndex:0]];
+                //NSLog(@"%@",_selectthreeAry);
+                if (row<self.selectthreeAry.count) {
+                    self.townArray=[[self.selectthreeAry objectAtIndex:row]objectForKey:[self.cityArray objectAtIndex:row]];
                 }
                 
                 [pickerView reloadAllComponents];
