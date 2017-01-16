@@ -107,6 +107,10 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
 
     private Dialog dialog = null;
 
+    private PickerViewLinkage pickerViewLinkage;
+    private PickerViewAlone pickerViewAlone;
+    private boolean isAlone = true;
+
     private boolean isLoop = true;
 
     private String confirmText;
@@ -139,8 +143,8 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             TextView titleTV = (TextView) view.findViewById(R.id.title);
             TextView confirmTV = (TextView) view.findViewById(R.id.confirm);
             RelativeLayout pickerLayout = (RelativeLayout) view.findViewById(R.id.pickerLayout);
-            final PickerViewLinkage pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
-            final PickerViewAlone pickerViewAlone = (PickerViewAlone) view.findViewById(R.id.pickerViewAlone);
+            pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
+            pickerViewAlone = (PickerViewAlone) view.findViewById(R.id.pickerViewAlone);
 
             int barViewHeight;
             if (options.hasKey(PICKER_TOOL_BAR_HEIGHT)) {
@@ -309,6 +313,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             String name = pickerData.getType(0).name();
             switch (name) {
                 case "Map":
+                    isAlone = false;
                     curStatus = 1;
                     pickerViewLinkage.setVisibility(View.VISIBLE);
                     pickerViewAlone.setVisibility(View.GONE);
@@ -401,6 +406,37 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     }
 
     @ReactMethod
+    public void select(ReadableArray array) {
+        if (dialog != null) {
+            String[] selectValue = new String[array.size()];
+            String value = "";
+            for (int i = 0; i < array.size(); i++) {
+                switch (array.getType(i).name()) {
+                    case "Boolean":
+                        value = String.valueOf(array.getBoolean(i));
+                        break;
+                    case "Number":
+                        try {
+                            value = String.valueOf(array.getInt(i));
+                        } catch (Exception e) {
+                            value = String.valueOf(array.getDouble(i));
+                        }
+                        break;
+                    case "String":
+                        value = array.getString(i);
+                        break;
+                }
+                selectValue[i] = value;
+            }
+            if(isAlone){
+                pickerViewAlone.setSelectValue(selectValue);
+            }else{
+                pickerViewLinkage.setSelectValue(selectValue);
+            }
+        }
+    }
+
+    @ReactMethod
     public void isPickerShow(Callback callback) {
         if (callback == null)
             return;
@@ -465,6 +501,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
 
     @Override
     public void onHostDestroy() {
-
+        hide();
+        dialog = null;
     }
 }

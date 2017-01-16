@@ -55,6 +55,10 @@ export default {
         Picker.hide();
     },
 
+    select(data) {
+        Picker.select(data)
+    },
+
     toggle(){
         this.isPickerShow(show => {
             if(show){
