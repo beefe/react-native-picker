@@ -56,9 +56,14 @@ export default {
     },
 
     select(arr, fn) {
-        Picker.select(arr, err => {
-            typeof fn === 'function' && fn(err);
-        });
+        if(ios){
+            Picker.select(arr);
+        }
+        else if(android){
+            Picker.select(arr, err => {
+                typeof fn === 'function' && fn(err);
+            });
+        }
     },
 
     toggle(){
