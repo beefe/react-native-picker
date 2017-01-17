@@ -2,9 +2,8 @@
 
 [![npm version](https://img.shields.io/npm/v/react-native-picker.svg?style=flat-square)](https://www.npmjs.com/package/react-native-picker) <a href="https://david-dm.org/beefe/react-native-picker"><img src="https://david-dm.org/beefe/react-native-picker.svg?style=flat-square" alt="dependency status"></a>   
 
-### For pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)
-
 ![ui2](./doc/ui2.jpg)
+![ui1](./doc/ui1.jpg)
 
 ###Documentation
 
@@ -173,3 +172,5 @@
         ...
     ]
 ```
+
+### For pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)
