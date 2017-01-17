@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -60,13 +59,17 @@ import static android.graphics.Color.argb;
  * Edited by heng on 2016/12/23
  * 1. Changed returnData type
  * 2. Added pickerToolBarFontSize
- *
+ * <p>
  * Edited by heng on 2016/12/26
  * 1. Fixed returnData bug
  * 2. Added pickerFontColor
  * 3. Added pickerFontSize
  * 4. Used LifecycleEventListener replace Application.ActivityLifecycleCallbacks
  * 5. Fixed other bug
+ *
+ * Edited by heng on 2017/01/17
+ * 1. Added select(ReadableArray array, Callback callback)
+ * 2. Optimization code
  */
 
 public class PickerViewModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
@@ -103,13 +106,9 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private static final String EVENT_KEY_CANCEL = "cancel";
     private static final String EVENT_KEY_SELECTED = "select";
 
-    private static final String ERROR_NOT_INIT = "please initialize";
+    private static final String ERROR_NOT_INIT = "please initialize the component first";
 
     private Dialog dialog = null;
-
-    private PickerViewLinkage pickerViewLinkage;
-    private PickerViewAlone pickerViewAlone;
-    private boolean isAlone = true;
 
     private boolean isLoop = true;
 
@@ -122,6 +121,9 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private ArrayList<ReturnData> returnData;
 
     private int curStatus;
+
+    private PickerViewLinkage pickerViewLinkage;
+    private PickerViewAlone pickerViewAlone;
 
     public PickerViewModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -266,31 +268,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 }
             }
 
-            String[] selectValue = {};
-            if (options.hasKey(SELECTED_VALUE)) {
-                ReadableArray array = options.getArray(SELECTED_VALUE);
-                selectValue = new String[array.size()];
-                String value = "";
-                for (int i = 0; i < array.size(); i++) {
-                    switch (array.getType(i).name()) {
-                        case "Boolean":
-                            value = String.valueOf(array.getBoolean(i));
-                            break;
-                        case "Number":
-                            try {
-                                value = String.valueOf(array.getInt(i));
-                            } catch (Exception e) {
-                                value = String.valueOf(array.getDouble(i));
-                            }
-                            break;
-                        case "String":
-                            value = array.getString(i);
-                            break;
-                    }
-                    selectValue[i] = value;
-                }
-            }
-
             int pickerTextColor = 0xff000000;
             if (options.hasKey(PICKER_TEXT_COLOR)) {
                 ReadableArray array = options.getArray(PICKER_TEXT_COLOR);
@@ -313,7 +290,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             String name = pickerData.getType(0).name();
             switch (name) {
                 case "Map":
-                    isAlone = false;
                     curStatus = 1;
                     pickerViewLinkage.setVisibility(View.VISIBLE);
                     pickerViewAlone.setVisibility(View.GONE);
@@ -330,7 +306,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                             commonEvent(EVENT_KEY_SELECTED);
                         }
                     });
-                    pickerViewLinkage.setSelectValue(selectValue);
                     pickerViewHeight = pickerViewLinkage.getViewHeight();
                     break;
                 default:
@@ -351,9 +326,14 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                         }
                     });
 
-                    pickerViewAlone.setSelectValue(selectValue);
                     pickerViewHeight = pickerViewAlone.getViewHeight();
                     break;
+            }
+
+            if (options.hasKey(SELECTED_VALUE)) {
+                ReadableArray array = options.getArray(SELECTED_VALUE);
+                String[] selectedValue = getSelectedValue(array);
+                select(selectedValue);
             }
 
             if (options.hasKey(PICKER_BG_COLOR)) {
@@ -362,7 +342,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 pickerLayout.setBackgroundColor(argb(colors[3], colors[0], colors[1], colors[2]));
             }
 
-            Log.d("PickerView", "pickerViewHeight = " + pickerViewHeight);
             int height = barViewHeight + pickerViewHeight;
             if (dialog == null) {
                 dialog = new Dialog(activity, R.style.Dialog_Full_Screen);
@@ -386,6 +365,18 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     }
 
     @ReactMethod
+    public void select(ReadableArray array, Callback callback) {
+        if (dialog == null) {
+            if (callback != null) {
+                callback.invoke(ERROR_NOT_INIT);
+            }
+            return;
+        }
+        String[] selectedValue = getSelectedValue(array);
+        select(selectedValue);
+    }
+
+    @ReactMethod
     public void show() {
         if (dialog == null) {
             return;
@@ -402,37 +393,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
         }
         if (dialog.isShowing()) {
             dialog.dismiss();
-        }
-    }
-
-    @ReactMethod
-    public void select(ReadableArray array) {
-        if (dialog != null) {
-            String[] selectValue = new String[array.size()];
-            String value = "";
-            for (int i = 0; i < array.size(); i++) {
-                switch (array.getType(i).name()) {
-                    case "Boolean":
-                        value = String.valueOf(array.getBoolean(i));
-                        break;
-                    case "Number":
-                        try {
-                            value = String.valueOf(array.getInt(i));
-                        } catch (Exception e) {
-                            value = String.valueOf(array.getDouble(i));
-                        }
-                        break;
-                    case "String":
-                        value = array.getString(i);
-                        break;
-                }
-                selectValue[i] = value;
-            }
-            if(isAlone){
-                pickerViewAlone.setSelectValue(selectValue);
-            }else{
-                pickerViewLinkage.setSelectValue(selectValue);
-            }
         }
     }
 
@@ -464,6 +424,41 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             }
         }
         return colors;
+    }
+
+    private String[] getSelectedValue(ReadableArray array) {
+        String[] selectValue = new String[array.size()];
+        String value = "";
+        for (int i = 0; i < array.size(); i++) {
+            switch (array.getType(i).name()) {
+                case "Boolean":
+                    value = String.valueOf(array.getBoolean(i));
+                    break;
+                case "Number":
+                    try {
+                        value = String.valueOf(array.getInt(i));
+                    } catch (Exception e) {
+                        value = String.valueOf(array.getDouble(i));
+                    }
+                    break;
+                case "String":
+                    value = array.getString(i);
+                    break;
+            }
+            selectValue[i] = value;
+        }
+        return selectValue;
+    }
+
+    private void select(String[] selectedValue) {
+        switch (curStatus) {
+            case 0:
+                pickerViewAlone.setSelectValue(selectedValue);
+                break;
+            case 1:
+                pickerViewLinkage.setSelectValue(selectedValue);
+                break;
+        }
     }
 
     private void commonEvent(String eventKey) {
@@ -501,7 +496,6 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
 
     @Override
     public void onHostDestroy() {
-        hide();
-        dialog = null;
+
     }
 }

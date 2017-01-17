@@ -106,6 +106,7 @@ class PickerTest extends Component {
                 console.log('area', pickedValue);
             },
             onPickerSelect: pickedValue => {
+                //Picker.select(['山东', '青岛', '黄岛区'])
                 console.log('area', pickedValue);
             }
         });

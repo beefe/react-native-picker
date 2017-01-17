@@ -55,8 +55,10 @@ export default {
         Picker.hide();
     },
 
-    select(data) {
-        Picker.select(data)
+    select(arr, fn) {
+        Picker.select(arr, err => {
+            typeof fn === 'function' && fn(err);
+        });
     },
 
     toggle(){
