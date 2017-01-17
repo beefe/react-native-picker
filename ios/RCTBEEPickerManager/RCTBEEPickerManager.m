@@ -117,6 +117,17 @@ RCT_EXPORT_METHOD(hide){
         });
     }return;
 }
+
+RCT_EXPORT_METHOD(select: (NSArray*)data){
+
+    if (self.pick) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _pick.selectValueArry = data;
+            [_pick selectRow];
+        });
+    }return;
+}
+
 RCT_EXPORT_METHOD(isPickerShow:(RCTResponseSenderBlock)getBack){
     
     if (self.pick) {

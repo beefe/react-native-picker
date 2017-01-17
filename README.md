@@ -33,11 +33,12 @@
 
 |Name | Description | Type | Default|
 | --- | ----------- | ---- | ------ |
-|init         |init and pass parameters to picker      |   |   |
-|toggle       |show or hide picker                     |   |   |
-|show         |show picker                             |   |   |
-|hide         |hide picker                             |   |   |
-|isPickerShow |get status of picker, return a boolean  |   |   |
+|init         |init and pass parameters to picker      |     |   |
+|toggle       |show or hide picker                     |     |   |
+|show         |show picker                             |     |   |
+|hide         |hide picker                             |     |   |
+|select       |select a row                            |array|   |
+|isPickerShow |get status of picker, return a boolean  |     |   |
 
 
 ###Usage
