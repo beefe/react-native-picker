@@ -1,7 +1,7 @@
 {
   "name": "react-native-picker",
   "version": "4.0.18",
-  "description": "",
+  "description": "A Native Picker with high performance.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
