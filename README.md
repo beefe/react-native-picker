@@ -5,9 +5,9 @@
 ![ui3](./doc/ui3.jpg)
 ![ui4](./doc/ui4.jpg)
 
-###Documentation
+### Documentation
 
-####Params
+#### Params
 
 |Key | Description | Type | Default|
 | --- | ----------- | ---- | ------ |
@@ -28,7 +28,7 @@
 |onPickerCancel        |            |function|                   |
 |onPickerSelect        |            |function|                   |
 
-####Methods
+#### Methods
 
 |Name | Description | Type | Default|
 | --- | ----------- | ---- | ------ |
@@ -40,21 +40,21 @@
 |isPickerShow |get status of picker, return a boolean  |     |   |
 
 
-###Usage
+### Usage
 
-####Step 1 - install
+#### Step 1 - install
 
 ```
 	npm install react-native-picker --save
 ```
 
-####Step 2 - link
+#### Step 2 - link
 
 ```
 	react-native link
 ```
 
-####Step 3 - import and use in project
+#### Step 3 - import and use in project
 
 ```javascript
 	import Picker from 'react-native-picker';
@@ -81,15 +81,15 @@
 	
 ```
 
-###Notice
+### Notice
 
-####support two modes:
+#### support two modes:
 
 <b>1. parallel:</b> such as time picker, wheels have no connection with each other
 
 <b>2. cascade:</b> such as date picker, address picker .etc, when front wheel changed, the behind wheels will all be reset
 
-####parallel:
+#### parallel:
 
 - single wheel:
 
@@ -109,7 +109,7 @@
 	selectedValue = [1, 5];
 ```
 
-####cascade:
+#### cascade:
 
 - two wheel
 
