@@ -462,7 +462,7 @@
         value = [[NSMutableArray alloc] init];
         [dic setValue:[NSNumber numberWithInt:[_pick selectedRowInComponent:0]] forKey:@"selectedIndex"];
     } else {
-        [dic setValue:[self getselectIndexArry] forKey:@"selectedIndex"];
+        [dic setValue:value forKey:@"selectedIndex"];
     }
     
     if (self.backArry.count>0) {
