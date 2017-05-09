@@ -350,6 +350,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 Window window = dialog.getWindow();
                 if (window != null) {
                     layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
                     layoutParams.format = PixelFormat.TRANSPARENT;
                     layoutParams.windowAnimations = R.style.PickerAnim;
                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
