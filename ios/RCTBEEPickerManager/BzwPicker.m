@@ -470,6 +470,8 @@
     
     id firstobject=[self.dataDry firstObject];
     
+    _seleNum = 1;
+    
     if ([firstobject isKindOfClass:[NSArray class]]) {
         
         _seleNum=self.dataDry.count;
