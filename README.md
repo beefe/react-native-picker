@@ -23,7 +23,7 @@
 |pickerFontSize        |            |number  |16                 |
 |pickerFontColor       |            |array   |[31, 31, 31, 1]    |
 |pickerData            |            |array   |                   |
-|selectedValue         |            |string  |                   |
+|selectedValue         |            |array   |                   |
 |onPickerConfirm       |            |function|                   |
 |onPickerCancel        |            |function|                   |
 |onPickerSelect        |            |function|                   |
