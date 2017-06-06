@@ -57,9 +57,8 @@
 #### Step 3 - import and use in project
 
 ```javascript
-	import Picker from 'react-native-picker';
-
-	let data = [];
+    import Picker from 'react-native-picker';
+    let data = [];
     for(var i=0;i<100;i++){
         data.push(i);
     }
