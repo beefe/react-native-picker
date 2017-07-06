@@ -80,6 +80,23 @@
 	
 ```
 
+### Integration With Existing Apps (`iOS`)
+The `Podfile` will like below:
+``` ruby
+platform :ios, '8.0'
+target 'YourTarget' do
+    pod 'React', :path => '../YOUR_REACT_NATIVE_PROJECT/node_modules/react-native', :subspecs => [
+    'Core',
+    ...
+    ]
+    pod 'Picker', :path => '../YOUR_REACT_NATIVE_PROJECT/node_modules/react-native-picker'
+end
+```
+After you have updated the `Podfile` of the existing app, you can install `react-native-picker` like below:
+``` bash
+$ pod install
+```
+
 ### Notice
 
 #### support two modes:
