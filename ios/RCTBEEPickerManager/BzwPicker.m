@@ -497,6 +497,8 @@
             _numberCorrela=@"two";
             _seleNum=2;
         }
+    }else{
+        _seleNum = 1;
     }
 }
 -(void)getnumStyle{

@@ -361,6 +361,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 dialog.dismiss();
                 dialog.setContentView(view);
             }
+            show();
         }
     }
 
@@ -496,6 +497,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
 
     @Override
     public void onHostDestroy() {
-
+        hide();
+        dialog = null;
     }
 }
