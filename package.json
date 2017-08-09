@@ -1,7 +1,7 @@
 {
   "name": "react-native-picker",
   "version": "4.0.19",
-  "description": "",
+  "description": "A React Native picker with similar iOS and Android designs",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
