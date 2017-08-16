@@ -1,6 +1,6 @@
 {
   "name": "react-native-picker",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "A Native Picker with high performance.",
   "main": "index.js",
   "types": "index.d.ts",
