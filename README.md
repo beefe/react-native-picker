@@ -16,14 +16,15 @@
 |pickerTitleText       |            |string  |pls select         |
 |pickerConfirmBtnColor |            |array   |[1, 186, 245, 1]   |
 |pickerCancelBtnColor  |            |array   |[1, 186, 245, 1]   |
-|pickerTitleColor      |            |array   |[20, 20, 20, 1])   |
+|pickerTitleColor      |            |array   |[20, 20, 20, 1]    |
 |pickerToolBarBg       |            |array   |[232, 232, 232, 1] |
 |pickerBg              |            |array   |[196, 199, 206, 1] |
 |pickerToolBarFontSize |            |number  |16                 |
+|wheelFlex             |            |array   |[1, 1, 1]          |
 |pickerFontSize        |            |number  |16                 |
 |pickerFontColor       |            |array   |[31, 31, 31, 1]    |
 |pickerData            |            |array   |                   |
-|selectedValue         |            |string  |                   |
+|selectedValue         |            |array   |                   |
 |onPickerConfirm       |            |function|                   |
 |onPickerCancel        |            |function|                   |
 |onPickerSelect        |            |function|                   |
