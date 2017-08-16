@@ -504,6 +504,8 @@
             _numberCorrela=@"two";
             _seleNum=2;
         }
+    }else{
+        _seleNum = 1;
     }
 }
 -(void)getnumStyle{
@@ -618,7 +620,6 @@
         [dic setValue:@"confirm" forKey:@"type"];
         NSMutableArray *arry=[[NSMutableArray alloc]init];
         [dic setValue:[self getselectIndexArry] forKey:@"selectedIndex"];
-        [dic setValue:arry forKey:@"selectedIndex"];
         
         self.bolock(dic);
         
