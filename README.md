@@ -6,11 +6,11 @@ A Picker written in pure javascript for cross-platform support.
 
 It was most likely an example of how to build a cross-platform Picker Component use [react-native-picker-android](https://github.com/beefe/react-native-picker-android).
 
-###Warn
+### Warn
 if 0.14.2 <= react-native <=0.24 `npm install react-native-picker@2.0.5 --save`  
 if 0.24 < react-native `npm install react-native-picker --save`
 
-####Demo
+### Demo
 
 - <b>[Date-picker](./demo/date-picker.js)</b>
 - <b>[Area-picker](./demo/area-picker.js)</b>
@@ -20,9 +20,9 @@ if 0.24 < react-native `npm install react-native-picker --save`
 
 ![ui2](./doc/ui2.jpg)
 
-###Documentation
+### Documentation
 
-####Props
+#### Props
 - <b>style</b> style of picker, you can set width and height of picker in this prop
 - <b>pickerElevation</b> elevation of picker (for issue https://github.com/beefe/react-native-picker/issues/27)
 - <b>pickerBtnText</b> string, tool bar's confirm btn text
@@ -39,21 +39,21 @@ if 0.24 < react-native `npm install react-native-picker --save`
 - <b>onPickerCancel</b> function
 - <b>onValueChange</b> function
 
-####Methods
+#### Methods
 - <b>toggle</b> show or hide picker, default to be hiden
 - <b>show</b> show picker
 - <b>hide</b> hide picker
 - <b>isPickerShow</b> get status of picker, return a boolean
 
-###Usage
+### Usage
 
-####Step 1 - install
+#### Step 1 - install
 
 ```
 	npm install react-native-picker --save
 ```
 
-####Step 2 - import and use in project
+#### Step 2 - import and use in project
 
 ```javascript
 	import Picker from 'react-native-picker'
@@ -70,15 +70,15 @@ if 0.24 < react-native `npm install react-native-picker --save`
 	/>
 ```
 
-###Notice
+### Notice
 
-####support two modes:
+#### support two modes:
 
 <b>1. parallel:</b> such as time picker, wheels have no connection with each other
 
 <b>2. cascade:</b> such as date picker, address picker .etc, when front wheel changed, the behind wheels will all be reset
 
-####parallel:
+#### parallel:
 
 - single wheel:
 
@@ -98,7 +98,7 @@ if 0.24 < react-native `npm install react-native-picker --save`
 	selectedValue = [1, 5];
 ```
 
-####cascade:
+#### cascade:
 
 - two wheel
 
