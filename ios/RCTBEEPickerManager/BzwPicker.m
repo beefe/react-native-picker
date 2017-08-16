@@ -612,6 +612,11 @@
 //按了确定按钮
 -(void)cfirmAction
 {
+    //判断当前是否在滚动选择 如果是 则禁用确定按钮
+    if ([self anySubViewScrolling:self.pick]) {
+        return ;
+    }
+    
     NSMutableDictionary *dic=[[NSMutableDictionary alloc]init];
     
     if (self.backArry.count>0) {
@@ -948,4 +953,18 @@
     
 }
 
+- (BOOL)anySubViewScrolling:(UIView *)view{
+    if ([view isKindOfClass:[UIScrollView class]]) {
+        UIScrollView *scrollView = (UIScrollView *)view;
+        if (scrollView.dragging || scrollView.decelerating) {
+            return YES;
+        }
+    }
+    for (UIView *theSubView in view.subviews) {
+        if ([self anySubViewScrolling:theSubView]) {
+            return YES;
+        }
+    }
+    return NO;
+}
 @end
