@@ -476,6 +476,8 @@
     self.dataDry=[self.pickerDic objectForKey:@"pickerData"];
     
     id firstobject=[self.dataDry firstObject];
+
+    _seleNum = 1; //Default value, data is a simple array
     
     if ([firstobject isKindOfClass:[NSArray class]]) {
         
