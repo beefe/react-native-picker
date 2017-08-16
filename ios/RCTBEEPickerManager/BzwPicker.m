@@ -477,6 +477,8 @@
     
     id firstobject=[self.dataDry firstObject];
     
+    _seleNum = 1;
+    
     if ([firstobject isKindOfClass:[NSArray class]]) {
         
         _seleNum=self.dataDry.count;
@@ -618,7 +620,7 @@
         [dic setValue:@"confirm" forKey:@"type"];
         NSMutableArray *arry=[[NSMutableArray alloc]init];
         [dic setValue:[self getselectIndexArry] forKey:@"selectedIndex"];
-        [dic setValue:arry forKey:@"selectedIndex"];
+//        [dic setValue:arry forKey:@"selectedIndex"];
         
         self.bolock(dic);
         
