@@ -366,7 +366,7 @@
             {
                 
                 NSInteger setline=[_pick selectedRowInComponent:0];
-                    
+                
                 self.selectthreeAry =[[self.dataDry objectAtIndex:setline]objectForKey:[self.provinceArray objectAtIndex:setline]];
                 
                 //NSLog(@"%@",_selectthreeAry);
@@ -456,10 +456,17 @@
     [dic setValue:self.backArry forKey:@"selectedValue"];
     
     [dic setValue:@"select" forKey:@"type"];
+    NSMutableArray *value = [self getselectIndexArry];
     
-    [dic setValue:[self getselectIndexArry] forKey:@"selectedIndex"];
+    if([value count] == 0) {
+        value = [[NSMutableArray alloc] init];
+        [dic setValue:[NSNumber numberWithInt:[_pick selectedRowInComponent:0]] forKey:@"selectedIndex"];
+    } else {
+        [dic setValue:value forKey:@"selectedIndex"];
+    }
+    
     if (self.backArry.count>0) {
-         self.bolock(dic);
+        self.bolock(dic);
     }
 }
 //判断进来的类型是那种
