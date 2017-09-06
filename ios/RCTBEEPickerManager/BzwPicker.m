@@ -473,7 +473,6 @@
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
 {
-    NSLog(@"Row height: %@ font size: %@", self.pickerRowHeight, self.pickerFontSize);
     return self.pickerRowHeight.integerValue;
 }
 
