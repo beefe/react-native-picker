@@ -31,6 +31,7 @@ export default {
             pickerToolBarFontSize: 16,
             pickerFontSize: 16,
             pickerFontColor: [31, 31 ,31, 1],
+            pickerRowHeight: 24,
             ...options
         };
         let fnConf = {
