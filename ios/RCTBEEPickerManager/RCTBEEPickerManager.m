@@ -8,7 +8,7 @@
 
 #import "RCTBEEPickerManager.h"
 #import "BzwPicker.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTEventEmitter.h>
 
 @interface RCTBEEPickerManager()
 
