@@ -408,6 +408,13 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
         }
     }
 
+    @ReactMethod
+    public void getViewHeight(Callback callback) {
+        Activity activity = getCurrentActivity();
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        callback.invoke(Math.round(this.height / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)));
+    }
+
     private int[] getColor(ReadableArray array) {
         int[] colors = new int[4];
         for (int i = 0; i < array.size(); i++) {
