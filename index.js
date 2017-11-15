@@ -90,5 +90,15 @@ export default {
             }
             fn(returnValue);
         });
-    }
+    },
+
+    /** Returns back the height of the view in DP.
+     * 
+     * @param {*} fn 
+     */
+    getViewHeight(fn) {
+        Picker.getViewHeight((height) => {
+            fn(height);
+        });
+    },
 };

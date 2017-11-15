@@ -12,7 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import android.util.DisplayMetrics;
 import com.beefe.picker.view.OnSelectedListener;
 import com.beefe.picker.view.PickerViewAlone;
 import com.beefe.picker.view.PickerViewLinkage;
@@ -406,6 +406,13 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
         } else {
             callback.invoke(null, dialog.isShowing());
         }
+    }
+
+    @ReactMethod
+    public void getViewHeight(Callback callback) {
+        Activity activity = getCurrentActivity();
+        DisplayMetrics displayMetrics = activity.getResources().getDisplayMetrics();
+        callback.invoke(Math.round(this.height / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT)));
     }
 
     private int[] getColor(ReadableArray array) {
