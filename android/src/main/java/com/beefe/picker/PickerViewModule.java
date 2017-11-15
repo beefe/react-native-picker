@@ -353,7 +353,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     if (MIUIUtils.isMIUI()) {
                         layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
                     }else {
-                        layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+                        //layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
                     }
                     layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                     layoutParams.format = PixelFormat.TRANSPARENT;
