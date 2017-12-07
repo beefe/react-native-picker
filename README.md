@@ -45,7 +45,7 @@
 
 #### Step 1 - install
 
-```
+```javascript
 	npm install react-native-picker --save
 ```
 
@@ -190,4 +190,4 @@ $ pod install
     ]
 ```
 
-### For pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)
+### For pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)  

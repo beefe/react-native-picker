@@ -4,36 +4,38 @@ import {
     NativeAppEventEmitter
 } from 'react-native';
 
-let ios = Platform.OS === 'ios';
-let android = Platform.OS === 'android';
-let Picker = NativeModules.BEEPickerManager;
+const ios = Platform.OS === 'ios';
+const android = Platform.OS === 'android';
+const Picker = NativeModules.BEEPickerManager;
+const options = {
+    isLoop: false,
+    pickerConfirmBtnText: 'confirm',
+    pickerCancelBtnText: 'cancel',
+    pickerTitleText: 'pls select',
+    pickerConfirmBtnColor: [1, 186, 245, 1],
+    pickerCancelBtnColor: [1, 186, 245, 1],
+    pickerTitleColor: [20, 20, 20, 1],
+    pickerToolBarBg: [232, 232, 232, 1],
+    pickerBg: [196, 199, 206, 1],
+    wheelFlex: [1, 1, 1],
+    pickerData: [],
+    selectedValue: [],
+    onPickerConfirm(){},
+    onPickerCancel(){},
+    onPickerSelect(){},
+    pickerToolBarFontSize: 16,
+    pickerFontSize: 16,
+    pickerFontColor: [31, 31 ,31, 1]
+};
 
 export default {
 
-    init(options){
-        let opt = {
-            isLoop: false,
-            pickerConfirmBtnText: 'confirm',
-            pickerCancelBtnText: 'cancel',
-            pickerTitleText: 'pls select',
-            pickerConfirmBtnColor: [1, 186, 245, 1],
-            pickerCancelBtnColor: [1, 186, 245, 1],
-            pickerTitleColor: [20, 20, 20, 1],
-            pickerToolBarBg: [232, 232, 232, 1],
-            pickerBg: [196, 199, 206, 1],
-            wheelFlex: [1, 1, 1],
-            pickerData: [],
-            selectedValue: [],
-            onPickerConfirm(){},
-            onPickerCancel(){},
-            onPickerSelect(){},
-            //4.0.12 add
-            pickerToolBarFontSize: 16,
-            pickerFontSize: 16,
-            pickerFontColor: [31, 31 ,31, 1],
-            ...options
+    init(params){
+        const opt = {
+            ...options,
+            ...params
         };
-        let fnConf = {
+        const fnConf = {
             confirm: opt.onPickerConfirm,
             cancel: opt.onPickerCancel,
             select: opt.onPickerSelect
