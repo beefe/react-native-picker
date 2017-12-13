@@ -149,6 +149,16 @@ interface PickerOptions {
     pickerFontSize?: number
 
     /**
+     * Row height of the items in the picker
+     * 
+     * Default is 24
+     * 
+     * @type {number}
+     * @memberof PickerOptions
+     */
+    pickerRowHeight?: number
+
+    /**
      * Color of the text for the items in the picker
      * 
      * Accepts rgba values as an array

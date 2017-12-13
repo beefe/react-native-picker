@@ -22,6 +22,7 @@
 |pickerToolBarFontSize |            |number  |16                 |
 |wheelFlex             |            |array   |[1, 1, 1]          |
 |pickerFontSize        |            |number  |16                 |
+|pickerRowHeight       |            |number  |24                 |
 |pickerFontColor       |            |array   |[31, 31, 31, 1]    |
 |pickerData            |            |array   |                   |
 |selectedValue         |            |array   |                   |

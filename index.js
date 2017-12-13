@@ -17,6 +17,7 @@ const options = {
     pickerTitleColor: [20, 20, 20, 1],
     pickerToolBarBg: [232, 232, 232, 1],
     pickerBg: [196, 199, 206, 1],
+    pickerRowHeight: 24,
     wheelFlex: [1, 1, 1],
     pickerData: [],
     selectedValue: [],
@@ -29,7 +30,6 @@ const options = {
 };
 
 export default {
-
     init(params){
         const opt = {
             ...options,

@@ -12,7 +12,7 @@
 @implementation BzwPicker
 
 -(instancetype)initWithFrame:(CGRect)frame dic:(NSDictionary *)dic leftStr:(NSString *)leftStr centerStr:(NSString *)centerStr rightStr:(NSString *)rightStr topbgColor:(NSArray *)topbgColor bottombgColor:(NSArray *)bottombgColor leftbtnbgColor:(NSArray *)leftbtnbgColor rightbtnbgColor:(NSArray *)rightbtnbgColor centerbtnColor:(NSArray *)centerbtnColor selectValueArry:(NSArray *)selectValueArry  weightArry:(NSArray *)weightArry
-       pickerToolBarFontSize:(NSString *)pickerToolBarFontSize  pickerFontSize:(NSString *)pickerFontSize  pickerFontColor:(NSArray *)pickerFontColor
+       pickerToolBarFontSize:(NSString *)pickerToolBarFontSize  pickerFontSize:(NSString *)pickerFontSize  pickerFontColor:(NSArray *)pickerFontColor pickerRowHeight:(NSString *)pickerRowHeight
 
 {
     self = [super initWithFrame:frame];
@@ -30,6 +30,7 @@
         self.pickerToolBarFontSize=pickerToolBarFontSize;
         self.pickerFontSize=pickerFontSize;
         self.pickerFontColor=pickerFontColor;
+        self.pickerRowHeight=pickerRowHeight;
         [self getStyle];
         [self getnumStyle];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -469,6 +470,12 @@
         self.bolock(dic);
     }
 }
+
+- (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
+{
+    return self.pickerRowHeight.integerValue;
+}
+
 //判断进来的类型是那种
 -(void)getStyle
 {
