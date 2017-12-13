@@ -9,37 +9,38 @@
 
 #### Params
 
-|Key | Description | Type | Default|
-| --- | ----------- | ---- | ------ |
-|pickerConfirmBtnText  |            |string  |confirm            |
-|pickerCancelBtnText   |            |string  |cancel             |
-|pickerTitleText       |            |string  |pls select         |
-|pickerConfirmBtnColor |            |array   |[1, 186, 245, 1]   |
-|pickerCancelBtnColor  |            |array   |[1, 186, 245, 1]   |
-|pickerTitleColor      |            |array   |[20, 20, 20, 1]    |
-|pickerToolBarBg       |            |array   |[232, 232, 232, 1] |
-|pickerBg              |            |array   |[196, 199, 206, 1] |
-|pickerToolBarFontSize |            |number  |16                 |
-|wheelFlex             |            |array   |[1, 1, 1]          |
-|pickerFontSize        |            |number  |16                 |
-|pickerRowHeight       |            |number  |24                 |
-|pickerFontColor       |            |array   |[31, 31, 31, 1]    |
-|pickerData            |            |array   |                   |
-|selectedValue         |            |array   |                   |
-|onPickerConfirm       |            |function|                   |
-|onPickerCancel        |            |function|                   |
-|onPickerSelect        |            |function|                   |
+|Key | Type | Default| Support | Description |
+| --- | --- | ---- | ------ | ----------- |
+|isLoop                | Boolean | false              |     Android  |   |
+|pickerConfirmBtnText  | string  | confirm            | iOS/Android  |   |
+|pickerCancelBtnText   | string  | cancel             | iOS/Android  |   |
+|pickerTitleText       | string  | pls select         | iOS/Android  |   |
+|pickerConfirmBtnColor | array   | [1, 186, 245, 1]   | iOS/Android  |   |
+|pickerCancelBtnColor  | array   | [1, 186, 245, 1]   | iOS/Android  |   |
+|pickerTitleColor      | array   | [20, 20, 20, 1]    | iOS/Android  |   |
+|pickerToolBarBg       | array   | [232, 232, 232, 1] | iOS/Android  |   |
+|pickerBg              | array   | [196, 199, 206, 1] | iOS/Android  |   |
+|pickerToolBarFontSize | number  | 16                 | iOS/Android  |   |
+|wheelFlex             | array   | [1, 1, 1]          | iOS/Android  |   |
+|pickerFontSize        | number  | 16                 | iOS/Android  |   |
+|pickerFontColor       | array   | [31, 31, 31, 1]    | iOS/Android  |   |
+|pickerRowHeight       | number  | 24                 | iOS          |   |
+|pickerData            | array   |                    | iOS/Android  |   |
+|selectedValue         | array   |                    | iOS/Android  |   |
+|onPickerConfirm       | function|                    | iOS/Android  |   |
+|onPickerCancel        | function|                    | iOS/Android  |   |
+|onPickerSelect        | function|                    | iOS/Android  |   |
 
 #### Methods
 
-|Name | Description | Type | Default|
-| --- | ----------- | ---- | ------ |
-|init         |init and pass parameters to picker      |     |   |
-|toggle       |show or hide picker                     |     |   |
-|show         |show picker                             |     |   |
-|hide         |hide picker                             |     |   |
-|select       |select a row                            |array|   |
-|isPickerShow |get status of picker, return a boolean  |     |   |
+|Key | Support | Description |
+| --- | ---- | ----------- |
+|init         | iOS/Android |init and pass parameters to picker      |
+|toggle       | iOS/Android |show or hide picker                     |
+|show         | iOS/Android |show picker                             |
+|hide         | iOS/Android |hide picker                             |
+|select       | iOS/Android |select a row                            |
+|isPickerShow | iOS/Android |get status of picker, return a boolean  |
 
 
 ### Usage
