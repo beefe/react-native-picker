@@ -48,7 +48,8 @@
     [self addSubview:view];
     
     self.leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.leftBtn.frame = CGRectMake(10, 5, 90, 30);
+    self.leftBtn.frame = CGRectMake(0, 0, 90, 40);
+    [self.leftBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 10.0, 0, 0)];
     [self.leftBtn setTitle:self.leftStr forState:UIControlStateNormal];
     [self.leftBtn setFont:[UIFont systemFontOfSize:[_pickerToolBarFontSize integerValue]]];
     self.leftBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
@@ -61,7 +62,8 @@
     view.backgroundColor=[self colorWith:topbgColor];
     
     self.rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.rightBtn.frame = CGRectMake(view.frame.size.width-100,5, 90, 30);
+    self.rightBtn.frame = CGRectMake(view.frame.size.width-90,0, 90, 40);
+    [self.rightBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10.0)];
     [self.rightBtn setTitle:self.rightStr forState:UIControlStateNormal];
     self.rightBtn.contentHorizontalAlignment=UIControlContentHorizontalAlignmentRight;
     
