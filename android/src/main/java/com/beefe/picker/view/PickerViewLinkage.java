@@ -252,6 +252,12 @@ public class PickerViewLinkage extends LinearLayout {
                     selectTwoIndex = index;
 
                     ReadableArray arr = data.get(selectOneIndex).getArray(oneList.get(selectOneIndex));
+                    int arrSize = arr.size();
+                    //fix IndexOutOfBoundsException
+                    //by zooble @2018-1-10
+                    if(index > arrSize){
+                        index = arrSize - 1;
+                    }
                     ReadableMap childMap = arr.getMap(index);
                     String key = childMap.keySetIterator().nextKey();
                     ReadableArray sunArray = childMap.getArray(key);
@@ -288,6 +294,17 @@ public class PickerViewLinkage extends LinearLayout {
             loopViewThree.setListener(new OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(String item, int index) {
+                    //fix IndexOutOfBoundsException
+                    //by zooble @2018-1-10
+                    int arrOneSize = oneList.size();
+                    if(selectOneIndex >= arrOneSize){
+                        selectOneIndex = arrOneSize - 1;
+                    }
+                    int arrTwoSize = twoList.size();
+                    if(selectTwoIndex >= arrTwoSize){
+                        selectTwoIndex = arrTwoSize - 1;
+                    }
+                    
                     returnData = new ReturnData();
                     returnData.setItem(oneList.get(selectOneIndex));
                     returnData.setIndex(loopViewOne.getSelectedIndex());
@@ -582,6 +599,20 @@ public class PickerViewLinkage extends LinearLayout {
                 loopViewOne.setTextSize(size);
                 loopViewTwo.setTextSize(size);
                 loopViewThree.setTextSize(size);
+                break;
+        }
+    }
+
+    public void setTextEllipsisLen(int len){
+        switch (curRow) {
+            case 2:
+                loopViewOne.setTextEllipsisLen(len);
+                loopViewTwo.setTextEllipsisLen(len);
+                break;
+            case 3:
+                loopViewOne.setTextEllipsisLen(len);
+                loopViewTwo.setTextEllipsisLen(len);
+                loopViewThree.setTextEllipsisLen(len);
                 break;
         }
     }

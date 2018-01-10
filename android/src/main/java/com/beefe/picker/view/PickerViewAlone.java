@@ -212,6 +212,17 @@ public class PickerViewAlone extends LinearLayout {
         }
     }
 
+    public void setTextEllipsisLen(int len){
+        int viewCount = pickerViewAloneLayout.getChildCount();
+        for (int i = 0; i < viewCount; i++) {
+            View view = pickerViewAloneLayout.getChildAt(i);
+            if (view instanceof LoopView) {
+                LoopView loopView = (LoopView) view;
+                loopView.setTextEllipsisLen(len);
+            }
+        }
+    }
+
     public void setIsLoop(boolean isLoop) {
         if (!isLoop) {
             int viewCount = pickerViewAloneLayout.getChildCount();

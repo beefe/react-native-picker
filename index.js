@@ -16,6 +16,7 @@ const options = {
     pickerCancelBtnColor: [1, 186, 245, 1],
     pickerTitleColor: [20, 20, 20, 1],
     pickerToolBarBg: [232, 232, 232, 1],
+    pickerTextEllipsisLen: 6,
     pickerBg: [196, 199, 206, 1],
     pickerRowHeight: 24,
     wheelFlex: [1, 1, 1],

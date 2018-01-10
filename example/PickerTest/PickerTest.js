@@ -77,8 +77,6 @@ export default class PickerTest extends Component {
     _showDatePicker() {
         Picker.init({
             pickerData: this._createDateData(),
-            pickerToolBarFontSize: 16,
-            pickerFontSize: 16,
             pickerFontColor: [255, 0 ,0, 1],
             onPickerConfirm: (pickedValue, pickedIndex) => {
                 console.log('date', pickedValue, pickedIndex);

@@ -101,6 +101,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
 
     private static final String PICKER_TEXT_COLOR = "pickerFontColor";
     private static final String PICKER_TEXT_SIZE = "pickerFontSize";
+    private static final String PICKER_TEXT_ELLIPSIS_LEN = "pickerTextEllipsisLen";
 
     private static final String PICKER_EVENT_NAME = "pickerEvent";
     private static final String EVENT_KEY_CONFIRM = "confirm";
@@ -116,6 +117,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private String confirmText;
     private String cancelText;
     private String titleText;
+    private int pickerTextEllipsisLen;
 
     private double[] weights;
 
@@ -239,6 +241,10 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 }
             });
 
+            if(options.hasKey(PICKER_TEXT_ELLIPSIS_LEN)){
+                pickerTextEllipsisLen = options.getInt(PICKER_TEXT_ELLIPSIS_LEN);
+            }
+
             if (options.hasKey(IS_LOOP)) {
                 isLoop = options.getBoolean(IS_LOOP);
             }
@@ -298,6 +304,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     pickerViewLinkage.setPickerData(pickerData, weights);
                     pickerViewLinkage.setTextColor(pickerTextColor);
                     pickerViewLinkage.setTextSize(pickerTextSize);
+                    pickerViewLinkage.setTextEllipsisLen(pickerTextEllipsisLen);
                     pickerViewLinkage.setIsLoop(isLoop);
 
                     pickerViewLinkage.setOnSelectListener(new OnSelectedListener() {
@@ -317,6 +324,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     pickerViewAlone.setPickerData(pickerData, weights);
                     pickerViewAlone.setTextColor(pickerTextColor);
                     pickerViewAlone.setTextSize(pickerTextSize);
+                    pickerViewAlone.setTextEllipsisLen(pickerTextEllipsisLen);
                     pickerViewAlone.setIsLoop(isLoop);
 
                     pickerViewAlone.setOnSelectedListener(new OnSelectedListener() {
@@ -346,25 +354,26 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             int height = barViewHeight + pickerViewHeight;
             if (dialog == null) {
                 dialog = new Dialog(activity, R.style.Dialog_Full_Screen);
+                dialog.setContentView(view);
+                WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
+                Window window = dialog.getWindow();
+                if (window != null) {
+                    if (MIUIUtils.isMIUI()) {
+                        layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
+                    }else {
+                        //layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+                    }
+                    layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    layoutParams.format = PixelFormat.TRANSPARENT;
+                    layoutParams.windowAnimations = R.style.PickerAnim;
+                    layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+                    layoutParams.height = height;
+                    layoutParams.gravity = Gravity.BOTTOM;
+                    window.setAttributes(layoutParams);
+                }
             } else {
                 dialog.dismiss();
-            }
-            dialog.setContentView(view);
-            WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
-            Window window = dialog.getWindow();
-            if (window != null) {
-                if (MIUIUtils.isMIUI()) {
-                    layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
-                }else {
-                    //layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
-                }
-                layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-                layoutParams.format = PixelFormat.TRANSPARENT;
-                layoutParams.windowAnimations = R.style.PickerAnim;
-                layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-                layoutParams.height = height;
-                layoutParams.gravity = Gravity.BOTTOM;
-                window.setAttributes(layoutParams);
+                dialog.setContentView(view);
             }
         }
     }

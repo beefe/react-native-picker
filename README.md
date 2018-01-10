@@ -12,6 +12,7 @@
 |Key | Type | Default| Support | Description |
 | --- | --- | ---- | ------ | ----------- |
 |isLoop                | Boolean | false              |     Android  |   |
+|pickerTextEllipsisLen | number  | 6                  |     Android  |   |
 |pickerConfirmBtnText  | string  | confirm            | iOS/Android  |   |
 |pickerCancelBtnText   | string  | cancel             | iOS/Android  |   |
 |pickerTitleText       | string  | pls select         | iOS/Android  |   |
@@ -60,26 +61,26 @@
 #### Step 3 - import and use in project
 
 ```javascript
-    import Picker from 'react-native-picker';
-    let data = [];
-    for(var i=0;i<100;i++){
-        data.push(i);
-    }
+import Picker from 'react-native-picker';
+let data = [];
+for(var i=0;i<100;i++){
+    data.push(i);
+}
 
-    Picker.init({
-        pickerData: data,
-        selectedValue: [59],
-        onPickerConfirm: data => {
-            console.log(data);
-        },
-        onPickerCancel: data => {
-            console.log(data);
-        },
-        onPickerSelect: data => {
-            console.log(data);
-        }
-    });
-    Picker.show();
+Picker.init({
+    pickerData: data,
+    selectedValue: [59],
+    onPickerConfirm: data => {
+        console.log(data);
+    },
+    onPickerCancel: data => {
+        console.log(data);
+    },
+    onPickerSelect: data => {
+        console.log(data);
+    }
+});
+Picker.show();
 	
 ```
 
@@ -113,19 +114,19 @@ $ pod install
 - single wheel:
 
 ```javascript
-	pickerData = [1,2,3,4];
-	selectedValue = 3;
+pickerData = [1,2,3,4];
+selectedValue = 3;
 ```
 
 - two or more wheel:
 
 ```javascript
-	pickerData = [
-		[1,2,3,4],
-		[5,6,7,8],
-		...
-	];
-	selectedValue = [1, 5];
+pickerData = [
+    [1,2,3,4],
+    [5,6,7,8],
+    ...
+];
+selectedValue = [1, 5];
 ```
 
 #### cascade:
@@ -133,63 +134,63 @@ $ pod install
 - two wheel
 
 ```javascript
-    pickerData = [
-        {
-            a: [1, 2, 3, 4]
-        },
-        {
-            b: [5, 6, 7, 8]
-        },
-        ...
-    ];
-    selectedValue = ['a', 2];
+pickerData = [
+    {
+        a: [1, 2, 3, 4]
+    },
+    {
+        b: [5, 6, 7, 8]
+    },
+    ...
+];
+selectedValue = ['a', 2];
 ```
 
 - three wheel
 
 ```javascript
-    pickerData = [
-        {
-            a: [
-                {
-                    a1: [1, 2, 3, 4]
-                },
-                {
-                    a2: [5, 6, 7, 8]
-                },
-                {
-                    a3: [9, 10, 11, 12]
-                }
-            ]
-        },
-        {
-            b: [
-                {
-                    b1: [11, 22, 33, 44]
-                },
-                {
-                    b2: [55, 66, 77, 88]
-                },
-                {
-                    b3: [99, 1010, 1111, 1212]
-                }
-            ]
-        },
-        {
-            c: [
-                {
-                    c1: ['a', 'b', 'c']
-                },
-                {
-                    c2: ['aa', 'bb', 'cc']
-                },
-                {
-                    c3: ['aaa', 'bbb', 'ccc']
-                }
-            ]
-        },
-        ...
-    ]
+pickerData = [
+    {
+        a: [
+            {
+                a1: [1, 2, 3, 4]
+            },
+            {
+                a2: [5, 6, 7, 8]
+            },
+            {
+                a3: [9, 10, 11, 12]
+            }
+        ]
+    },
+    {
+        b: [
+            {
+                b1: [11, 22, 33, 44]
+            },
+            {
+                b2: [55, 66, 77, 88]
+            },
+            {
+                b3: [99, 1010, 1111, 1212]
+            }
+        ]
+    },
+    {
+        c: [
+            {
+                c1: ['a', 'b', 'c']
+            },
+            {
+                c2: ['aa', 'bb', 'cc']
+            },
+            {
+                c3: ['aaa', 'bbb', 'ccc']
+            }
+        ]
+    },
+    ...
+]
 ```
 
 ### For pure javascript version -> [v3.0.5](https://github.com/beefe/react-native-picker/tree/pure-javascript-version)  

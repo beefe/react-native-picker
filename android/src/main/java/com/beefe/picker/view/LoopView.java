@@ -67,6 +67,7 @@ public class LoopView extends View {
     private String selectedItem;
     private int selectedIndex;
     private int preCurrentIndex;
+    private int textEllipsisLen = 7;
 
 
     // 显示几个条目
@@ -216,6 +217,10 @@ public class LoopView extends View {
         }
     }
 
+    public final void setTextEllipsisLen(int len){
+        textEllipsisLen = len;
+    }
+
     public boolean hasItem(String item) {
         int result = items.indexOf(item);
         return result != -1;
@@ -273,6 +278,33 @@ public class LoopView extends View {
         if (onItemSelectedListener != null) {
             postDelayed(new OnItemSelectedRunnable(this), 200L);
         }
+    }
+
+    protected final void drawText(Canvas canvas, String text, float posX, float posY, Paint paint) {
+        StringBuffer stringBuffer = new StringBuffer();
+        char[] array = text.toCharArray();
+        int sum = 0;
+        for(int i=0;i<array.length;i++){
+            if(sum >= (textEllipsisLen * 2)){
+                break;
+            }
+            char bt = array[i];
+            if(bt > 127 || bt == 94){
+                sum += 2;
+            }
+            else{
+                sum ++;
+            }
+            stringBuffer.append(String.valueOf(bt));
+        }
+        String string = "";
+        if(array.length != stringBuffer.toString().toCharArray().length){
+            string = stringBuffer.toString() + "...";
+        }
+        else{
+            string = text;
+        }
+        canvas.drawText(string, posX, posY, paint);
     }
 
     @Override
@@ -346,32 +378,32 @@ public class LoopView extends View {
                     // 条目经过第一条线
                     canvas.save();
                     canvas.clipRect(0, 0, getWidth(), firstLineY - translateY);
-                    canvas.drawText(text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
+                    drawText(canvas, text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, firstLineY - translateY, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
+                    drawText(canvas, text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
                     canvas.restore();
                 } else if (translateY <= secondLineY && maxTextHeight + translateY >= secondLineY) {
                     // 条目经过第二条线
                     canvas.save();
                     canvas.clipRect(0, 0, getWidth(), secondLineY - translateY);
-                    canvas.drawText(text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
+                    drawText(canvas, text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
                     canvas.restore();
                     canvas.save();
                     canvas.clipRect(0, secondLineY - translateY, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
+                    drawText(canvas, text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
                     canvas.restore();
                 } else if (translateY >= firstLineY && maxTextHeight + translateY <= secondLineY) {
                     // 中间条目
                     canvas.clipRect(0, 0, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
+                    drawText(canvas, text, getX(text, paintCenterText), getY(paintCenterText), paintCenterText);
                     selectedItem = text;
                     selectedIndex = items.indexOf(text);
                 } else {
                     // 其他条目
                     canvas.clipRect(0, 0, getWidth(), (int) (itemHeight));
-                    canvas.drawText(text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
+                    drawText(canvas, text, getX(text, paintOuterText), getY(paintOuterText), paintOuterText);
                 }
                 canvas.restore();
             }
@@ -381,7 +413,13 @@ public class LoopView extends View {
 
     private float getX(String text, Paint paint) {
         paint.getTextBounds(text, 0, text.length(), tempRect);
-        return (getWidth() - tempRect.width() * scaleX) / 2;
+        //return (getWidth() - tempRect.width() * scaleX) / 2;
+        if((getWidth() - tempRect.width() * scaleX)/2 > 0){
+            return (getWidth() - tempRect.width() * scaleX) / 2;
+        }
+        else{
+            return 0;
+        }
     }
 
     /**
