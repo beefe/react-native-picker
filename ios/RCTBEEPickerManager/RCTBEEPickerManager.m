@@ -117,7 +117,11 @@ RCT_EXPORT_METHOD(hide){
                 [_pick setFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, self.height)];
             }];
         });
-    }return;
+    }
+
+    self.pick.hidden=YES;
+
+	return;
 }
 
 RCT_EXPORT_METHOD(select: (NSArray*)data){
