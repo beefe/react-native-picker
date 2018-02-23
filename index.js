@@ -21,6 +21,7 @@ const options = {
     pickerRowHeight: 24,
     wheelFlex: [1, 1, 1],
     pickerData: [],
+    pickerHeight: 250,
     selectedValue: [],
     onPickerConfirm(){},
     onPickerCancel(){},
