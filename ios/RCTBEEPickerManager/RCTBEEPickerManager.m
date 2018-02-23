@@ -75,7 +75,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     }];
 
     if(pickerHeight != nil && [pickerHeight floatValue] > 0) {
-        self.height = [pickerHeight floatValue]
+        self.height = [pickerHeight floatValue];
     } else {
         if ([[UIDevice currentDevice].systemVersion doubleValue] >= 9.0 ) {
             self.height=250;
