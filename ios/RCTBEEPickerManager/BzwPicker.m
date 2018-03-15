@@ -617,6 +617,8 @@
             
         }];
     });
+
+    self.pick.hidden=YES;
 }
 //按了确定按钮
 -(void)cfirmAction
