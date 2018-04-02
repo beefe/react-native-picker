@@ -18,6 +18,36 @@ interface PickerOptions {
      * @memberof PickerOptions
      */
     pickerData?: any[]
+    
+    /**
+     * Whether the picker items will repeat in a loop or not.
+     * 
+     * Default is false
+     * 
+     * @type {boolean}
+     * @memberof PickerOptions
+     */
+    isLoop?: boolean
+    
+    /**
+     * Minimum length of row text for being ellipsized.
+     * 
+     * Default is 6
+     * 
+     * @type {number}
+     * @memberof PickerOptions
+     */
+    pickerTextEllipsisLen?: number
+    
+    /**
+     * Picker wheel's flex layout
+     * 
+     * Default is [1,1,1]
+     * 
+     * @type {number[]}
+     * @memberof PickerOptions
+     */
+    wheelFlex?: number[]
 
     /**
      * The selected item in the picker
