@@ -1,6 +1,7 @@
 package com.beefe.picker.view;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -599,6 +600,20 @@ public class PickerViewLinkage extends LinearLayout {
                 loopViewOne.setTextSize(size);
                 loopViewTwo.setTextSize(size);
                 loopViewThree.setTextSize(size);
+                break;
+        }
+    }
+
+    public void setTypeface(Typeface typeface){
+        switch (curRow) {
+            case 2:
+                loopViewOne.setTypeface(typeface);
+                loopViewTwo.setTypeface(typeface);
+                break;
+            case 3:
+                loopViewOne.setTypeface(typeface);
+                loopViewTwo.setTypeface(typeface);
+                loopViewThree.setTypeface(typeface);
                 break;
         }
     }

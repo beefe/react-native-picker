@@ -203,6 +203,12 @@ public class LoopView extends View {
         invalidate();
     }
 
+    public void setTypeface(Typeface typeface){
+        paintOuterText.setTypeface(typeface);
+        paintCenterText.setTypeface(typeface);
+        invalidate();
+    }
+
     public final void setNotLoop() {
         isLoop = false;
     }
