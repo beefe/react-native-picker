@@ -91,7 +91,7 @@ export default {
             else if(ios){
                 returnValue = !err;
             }
-            fn(returnValue);
+            fn && fn(returnValue);
         });
     }
 };
