@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.os.Build;
 
 import com.beefe.picker.util.MIUIUtils;
 import com.beefe.picker.view.OnSelectedListener;
@@ -358,10 +359,15 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
                 Window window = dialog.getWindow();
                 if (window != null) {
-                    if (MIUIUtils.isMIUI()) {
-                        layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
-                    }else {
-                        //layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
+                        window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+                    }else{
+                        if (MIUIUtils.isMIUI()) {
+                            layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
+                        }else {
+                            //layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
+                        }
                     }
                     layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                     layoutParams.format = PixelFormat.TRANSPARENT;
@@ -369,7 +375,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
                     layoutParams.height = height;
                     layoutParams.gravity = Gravity.BOTTOM;
-                    window.setAttributes(layoutParams);
+                    window.setAttributes(layoutParams);   
                 }
             } else {
                 dialog.dismiss();
