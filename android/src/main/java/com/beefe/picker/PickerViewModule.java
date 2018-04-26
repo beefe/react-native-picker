@@ -370,7 +370,10 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     layoutParams.height = height;
                     layoutParams.gravity = Gravity.BOTTOM;
                     window.setAttributes(layoutParams);
-                    window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+                    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                          window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+                    }
+                   
                 }
             } else {
                 dialog.dismiss();
