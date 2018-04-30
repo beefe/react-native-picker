@@ -1,0 +1,5 @@
+[*]
+end_of_line = lf
+insert_final_new_line = true
+indent_size = 4
+indent_style = space

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17D41E591D7EE0CA0031415E /* RCTBEEPickerManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17D41E581D7EE0CA0031415E /* RCTBEEPickerManager.h */; };
-		17D41E5B1D7EE0CA0031415E /* RCTBEEPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D41E5A1D7EE0CA0031415E /* RCTBEEPickerManager.m */; };
+		17D41E591D7EE0CA0031415E /* BEEPickerManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17D41E581D7EE0CA0031415E /* BEEPickerManager.h */; };
+		17D41E5B1D7EE0CA0031415E /* BEEPickerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D41E5A1D7EE0CA0031415E /* BEEPickerManager.m */; };
 		17D41E631D7EE0EE0031415E /* BzwPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 17D41E621D7EE0EE0031415E /* BzwPicker.m */; };
 /* End PBXBuildFile section */
 
@@ -19,16 +19,16 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				17D41E591D7EE0CA0031415E /* RCTBEEPickerManager.h in CopyFiles */,
+				17D41E591D7EE0CA0031415E /* BEEPickerManager.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		17D41E551D7EE0CA0031415E /* libRCTBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libRCTBEEPickerManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		17D41E581D7EE0CA0031415E /* RCTBEEPickerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RCTBEEPickerManager.h; sourceTree = "<group>"; };
-		17D41E5A1D7EE0CA0031415E /* RCTBEEPickerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RCTBEEPickerManager.m; sourceTree = "<group>"; };
+		17D41E551D7EE0CA0031415E /* libBEEPickerManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libBEEPickerManager.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17D41E581D7EE0CA0031415E /* BEEPickerManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEEPickerManager.h; sourceTree = "<group>"; };
+		17D41E5A1D7EE0CA0031415E /* BEEPickerManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BEEPickerManager.m; sourceTree = "<group>"; };
 		17D41E611D7EE0EE0031415E /* BzwPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BzwPicker.h; sourceTree = "<group>"; };
 		17D41E621D7EE0EE0031415E /* BzwPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BzwPicker.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -47,7 +47,7 @@
 		17D41E4C1D7EE0CA0031415E = {
 			isa = PBXGroup;
 			children = (
-				17D41E571D7EE0CA0031415E /* RCTBEEPickerManager */,
+				17D41E571D7EE0CA0031415E /* BEEPickerManager */,
 				17D41E561D7EE0CA0031415E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -55,28 +55,28 @@
 		17D41E561D7EE0CA0031415E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				17D41E551D7EE0CA0031415E /* libRCTBEEPickerManager.a */,
+				17D41E551D7EE0CA0031415E /* libBEEPickerManager.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		17D41E571D7EE0CA0031415E /* RCTBEEPickerManager */ = {
+		17D41E571D7EE0CA0031415E /* BEEPickerManager */ = {
 			isa = PBXGroup;
 			children = (
 				17D41E611D7EE0EE0031415E /* BzwPicker.h */,
 				17D41E621D7EE0EE0031415E /* BzwPicker.m */,
-				17D41E581D7EE0CA0031415E /* RCTBEEPickerManager.h */,
-				17D41E5A1D7EE0CA0031415E /* RCTBEEPickerManager.m */,
+				17D41E581D7EE0CA0031415E /* BEEPickerManager.h */,
+				17D41E5A1D7EE0CA0031415E /* BEEPickerManager.m */,
 			);
-			path = RCTBEEPickerManager;
+			path = BEEPickerManager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		17D41E541D7EE0CA0031415E /* RCTBEEPickerManager */ = {
+		17D41E541D7EE0CA0031415E /* BEEPickerManager */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 17D41E5E1D7EE0CA0031415E /* Build configuration list for PBXNativeTarget "RCTBEEPickerManager" */;
+			buildConfigurationList = 17D41E5E1D7EE0CA0031415E /* Build configuration list for PBXNativeTarget "BEEPickerManager" */;
 			buildPhases = (
 				17D41E511D7EE0CA0031415E /* Sources */,
 				17D41E521D7EE0CA0031415E /* Frameworks */,
@@ -86,9 +86,9 @@
 			);
 			dependencies = (
 			);
-			name = RCTBEEPickerManager;
+			name = BEEPickerManager;
 			productName = RCTBEEPickerManager;
-			productReference = 17D41E551D7EE0CA0031415E /* libRCTBEEPickerManager.a */;
+			productReference = 17D41E551D7EE0CA0031415E /* libBEEPickerManager.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -105,7 +105,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 17D41E501D7EE0CA0031415E /* Build configuration list for PBXProject "RCTBEEPickerManager" */;
+			buildConfigurationList = 17D41E501D7EE0CA0031415E /* Build configuration list for PBXProject "BEEPickerManager" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -117,7 +117,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				17D41E541D7EE0CA0031415E /* RCTBEEPickerManager */,
+				17D41E541D7EE0CA0031415E /* BEEPickerManager */,
 			);
 		};
 /* End PBXProject section */
@@ -127,7 +127,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17D41E5B1D7EE0CA0031415E /* RCTBEEPickerManager.m in Sources */,
+				17D41E5B1D7EE0CA0031415E /* BEEPickerManager.m in Sources */,
 				17D41E631D7EE0EE0031415E /* BzwPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,7 +244,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		17D41E501D7EE0CA0031415E /* Build configuration list for PBXProject "RCTBEEPickerManager" */ = {
+		17D41E501D7EE0CA0031415E /* Build configuration list for PBXProject "BEEPickerManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				17D41E5C1D7EE0CA0031415E /* Debug */,
@@ -253,13 +253,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		17D41E5E1D7EE0CA0031415E /* Build configuration list for PBXNativeTarget "RCTBEEPickerManager" */ = {
+		17D41E5E1D7EE0CA0031415E /* Build configuration list for PBXNativeTarget "BEEPickerManager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				17D41E5F1D7EE0CA0031415E /* Debug */,
 				17D41E601D7EE0CA0031415E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

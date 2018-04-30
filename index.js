@@ -7,6 +7,7 @@ import {
 const ios = Platform.OS === 'ios';
 const android = Platform.OS === 'android';
 const Picker = NativeModules.BEEPickerManager;
+
 const options = {
     isLoop: false,
     pickerConfirmBtnText: 'confirm',
