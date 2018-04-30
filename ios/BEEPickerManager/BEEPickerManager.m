@@ -6,11 +6,11 @@
 //  Copyright © 2016年 MFHJ-DZ-001-417. All rights reserved.
 //
 
-#import "RCTBEEPickerManager.h"
+#import "BEEPickerManager.h"
 #import "BzwPicker.h"
 #import <React/RCTEventDispatcher.h>
 
-@interface RCTBEEPickerManager()
+@interface BEEPickerManager()
 
 @property(nonatomic,strong)BzwPicker *pick;
 @property(nonatomic,assign)float height;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation RCTBEEPickerManager
+@implementation BEEPickerManager
 
 @synthesize bridge = _bridge;
 

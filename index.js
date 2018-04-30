@@ -7,6 +7,7 @@ import {
 const ios = Platform.OS === 'ios';
 const android = Platform.OS === 'android';
 const Picker = NativeModules.BEEPickerManager;
+
 const options = {
     isLoop: false,
     pickerConfirmBtnText: 'confirm',
@@ -32,6 +33,9 @@ const options = {
 
 export default {
     init(params){
+        console.log(NativeModules);
+        console.log(Picker);
+
         const opt = {
             ...options,
             ...params

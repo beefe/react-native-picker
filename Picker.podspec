@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
 
   s.subspec 'Core' do |ss|
     ss.dependency 'React'
-    ss.source_files = 'ios/RCTBEEPickerManager/*.{h,m}'
-    ss.public_header_files = ['ios/RCTBEEPickerManager/*.h']
+    ss.source_files = 'ios/BEEPickerManager/*.{h,m}'
+    ss.public_header_files = ['ios/BEEPickerManager/*.h']
   end
 
 end
