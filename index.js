@@ -33,9 +33,6 @@ const options = {
 
 export default {
     init(params){
-        console.log(NativeModules);
-        console.log(Picker);
-
         const opt = {
             ...options,
             ...params
