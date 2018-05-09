@@ -511,8 +511,9 @@
                 NSDictionary *dic=[self.dataDry objectAtIndex:i];
                 
                 NSArray *ary=[dic allKeys];
-                
-                [self.provinceArray addObject:[ary firstObject]];
+                if ([ary firstObject]) {
+                     [self.provinceArray addObject:[ary firstObject]];
+                }
             }
             
             NSDictionary *dic=[self.dataDry firstObject];
