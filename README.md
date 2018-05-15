@@ -27,6 +27,7 @@
 |pickerFontColor       | array   | [31, 31, 31, 1]    | iOS/Android  |   |
 |pickerFontFamily      | string  |                    | Android      |   |
 |pickerRowHeight       | number  | 24                 | iOS          |   |
+|pickerHeight          | number  | 250                | iOS          |   |
 |pickerData            | array   |                    | iOS/Android  |   |
 |selectedValue         | array   |                    | iOS/Android  |   |
 |onPickerConfirm       | function|                    | iOS/Android  |   |
