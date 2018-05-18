@@ -25,7 +25,7 @@
 |wheelFlex             | array   | [1, 1, 1]          | iOS/Android  |   |
 |pickerFontSize        | number  | 16                 | iOS/Android  |   |
 |pickerFontColor       | array   | [31, 31, 31, 1]    | iOS/Android  |   |
-|pickerFontFamily      | string  |                    | Android      |   |
+|pickerFontFamily      | string  |                    | iOS/Android  |   |
 |pickerRowHeight       | number  | 24                 | iOS          |   |
 |pickerData            | array   |                    | iOS/Android  |   |
 |selectedValue         | array   |                    | iOS/Android  |   |

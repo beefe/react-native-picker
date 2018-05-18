@@ -60,7 +60,7 @@ interface PickerOptions {
      * @type {string}
      * @memberof PickerOptions
      */
-    pickerCancelBtnText: string
+    pickerCancelBtnText?: string
 
     /**
      * The color of the text for the confirm button
