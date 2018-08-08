@@ -394,7 +394,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 Window window = dialog.getWindow();
                 if (window != null) {
                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+                        window.setType(WindowManager.LayoutParams.TYPE_APPLICATION);
                     }else{
                         if (MIUIUtils.isMIUI()) {
                             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
@@ -402,7 +402,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                             //layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
                         }
                     }
-                    layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+//                     layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                     layoutParams.format = PixelFormat.TRANSPARENT;
                     layoutParams.windowAnimations = R.style.PickerAnim;
                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
