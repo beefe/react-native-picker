@@ -137,7 +137,7 @@ public class LoopView extends View {
         paintIndicator.setAntiAlias(true);
 
         if (android.os.Build.VERSION.SDK_INT >= 11) {
-            setLayerType(LAYER_TYPE_SOFTWARE, null);
+            setLayerType(LAYER_TYPE_NONE, null);
         }
     }
 
