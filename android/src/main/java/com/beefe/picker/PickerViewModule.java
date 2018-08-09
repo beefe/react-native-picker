@@ -88,6 +88,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private static final String SELECTED_VALUE = "selectedValue";
 
     private static final String IS_LOOP = "isLoop";
+    private static final String IS_FOCUSABLE = "isFocusable";
 
     private static final String WEIGHTS = "wheelFlex";
 
@@ -122,6 +123,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private Dialog dialog = null;
 
     private boolean isLoop = true;
+    private boolean isFocusable = false;
 
     private String confirmText;
     private String cancelText;
@@ -256,6 +258,10 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
 
             if (options.hasKey(IS_LOOP)) {
                 isLoop = options.getBoolean(IS_LOOP);
+            }
+
+            if (options.hasKey(IS_FOCUSABLE)) {
+                isFocusable = options.getBoolean(IS_FOCUSABLE);
             }
 
             if (options.hasKey(WEIGHTS)) {
@@ -394,7 +400,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 Window window = dialog.getWindow();
                 if (window != null) {
                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        window.setType(WindowManager.LayoutParams.TYPE_APPLICATION);
+                        window.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                     }else{
                         if (MIUIUtils.isMIUI()) {
                             layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
@@ -402,7 +408,9 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                             //layoutParams.type = WindowManager.LayoutParams.TYPE_TOAST;
                         }
                     }
-//                     layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    if (!isFocusable){
+                        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                    }
                     layoutParams.format = PixelFormat.TRANSPARENT;
                     layoutParams.windowAnimations = R.style.PickerAnim;
                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;

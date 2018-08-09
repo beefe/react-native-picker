@@ -204,6 +204,16 @@ interface PickerOptions {
      * @memberof PickerOptions
      */
     onPickerSelect?(item: any[]): void
+
+    /**
+     * Sets whether picker is focusable for automation or not
+     *
+     * Default is false
+     *
+     * @type {boolean}
+     * @memberof PickerOptions
+     */
+    isFocusable?: boolean
 }
 
 

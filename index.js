@@ -9,6 +9,7 @@ const android = Platform.OS === 'android';
 const Picker = NativeModules.BEEPickerManager;
 const options = {
     isLoop: false,
+    isFocusable: false,
     pickerConfirmBtnText: 'confirm',
     pickerCancelBtnText: 'cancel',
     pickerTitleText: 'pls select',
