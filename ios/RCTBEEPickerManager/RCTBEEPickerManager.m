@@ -34,7 +34,7 @@
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
+RCT_EXPORT_METHOD(_init:(NSDictionary *)indic resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject){
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [[UIApplication sharedApplication].keyWindow endEditing:YES];
@@ -85,8 +85,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     _pick.bolock=^(NSDictionary *backinfoArry){
 
         dispatch_async(dispatch_get_main_queue(), ^{
-
-            [self.bridge.eventDispatcher sendAppEventWithName:@"pickerEvent" body:backinfoArry];
+              resolve(backinfoArry);
         });
     };
 
