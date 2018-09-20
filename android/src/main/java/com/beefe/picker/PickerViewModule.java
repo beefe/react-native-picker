@@ -389,24 +389,26 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
 
                 int height = barViewHeight + pickerViewHeight;
 
-                if (dialog == null) {
+               if (dialog == null) {
                 dialog = new Dialog(activity, R.style.Dialog_Full_Screen);
                 dialog.setContentView(view);
                 WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
                 Window window = dialog.getWindow();
                 if (window != null) {
-                    if (MIUIUtils.isMIUI()) {
+                     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
+                    } else if (MIUIUtils.isMIUI()) {
                         layoutParams.type = WindowManager.LayoutParams.TYPE_APPLICATION;
                     }
-                    layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-                    layoutParams.format = PixelFormat.TRANSPARENT;
-                    layoutParams.windowAnimations = R.style.PickerAnim;
-                    layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
-                    layoutParams.height = height;
-                    layoutParams.gravity = Gravity.BOTTOM;
-                    window.setAttributes(layoutParams);
-                    window.setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);
                 }
+                layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                layoutParams.format = PixelFormat.TRANSPARENT;
+                layoutParams.windowAnimations = R.style.PickerAnim;
+                layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+                layoutParams.height = height;
+                layoutParams.gravity = Gravity.BOTTOM;
+                window.setAttributes(layoutParams);
+
             } else {
                 dialog.dismiss();
                 dialog.setContentView(view);
