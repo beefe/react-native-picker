@@ -1,6 +1,7 @@
 'use strict';
 
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {
 	StyleSheet,
 	View,
@@ -8,7 +9,8 @@ import {
 	Animated,
 	Platform,
 	Dimensions,
-	PickerIOS
+    PickerIOS,
+    ViewPropTypes
 } from 'react-native';
 
 import PickerAndroid from 'react-native-picker-android';
@@ -23,14 +25,15 @@ const shortSide = width > height ? height : width;
 export default class PickerAny extends Component {
 
 	static propTypes = {
-		style: View.propTypes.style,
+		style: ViewPropTypes.style,
 		pickerElevation: PropTypes.number,
 		pickerBtnText: PropTypes.string,
 		pickerCancelBtnText: PropTypes.string,
 		pickerBtnStyle: Text.propTypes.style,
 		pickerTitle: PropTypes.string,
 		pickerTitleStyle: Text.propTypes.style,
-		pickerToolBarStyle: View.propTypes.style,
+        pickerToolBarStyle: ViewPropTypes.style,
+        pickerItemColor: PropTypes.string,
 		showMask: PropTypes.bool,
 		showDuration: PropTypes.number,
 		pickerData: PropTypes.any.isRequired,
@@ -55,11 +58,10 @@ export default class PickerAny extends Component {
 
 	constructor(props, context){
 		super(props, context);
+        this.state = this._getStateFromProps(this.props);
 	}
 
-	componentWillMount(){
-		this.state = this._getStateFromProps(this.props);
-	}
+	componentWillMount(){ }
 
 	componentWillReceiveProps(newProps){
 		let newState = this._getStateFromProps(newProps);
@@ -217,9 +219,11 @@ export default class PickerAny extends Component {
 								selectedValue: JSON.parse(JSON.stringify(this.pickedValue))
 							});
 							this.state.onValueChange(JSON.parse(JSON.stringify(this.pickedValue)), index);
-						}} >
+						}} 
+                        itemStyle={{ color: this.props.pickerItemColor || 'white' }}>
 						{item.map((value, index) => (
 							<PickerItem
+                                style={{ color: this.props.pickerItemColor || 'white' }}
 								key={index}
 								value={value}
 								label={value.toString()}
