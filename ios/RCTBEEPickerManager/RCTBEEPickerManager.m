@@ -130,6 +130,7 @@ RCT_EXPORT_METHOD(select: (NSArray*)data){
     if (self.pick) {
         dispatch_async(dispatch_get_main_queue(), ^{
             _pick.selectValueArry = data;
+            _pick..backArry = data;
             [_pick selectRow];
         });
     }return;
