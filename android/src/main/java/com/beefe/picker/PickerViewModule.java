@@ -163,16 +163,8 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             pickerViewLinkage = (PickerViewLinkage) view.findViewById(R.id.pickerViewLinkage);
             pickerViewAlone = (PickerViewAlone) view.findViewById(R.id.pickerViewAlone);
 
-            int barViewHeight;
-            if (options.hasKey(PICKER_TOOL_BAR_HEIGHT)) {
-                try {
-                    barViewHeight = options.getInt(PICKER_TOOL_BAR_HEIGHT);
-                } catch (Exception e) {
-                    barViewHeight = (int) options.getDouble(PICKER_TOOL_BAR_HEIGHT);
-                }
-            } else {
-                barViewHeight = (int) (activity.getResources().getDisplayMetrics().density * 40);
-            }
+            int barViewHeight = (int) (activity.getResources().getDisplayMetrics().density * 90);
+            
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     barViewHeight);
