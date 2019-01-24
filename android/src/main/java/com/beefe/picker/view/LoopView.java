@@ -269,6 +269,12 @@ public class LoopView extends View {
         invalidate();
     }
 
+    public final void setItemsVisibleCount(int itemsVisibleCount){
+        this.itemsVisible=itemsVisibleCount;
+        remeasure();
+        invalidate();
+    }
+
     public String getIndexItem(int index) {
         return items.get(index);
     }

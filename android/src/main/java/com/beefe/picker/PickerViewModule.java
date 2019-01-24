@@ -110,6 +110,8 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
     private static final String PICKER_TEXT_SIZE = "pickerFontSize";
     private static final String PICKER_TEXT_ELLIPSIS_LEN = "pickerTextEllipsisLen";
 
+    private static final String PICKER_ITEMS_VISIBLE_COUNT = "androidItemsVisibleCount";
+
     private static final String PICKER_FONT_FAMILY = "pickerFontFamily";
 
     private static final String PICKER_EVENT_NAME = "pickerEvent";
@@ -300,6 +302,19 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                 }
             }
 
+            int pickerVisibleItemsCount = 9;
+            if (options.hasKey(PICKER_ITEMS_VISIBLE_COUNT)) {
+                try {
+                    pickerVisibleItemsCount = options.getInt(PICKER_ITEMS_VISIBLE_COUNT);
+                } catch (Exception e) {
+                    pickerVisibleItemsCount = (int) options.getDouble(PICKER_ITEMS_VISIBLE_COUNT);
+                }
+
+                if(pickerVisibleItemsCount %2 ==0){
+                    pickerVisibleItemsCount++;
+                }
+            }
+
             ReadableArray pickerData = options.getArray(PICKER_DATA);
 
             int pickerViewHeight;
@@ -313,6 +328,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     pickerViewLinkage.setPickerData(pickerData, weights);
                     pickerViewLinkage.setTextColor(pickerTextColor);
                     pickerViewLinkage.setTextSize(pickerTextSize);
+                    pickerViewLinkage.setItemsVisibleCount(pickerVisibleItemsCount);
                     pickerViewLinkage.setTextEllipsisLen(pickerTextEllipsisLen);
                     pickerViewLinkage.setIsLoop(isLoop);
 
@@ -333,6 +349,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     pickerViewAlone.setPickerData(pickerData, weights);
                     pickerViewAlone.setTextColor(pickerTextColor);
                     pickerViewAlone.setTextSize(pickerTextSize);
+                    pickerViewAlone.setItemsVisibleCount(pickerVisibleItemsCount);
                     pickerViewAlone.setTextEllipsisLen(pickerTextEllipsisLen);
                     pickerViewAlone.setIsLoop(isLoop);
 

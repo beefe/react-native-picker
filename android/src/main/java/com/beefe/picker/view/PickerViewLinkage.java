@@ -604,6 +604,20 @@ public class PickerViewLinkage extends LinearLayout {
         }
     }
 
+    public void setItemsVisibleCount(int count){
+        switch (curRow) {
+            case 2:
+                loopViewOne.setItemsVisibleCount(count);
+                loopViewTwo.setItemsVisibleCount(count);
+                break;
+            case 3:
+                loopViewOne.setItemsVisibleCount(count);
+                loopViewTwo.setItemsVisibleCount(count);
+                loopViewThree.setItemsVisibleCount(count);
+                break;
+        }
+    }
+
     public void setTypeface(Typeface typeface){
         switch (curRow) {
             case 2:
