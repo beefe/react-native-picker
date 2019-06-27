@@ -1,12 +1,12 @@
 package com.beefe.picker;
 
-import android.content.res.AssetManager;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.res.AssetManager;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -14,7 +14,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.os.Build;
+
+import androidx.annotation.Nullable;
 
 import com.beefe.picker.util.MIUIUtils;
 import com.beefe.picker.view.OnSelectedListener;
