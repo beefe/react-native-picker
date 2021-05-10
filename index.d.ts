@@ -204,6 +204,14 @@ interface PickerOptions {
      * @memberof PickerOptions
      */
     onPickerSelect?(item: any[]): void
+
+     /**
+     * Ellipsis lenght of picker items.
+     *
+     * @type {number}
+     * @memberof PickerOptions
+     */
+    pickerTextEllipsisLen?: number
 }
 
 
