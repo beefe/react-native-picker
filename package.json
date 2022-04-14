@@ -1,7 +1,7 @@
 {
-  "name": "react-native-picker",
-  "version": "4.3.7",
-  "description": "A Native Picker with high performance.",
+  "name": "react-native-picker-mmd",
+  "version": "2.0.0",
+  "description": "A Native Picker with high performance and no access system alert window",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
@@ -9,9 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:beefe/react-native-picker.git"
+    "url": "git@github.com:mmdmmdi313/react-native-picker.git"
   },
-  "author": "zooble",
+  "author": "mmd",
   "license": "MIT",
-  "homepage": "https://github.com/beefe/react-native-picker"
+  "homepage": "https://github.com/mmdmmdi313/react-native-picker",
+  "dependencies": {
+    "react-native": "^0.66.4"
+  }
 }
