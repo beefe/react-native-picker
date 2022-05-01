@@ -213,6 +213,17 @@ public class PickerViewAlone extends LinearLayout {
         }
     }
 
+    public void setItemsVisibleCount(int count){
+        int viewCount = pickerViewAloneLayout.getChildCount();
+        for (int i = 0; i < viewCount; i++) {
+            View view = pickerViewAloneLayout.getChildAt(i);
+            if (view instanceof LoopView) {
+                LoopView loopView = (LoopView) view;
+                loopView.setItemsVisibleCount(count);
+            }
+        }
+    }
+
     public void setTypeface(Typeface typeface){
         int viewCount = pickerViewAloneLayout.getChildCount();
         for (int i = 0; i < viewCount; i++) {

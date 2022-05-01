@@ -57,6 +57,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     NSString *pickerFontFamily=[NSString stringWithFormat:@"%@",indic[@"pickerFontFamily"]];
     NSArray *pickerFontColor=indic[@"pickerFontColor"];
     NSString *pickerRowHeight=indic[@"pickerRowHeight"];
+    NSString *pickerHeight=indic[@"iosPickerHeight"];
     id pickerData=indic[@"pickerData"];
 
     NSMutableDictionary *dataDic=[[NSMutableDictionary alloc]init];
@@ -75,7 +76,7 @@ RCT_EXPORT_METHOD(_init:(NSDictionary *)indic){
     }];
 
     if ([[UIDevice currentDevice].systemVersion doubleValue] >= 9.0 ) {
-        self.height=250;
+        self.height=[pickerHeight integerValue];
     }else{
         self.height=220;
     }

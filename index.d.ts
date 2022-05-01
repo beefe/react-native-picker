@@ -267,4 +267,24 @@ export default class Picker {
      * @memberof Picker
      */
     static isPickerShow(fn?: (err: any, message: any) => void): boolean
+
+    /**
+     * Row height of the ios picker view, ios and android are different
+     *
+     * Default is 250
+     *
+     * @type {number}
+     * @memberof PickerOptions
+     */
+    iosPickerHeight?: number
+
+    /**
+     * Max items of the picker can display (Workaround for set the picker view height on android)
+     *
+     * Default is 9
+     *
+     * @type {number}
+     * @memberof PickerOptions
+     */
+    androidItemsVisibleCount?: number
 }
