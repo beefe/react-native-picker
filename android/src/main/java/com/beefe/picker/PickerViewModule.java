@@ -34,6 +34,8 @@ import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.lang.ArrayIndexOutOfBoundsException;
+
 import java.util.ArrayList;
 
 import static android.graphics.Color.argb;
@@ -303,7 +305,14 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
             ReadableArray pickerData = options.getArray(PICKER_DATA);
 
             int pickerViewHeight;
-            String name = pickerData.getType(0).name();
+            String name = "";
+            try {
+                name = pickerData.getType(0).name();
+            }catch(ArrayIndexOutOfBoundsException aioobe){
+                //Fix-it: it may throw java.lang.ArrayIndexOutOfBoundsException: length=0; index=0
+                //Cannot find out the reason. So just prevent it to crash the application.
+                aioobe.printStackTrace();
+            }
             switch (name) {
                 case "Map":
                     curStatus = 1;
