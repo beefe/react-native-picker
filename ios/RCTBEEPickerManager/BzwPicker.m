@@ -919,7 +919,7 @@
     NSString *ColorA=[NSString stringWithFormat:@"%@",colorArry[0]];
     NSString *ColorB=[NSString stringWithFormat:@"%@",colorArry[1]];
     NSString *ColorC=[NSString stringWithFormat:@"%@",colorArry[2]];
-    NSString *ColorD=[NSString stringWithFormat:@"%@",colorArry[3]];
+    NSString *ColorD= [colorArry count] > 3 ? [NSString stringWithFormat:@"%@",colorArry[3]] : @"1";
     
     UIColor *color=[[UIColor alloc]initWithRed:[ColorA integerValue]/255.0 green:[ColorB integerValue]/255.0 blue:[ColorC integerValue]/255.0 alpha:[ColorD floatValue]];
     return color;
