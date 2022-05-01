@@ -120,7 +120,9 @@ RCT_EXPORT_METHOD(hide){
         });
     }
 
-    self.pick.hidden=YES;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        self.pick.hidden=YES;
+    });
 
     return;
 }
