@@ -456,10 +456,6 @@
     } else {
         [dic setValue:value forKey:@"selectedIndex"];
     }
-    
-    if (self.backArry.count>0) {
-        self.bolock(dic);
-    }
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component
