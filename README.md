@@ -12,6 +12,7 @@
 |Key | Type | Default| Support | Description |
 | --- | --- | ---- | ------ | ----------- |
 |isLoop                | Boolean | false              |     Android  |   |
+|isFocusable           | Boolean | false              |     Android  |   |
 |pickerTextEllipsisLen | number  | 6                  |     Android  |   |
 |pickerConfirmBtnText  | string  | confirm            | iOS/Android  |   |
 |pickerCancelBtnText   | string  | cancel             | iOS/Android  |   |
