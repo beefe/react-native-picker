@@ -6,7 +6,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Typeface;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -77,7 +77,7 @@ import static android.graphics.Color.argb;
  */
 
 public class PickerViewModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
-    
+
     private static final String FONTS = "fonts/";
     private static final String OTF = ".otf";
     private static final String TTF = ".ttf";
@@ -408,7 +408,7 @@ public class PickerViewModule extends ReactContextBaseJavaModule implements Life
                     layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
                     layoutParams.height = height;
                     layoutParams.gravity = Gravity.BOTTOM;
-                    window.setAttributes(layoutParams);   
+                    window.setAttributes(layoutParams);
                 }
             } else {
                 dialog.dismiss();
